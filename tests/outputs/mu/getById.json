@@ -1,0 +1,67 @@
+{
+  "roles": {
+    "managers": [
+      "68c54987551a038619c4c4ab"
+    ],
+    "commanders": [
+      "693d9caa6a349c962ab0ba5f"
+    ]
+  },
+  "_id": "69831ed83a764aa9c0079a3e",
+  "user": "68c54987551a038619c4c4ab",
+  "region": "6813b7059403bc4170a5d76e",
+  "name": "Strelnieki",
+  "members": [
+    "697e35abfcf21af68c88a4b2",
+    "697f534154da98c1fc76c79d",
+    "69831346019f541a80382089",
+    "6967d61255cb9663e7272202",
+    "693d9caa6a349c962ab0ba5f",
+    "698883ff2c44fa30e457a78d",
+    "698c0ef6dd9e998685eb9270"
+  ],
+  "createdAt": "2026-02-04T10:26:32.608Z",
+  "updatedAt": "2026-02-11T14:00:11.780Z",
+  "__v": 0,
+  "activeUpgradeLevels": {
+    "dormitories": 3
+  },
+  "avatarUrl": "https://media.warera.io/avatars/mu/mu-69831ed83a764aa9c0079a3e-1770223432450-zfj5nr9t.png",
+  "rankings": {
+    "muWeeklyDamages": {
+      "value": 98988,
+      "rank": 213,
+      "tier": "bronze"
+    },
+    "muBounty": {
+      "value": 12.572419,
+      "rank": 266,
+      "tier": "bronze"
+    },
+    "muDamages": {
+      "value": 232377,
+      "rank": 261,
+      "tier": "bronze"
+    },
+    "muTerrain": {
+      "value": 63,
+      "rank": 269,
+      "tier": "bronze"
+    },
+    "muWealth": {
+      "value": 383.70599999999996,
+      "rank": 96,
+      "tier": "gold"
+    }
+  },
+  "investedMoneyByUsers": {
+    "68c54987551a038619c4c4ab": 1045,
+    "697e35abfcf21af68c88a4b2": 8,
+    "69831346019f541a80382089": 14,
+    "6980dea6fe49beb7241a6d5f": 4,
+    "697f534154da98c1fc76c79d": 110,
+    "6967d61255cb9663e7272202": 32,
+    "693d9caa6a349c962ab0ba5f": 10,
+    "698c0ef6dd9e998685eb9270": 10
+  }
+}

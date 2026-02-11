@@ -1,0 +1,1327 @@
+{
+  "items": [
+    {
+      "roles": {
+        "managers": [
+          "68d310cd471352ce358a0f78"
+        ],
+        "commanders": [
+          "68d310cd471352ce358a0f78"
+        ]
+      },
+      "_id": "698c34642e96c13ef48a7728",
+      "user": "68d310cd471352ce358a0f78",
+      "region": "6813b7089403bc4170a5d8eb",
+      "name": "PH Scout Rangers",
+      "members": [
+        "68d310cd471352ce358a0f78",
+        "6989b0b7d754ae752d71cba2",
+        "69898446b0b2351dbec14f1d",
+        "6989650314220c9fec2766a0"
+      ],
+      "createdAt": "2026-02-11T07:48:52.970Z",
+      "updatedAt": "2026-02-11T14:00:11.792Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698c34642e96c13ef48a7728-1770796227391-of2ejfqb.png",
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 3332,
+          "rank": 255,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 0.74984,
+          "rank": 291,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 3332,
+          "rank": 298,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 1,
+          "rank": 289,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 25,
+          "rank": 264,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "6989b0b7d754ae752d71cba2": 5,
+        "69898446b0b2351dbec14f1d": 5,
+        "68d310cd471352ce358a0f78": 10,
+        "6989650314220c9fec2766a0": 5
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "692a967278eab26a65ecf084"
+        ],
+        "commanders": [
+          "692a967278eab26a65ecf084",
+          "6930838f4befb73673b68e4c"
+        ]
+      },
+      "_id": "698c31a3ac44388ff13ea32a",
+      "user": "692a967278eab26a65ecf084",
+      "region": "683ddd3e36dbc90b780474a6",
+      "name": "Phantom Troupe",
+      "members": [
+        "692a967278eab26a65ecf084",
+        "6930838f4befb73673b68e4c",
+        "698c6364475ea91643950bce",
+        "698c6717c0bfa63535affff8"
+      ],
+      "createdAt": "2026-02-11T07:37:07.540Z",
+      "updatedAt": "2026-02-11T14:00:11.790Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698c31a3ac44388ff13ea32a-1770795650371-r421r64r.png",
+      "investedMoneyByUsers": {
+        "692a967278eab26a65ecf084": 101,
+        "6930838f4befb73673b68e4c": 1,
+        "698c6364475ea91643950bce": 11,
+        "698c6717c0bfa63535affff8": 1
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 7189,
+          "rank": 248,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 1.3034,
+          "rank": 287,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 7189,
+          "rank": 291,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 1,
+          "rank": 289,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 108,
+          "rank": 206,
+          "tier": "bronze"
+        }
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "69348f9a1c80ebe6452ff020"
+        ],
+        "commanders": [
+          "69348f9a1c80ebe6452ff020"
+        ]
+      },
+      "_id": "698c150574831a9507811709",
+      "user": "69348f9a1c80ebe6452ff020",
+      "region": "683ddd3e36dbc90b780474a6",
+      "name": "Band of the Hawk",
+      "members": [
+        "698b926914a0614c2f8a836b",
+        "698ba0bff4d930a30fe21128",
+        "698b56e833f259b66b6614ac",
+        "69348f9a1c80ebe6452ff020",
+        "697a2f9d5d0216bdbf5bfed9",
+        "698b6e9aef0c6320c8781200",
+        "6977d3a929f63efefd0a8bd9"
+      ],
+      "createdAt": "2026-02-11T05:35:01.082Z",
+      "updatedAt": "2026-02-11T14:00:11.790Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 2
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698c150574831a9507811709-1770788934172-h2o52qyy.png",
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 5980,
+          "rank": 249,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 1.5081,
+          "rank": 285,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 5980,
+          "rank": 294,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 58.09690000000005,
+          "rank": 239,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "698b926914a0614c2f8a836b": 17,
+        "698afb25f4d930a30f384c69": 10,
+        "698ba0bff4d930a30fe21128": 20,
+        "698b56e833f259b66b6614ac": 10,
+        "69348f9a1c80ebe6452ff020": 172,
+        "697a2f9d5d0216bdbf5bfed9": 179.6969,
+        "698b6e9aef0c6320c8781200": 10,
+        "6977d3a929f63efefd0a8bd9": 12
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "68a5044f8671ad44a1a52728"
+        ],
+        "commanders": [
+          "68a5044f8671ad44a1a52728"
+        ]
+      },
+      "_id": "698bd1c20de4ceaa077e33ff",
+      "user": "68a5044f8671ad44a1a52728",
+      "region": "6813b70b9403bc4170a5da71",
+      "name": "Redbacks",
+      "members": [
+        "68a5044f8671ad44a1a52728",
+        "68a4273a4b597c9b9b98f175",
+        "698c0df1d365416295ea5c42"
+      ],
+      "createdAt": "2026-02-11T00:48:02.140Z",
+      "updatedAt": "2026-02-11T14:00:11.791Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 4373,
+          "rank": 253,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 0.29275,
+          "rank": 292,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 4373,
+          "rank": 296,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 1,
+          "rank": 289,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 7.410000000000039,
+          "rank": 278,
+          "tier": "bronze"
+        }
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698bd1c20de4ceaa077e33ff-1770773847482-gjvsiwbm.png",
+      "investedMoneyByUsers": {
+        "68a5044f8671ad44a1a52728": 500,
+        "68a4273a4b597c9b9b98f175": 400
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "68393486cd346d4a38a25038"
+        ],
+        "commanders": [
+          "68393486cd346d4a38a25038"
+        ]
+      },
+      "_id": "698b7404f5484d3f8e872eea",
+      "user": "68393486cd346d4a38a25038",
+      "region": "6813b7059403bc4170a5d792",
+      "name": "1.Gardijska",
+      "members": [
+        "68393486cd346d4a38a25038",
+        "698b116214a0614c2f05f5ec",
+        "698a54fe79718ccdf9e909cb",
+        "698b0e50f5484d3f8e20c759",
+        "698b7c7bc4fe5cbc2f2ad6b0",
+        "6962b67d4731ec7d73f686de",
+        "698bae2589a366c35caac38d",
+        "698af4f0ff1a7ea51471ab7d",
+        "698c2e04e2e07c537dd7ab8b",
+        "698a678a93dfe3f8065e1dc3"
+      ],
+      "createdAt": "2026-02-10T18:08:04.277Z",
+      "updatedAt": "2026-02-11T14:00:11.758Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 2
+      },
+      "investedMoneyByUsers": {
+        "68393486cd346d4a38a25038": 410,
+        "698b0e50f5484d3f8e20c759": 10,
+        "698a54fe79718ccdf9e909cb": 2,
+        "698b7c7bc4fe5cbc2f2ad6b0": 4,
+        "698bae2589a366c35caac38d": 5
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 475480,
+          "rank": 133,
+          "tier": "silver"
+        },
+        "muBounty": {
+          "value": 4.26067,
+          "rank": 275,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 475480,
+          "rank": 245,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 237,
+          "rank": 249,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 60.72200000000001,
+          "rank": 237,
+          "tier": "bronze"
+        }
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698b7404f5484d3f8e872eea-1770755005473-jvrx9rpo.jpg"
+    },
+    {
+      "roles": {
+        "managers": [
+          "696b4ff6d2ddf1f3d75ca007"
+        ],
+        "commanders": [
+          "696b4ff6d2ddf1f3d75ca007",
+          "69870e668347faa6378a03c9"
+        ]
+      },
+      "_id": "698b452894134143bade78be",
+      "user": "696b4ff6d2ddf1f3d75ca007",
+      "region": "6873d11794e6b3b7989a4cc2",
+      "name": "Equator. Guinea Army",
+      "members": [
+        "696b4ff6d2ddf1f3d75ca007",
+        "695aa4e7d6589051dd73dd24",
+        "69870e668347faa6378a03c9",
+        "698a64d85ad3797dcba0816a",
+        "698c821856f71dd4251c4d4e"
+      ],
+      "createdAt": "2026-02-10T14:48:08.006Z",
+      "updatedAt": "2026-02-11T14:00:11.791Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698b452894134143bade78be-1770734967264-o5pv86f2.png",
+      "investedMoneyByUsers": {
+        "696b4ff6d2ddf1f3d75ca007": 6,
+        "695aa4e7d6589051dd73dd24": 20
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 4646,
+          "rank": 252,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 0.0966,
+          "rank": 298,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 4646,
+          "rank": 295,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 25,
+          "rank": 264,
+          "tier": "bronze"
+        }
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "6813b764efecdf9bab195b66"
+        ],
+        "commanders": []
+      },
+      "_id": "698b0d1bc0b91cffeddfbc55",
+      "user": "6813b764efecdf9bab195b66",
+      "region": "6813b7059403bc4170a5d79e",
+      "name": "Otpisani",
+      "members": [
+        "698a2b77161b41bc5850ffda",
+        "6988b72114b4297da0fa235c",
+        "6988adecc5c82ef9ae017f2d",
+        "696f9942b74dc09afb2ab39f"
+      ],
+      "createdAt": "2026-02-10T10:48:59.879Z",
+      "updatedAt": "2026-02-11T14:00:11.788Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698b0d1bc0b91cffeddfbc55-1770720872168-46r1l50m.png",
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 19218,
+          "rank": 240,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 0.98276,
+          "rank": 290,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 19218,
+          "rank": 288,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 3,
+          "rank": 287,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 6,
+          "rank": 279,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "6988b72114b4297da0fa235c": 2,
+        "698a2b77161b41bc5850ffda": 2,
+        "696f9942b74dc09afb2ab39f": 2
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "6823d919335e58a6f75831ae"
+        ],
+        "commanders": [
+          "6823d919335e58a6f75831ae",
+          "697f6c7c54da98c1fc9311f6"
+        ]
+      },
+      "_id": "698a38e9b7ff222f1b8d58b2",
+      "user": "6823d919335e58a6f75831ae",
+      "region": "683ddd3f36dbc90b780475c8",
+      "name": "Sinha Balakaya",
+      "members": [
+        "6823d919335e58a6f75831ae",
+        "697f7d7c9271365e8a141a67",
+        "695004e10626ef8e0423442b",
+        "697f6c7c54da98c1fc9311f6",
+        "6987ee7974790efdf350b81b",
+        "69880293987cdc4ed969b2d0",
+        "69880172e0037f22c7eeb541",
+        "69881c37c5c82ef9ae49a75f",
+        "6987f62814b4297da030b8fd",
+        "6987fad8e0037f22c7eca6c0",
+        "6988167ab432ec1973249121"
+      ],
+      "createdAt": "2026-02-09T19:43:37.329Z",
+      "updatedAt": "2026-02-11T14:00:11.786Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "headquarters": 1,
+        "dormitories": 3
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-698a38e9b7ff222f1b8d58b2-1770666233239-x6acwgw0.png",
+      "investedMoneyByUsers": {
+        "6823d919335e58a6f75831ae": 1000,
+        "682fee193fe328ddb3709f45": 75,
+        "695004e10626ef8e0423442b": 2,
+        "69880172e0037f22c7eeb541": 2,
+        "69880293987cdc4ed969b2d0": 2,
+        "6987fad8e0037f22c7eca6c0": 1,
+        "6987f62814b4297da030b8fd": 4
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 53083,
+          "rank": 233,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 3.788855,
+          "rank": 277,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 53083,
+          "rank": 281,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 41.355999999999995,
+          "rank": 249,
+          "tier": "bronze"
+        }
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "697ab8c5cf514ca155fb9b05"
+        ],
+        "commanders": [
+          "697ab8c5cf514ca155fb9b05"
+        ]
+      },
+      "_id": "6989a448d754ae752d68191c",
+      "user": "697ab8c5cf514ca155fb9b05",
+      "region": "6813b7079403bc4170a5d873",
+      "name": "KostaplerS",
+      "members": [
+        "697ab8c5cf514ca155fb9b05",
+        "698b6cfa33f259b66b7d7819"
+      ],
+      "createdAt": "2026-02-09T09:09:28.851Z",
+      "updatedAt": "2026-02-11T14:00:11.789Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-6989a448d754ae752d68191c-1770629099814-9e58v471.jpg",
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 14271,
+          "rank": 243,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 1.1465,
+          "rank": 289,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 14271,
+          "rank": 289,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 1,
+          "rank": 289,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 5,
+          "rank": 282,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "697ab8c5cf514ca155fb9b05": 5
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "690d8a3e6fdd2d7701435d35"
+        ],
+        "commanders": [
+          "690d8a3e6fdd2d7701435d35"
+        ]
+      },
+      "_id": "69897f33a5d3382f283655fe",
+      "user": "690d8a3e6fdd2d7701435d35",
+      "region": "696a81f5882256e1db11822c",
+      "name": "Queen Anne's Revenge",
+      "members": [
+        "6973cf132590a0e149c93b12",
+        "690d8a3e6fdd2d7701435d35",
+        "6973e59c0ac08821ecc2eb5f",
+        "6890cc222426ad2700113de8",
+        "6973bc8d1954fe9142d9e7fe"
+      ],
+      "createdAt": "2026-02-09T06:31:15.091Z",
+      "updatedAt": "2026-02-11T14:00:11.786Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-69897f33a5d3382f283655fe-1770618798110-qhetzjgp.jpg",
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 68737,
+          "rank": 231,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 2.90425,
+          "rank": 282,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 68737,
+          "rank": 278,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 56,
+          "rank": 270,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 3.7350000000000048,
+          "rank": 285,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "690d8a3e6fdd2d7701435d35": 180,
+        "6973bc8d1954fe9142d9e7fe": 7
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "69626db1fe8b202a724c48e0"
+        ],
+        "commanders": [
+          "69626db1fe8b202a724c48e0",
+          "69764fe154fc1e6e11f81aec"
+        ]
+      },
+      "_id": "6985f7861ec07e3038b0eadb",
+      "user": "69626db1fe8b202a724c48e0",
+      "region": "6813b7069403bc4170a5d7e3",
+      "name": "Losercity",
+      "members": [
+        "69626db1fe8b202a724c48e0",
+        "6985b01f019f541a80c432ef",
+        "697c8b1bcbdc0f07b3475cc1",
+        "6979025a75ec5c46fbb5d61c",
+        "697bcaa831ca5e2674ca8c8a",
+        "69764fe154fc1e6e11f81aec",
+        "6968ebbd54773abe55c4d006",
+        "69889b4b2c44fa30e46a32a1",
+        "697f944636b6cf6d26a394f2",
+        "69764ec7713451d626ab31f1"
+      ],
+      "createdAt": "2026-02-06T14:15:34.601Z",
+      "updatedAt": "2026-02-11T14:00:11.778Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 2
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-6985f7861ec07e3038b0eadb-1770387365616-3332ytue.webp",
+      "investedMoneyByUsers": {
+        "69626db1fe8b202a724c48e0": 373,
+        "697c8b1bcbdc0f07b3475cc1": 10,
+        "697bcaa831ca5e2674ca8c8a": 3,
+        "69764fe154fc1e6e11f81aec": 12
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 120217,
+          "rank": 204,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 13.10133,
+          "rank": 264,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 163734,
+          "rank": 270,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 43,
+          "rank": 273,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 64.31,
+          "rank": 236,
+          "tier": "bronze"
+        }
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "697476c90fcb099c6cdd4e1b"
+        ],
+        "commanders": [
+          "697476c90fcb099c6cdd4e1b",
+          "695c6e3ffb75e9229fb7f417"
+        ]
+      },
+      "_id": "69850075019f541a80774a2f",
+      "user": "697476c90fcb099c6cdd4e1b",
+      "region": "6813b7069403bc4170a5d7c8",
+      "name": "Jomsvikings",
+      "members": [
+        "697476c90fcb099c6cdd4e1b",
+        "696b7d4f1eb1704c85da2aae",
+        "696b989e1eb1704c85ed0a30",
+        "695c6e3ffb75e9229fb7f417",
+        "696b67decb7fa2e1c1ed5864"
+      ],
+      "createdAt": "2026-02-05T20:41:25.325Z",
+      "updatedAt": "2026-02-11T14:00:11.780Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 2
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 103423,
+          "rank": 210,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 4.051591,
+          "rank": 276,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 166868,
+          "rank": 269,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 8,
+          "rank": 285,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 106.35700000000003,
+          "rank": 208,
+          "tier": "bronze"
+        }
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-69850075019f541a80774a2f-1770325320105-5ijd0tig.png",
+      "investedMoneyByUsers": {
+        "696b7d4f1eb1704c85da2aae": 140,
+        "697476c90fcb099c6cdd4e1b": 84,
+        "695c6e3ffb75e9229fb7f417": 150,
+        "696b989e1eb1704c85ed0a30": 69,
+        "696b67decb7fa2e1c1ed5864": 30
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "6955422fbf538ceb7cc0ee14"
+        ],
+        "commanders": [
+          "697df8a97c400cf80b9406e9",
+          "697b5d1cd092acbbd516e7e6",
+          "697e152a91cfc5be14812509",
+          "698492183a764aa9c0dd934f"
+        ]
+      },
+      "_id": "69848b1d7922e416bbcca4e9",
+      "user": "697df8a97c400cf80b9406e9",
+      "region": "6813b7039403bc4170a5d679",
+      "name": "Regiment van Oranje",
+      "members": [
+        "697b5d1cd092acbbd516e7e6",
+        "697df8a97c400cf80b9406e9",
+        "697e152a91cfc5be14812509",
+        "698492183a764aa9c0dd934f",
+        "697a50e77c5c0bd53affd425",
+        "697932761f4cdba20e43a57b",
+        "6981cd2a10e902ca34de0518",
+        "697e272691cfc5be148d82bb",
+        "697f77bf5ee348e0909520f6",
+        "6980dea6fe49beb7241a6d5f",
+        "697fb0caa49592c6f76de912",
+        "6987ad089c7c86bcdaf6e662"
+      ],
+      "createdAt": "2026-02-05T12:20:45.046Z",
+      "updatedAt": "2026-02-11T14:00:11.778Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 3
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-69848b1d7922e416bbcca4e9-1770315295711-mmou9wsb.png",
+      "investedMoneyByUsers": {
+        "697b5d1cd092acbbd516e7e6": 89,
+        "697df8a97c400cf80b9406e9": 200,
+        "6955422fbf538ceb7cc0ee14": 20,
+        "697e152a91cfc5be14812509": 162,
+        "698492183a764aa9c0dd934f": 105,
+        "697a50e77c5c0bd53affd425": 175,
+        "697932761f4cdba20e43a57b": 70,
+        "697e272691cfc5be148d82bb": 35,
+        "6980dea6fe49beb7241a6d5f": 31,
+        "6981cd2a10e902ca34de0518": 12,
+        "697f77bf5ee348e0909520f6": 30,
+        "697fb0caa49592c6f76de912": 30,
+        "6987ad089c7c86bcdaf6e662": 30
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 121838,
+          "rank": 203,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 8.369401000000002,
+          "rank": 270,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 194874,
+          "rank": 265,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 45,
+          "rank": 272,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 84.165,
+          "rank": 223,
+          "tier": "bronze"
+        }
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "6813b75befecdf9bab1952c7"
+        ],
+        "commanders": [
+          "6813b75befecdf9bab1952c7"
+        ]
+      },
+      "_id": "6984779a732d3ee6deb08e28",
+      "user": "6813b75befecdf9bab1952c7",
+      "region": "6813b7049403bc4170a5d72f",
+      "name": "1. Harckocsi Ezred",
+      "members": [
+        "6980d74e670f6590439dfd18",
+        "6982a81fd51ca774db7656a6",
+        "698091addadab02fa94295ad",
+        "69824aadc04890e136ae04b8",
+        "687982f2841589a1f8ca7cd4",
+        "69860eab74ed5d90ee12aaac",
+        "68a23697ae3c1ce8460792bf",
+        "6813b75befecdf9bab1952c7",
+        "6988736a3207f59679571209",
+        "6988505c74790efdf3a5d351",
+        "69885933c5c82ef9ae86d495",
+        "698889f4d754ae752d71c463",
+        "683d895e2ea71a8dcaaf3428",
+        "69884eece0037f22c72af506",
+        "6989b6789af25b35c7446b5c"
+      ],
+      "createdAt": "2026-02-05T10:57:30.974Z",
+      "updatedAt": "2026-02-11T14:00:11.754Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 3
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 571925,
+          "rank": 119,
+          "tier": "silver"
+        },
+        "muBounty": {
+          "value": 557.565123,
+          "rank": 140,
+          "tier": "silver"
+        },
+        "muDamages": {
+          "value": 1661609,
+          "rank": 200,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 567,
+          "rank": 223,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 9.59500000000017,
+          "rank": 275,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "6813b75befecdf9bab1952c7": 2665,
+        "6980d74e670f6590439dfd18": 10,
+        "6982a81fd51ca774db7656a6": 10,
+        "698091addadab02fa94295ad": 10,
+        "69824aadc04890e136ae04b8": 12,
+        "687982f2841589a1f8ca7cd4": 14,
+        "69860eab74ed5d90ee12aaac": 10,
+        "6982e08f7cf831a523272d60": 10,
+        "68a23697ae3c1ce8460792bf": 10,
+        "68c989b4d5376fb75ee9afee": 10,
+        "6988505c74790efdf3a5d351": 22,
+        "683d895e2ea71a8dcaaf3428": 20,
+        "69885933c5c82ef9ae86d495": 2,
+        "6988736a3207f59679571209": 19
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-6984779a732d3ee6deb08e28-1770290866142-2ywlmnik.jpg"
+    },
+    {
+      "roles": {
+        "managers": [
+          "6953b58ee1da1f5e206a7b6f"
+        ],
+        "commanders": [
+          "6980702019decffdc74fce61",
+          "69820c895312557c1f363ab7",
+          "697861d7335f4c769c53ddea",
+          "697b63ca67f00c9ac605d674",
+          "6953b58ee1da1f5e206a7b6f"
+        ]
+      },
+      "_id": "69843f617cf831a523014e15",
+      "user": "6953b58ee1da1f5e206a7b6f",
+      "region": "6813b7039403bc4170a5d679",
+      "name": "Luchtmobiele Brigade",
+      "members": [
+        "6953b58ee1da1f5e206a7b6f",
+        "6980702019decffdc74fce61",
+        "69820c895312557c1f363ab7",
+        "697861d7335f4c769c53ddea",
+        "697b63ca67f00c9ac605d674",
+        "697b081775e83770b27fe362",
+        "697dff450e2a47919b8e7802",
+        "69771d1de06697135d49e2d4",
+        "698454ee7e9137999c89492a",
+        "697fd901172e1eae4893f3d3",
+        "6987bf1e7a5ce7209cb5840b"
+      ],
+      "createdAt": "2026-02-05T06:57:37.460Z",
+      "updatedAt": "2026-02-11T14:14:41.627Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 3
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 90745,
+          "rank": 215,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 3.517717,
+          "rank": 279,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 176778,
+          "rank": 267,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 39,
+          "rank": 274,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 17.48700000000003,
+          "rank": 269,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "6953b58ee1da1f5e206a7b6f": 188,
+        "69820c895312557c1f363ab7": 55,
+        "697861d7335f4c769c53ddea": 67,
+        "697b63ca67f00c9ac605d674": 95,
+        "6980702019decffdc74fce61": 40,
+        "697b081775e83770b27fe362": 90,
+        "697dff450e2a47919b8e7802": 50,
+        "69771d1de06697135d49e2d4": 80,
+        "698454ee7e9137999c89492a": 104,
+        "697fd901172e1eae4893f3d3": 94,
+        "6987bf1e7a5ce7209cb5840b": 20
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-69843f617cf831a523014e15-1770476600780-03onmn2a.png"
+    },
+    {
+      "roles": {
+        "managers": [
+          "683b19aebd2c4cb97027dace"
+        ],
+        "commanders": []
+      },
+      "_id": "6984328b10e902ca34a3171b",
+      "user": "683b19aebd2c4cb97027dace",
+      "region": "6813b7049403bc4170a5d6f0",
+      "name": "Hacienda",
+      "members": [],
+      "createdAt": "2026-02-05T06:02:51.852Z",
+      "updatedAt": "2026-02-11T14:00:11.803Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-6984328b10e902ca34a3171b-1770271497239-bdy0hhyo.jpg",
+      "investedMoneyByUsers": {
+        "683b19aebd2c4cb97027dace": 40,
+        "6813b770efecdf9bab196baa": 5
+      },
+      "rankings": {
+        "muBounty": {
+          "value": 0.06834100000000001,
+          "rank": 299,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 6054,
+          "rank": 293,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 1,
+          "rank": 289,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 30,
+          "rank": 260,
+          "tier": "bronze"
+        }
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "69714ddbb74dc09afbfe92fb"
+        ],
+        "commanders": [
+          "69714ddbb74dc09afbfe92fb"
+        ]
+      },
+      "_id": "6983a7fecf7661b164025822",
+      "user": "69714ddbb74dc09afbfe92fb",
+      "region": "6813b7089403bc4170a5d92a",
+      "name": "El Surtidor FFAA",
+      "members": [
+        "69714ddbb74dc09afbfe92fb",
+        "69733d64d52f83436a403de7",
+        "6979f8788521507ba6085ce5",
+        "69787fc129f63efefd59eff6"
+      ],
+      "createdAt": "2026-02-04T20:11:42.943Z",
+      "updatedAt": "2026-02-11T14:00:11.784Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 1
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-6983a7fecf7661b164025822-1770236016900-2lvxp973.jpg",
+      "investedMoneyByUsers": {
+        "69733d64d52f83436a403de7": 37,
+        "69714ddbb74dc09afbfe92fb": 86,
+        "6979f8788521507ba6085ce5": 7,
+        "69787fc129f63efefd59eff6": 7
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 69882,
+          "rank": 226,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 14.892468000000035,
+          "rank": 262,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 168861,
+          "rank": 268,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 31,
+          "rank": 279,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 30.417,
+          "rank": 258,
+          "tier": "bronze"
+        }
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "682787e1a3cf9ba485f027b9"
+        ],
+        "commanders": [
+          "69776cc8fbde11a3b59d961b"
+        ]
+      },
+      "_id": "6983a29f019f541a802ce638",
+      "user": "682787e1a3cf9ba485f027b9",
+      "region": "6813b7049403bc4170a5d6d2",
+      "name": "CannabisKommandos",
+      "members": [
+        "69776cc8fbde11a3b59d961b",
+        "697698a3aed8e4532613c1cb",
+        "69770d49434a5842e0579f78",
+        "697b2d6fcf514ca1552ca442",
+        "697a77e27c5c0bd53a6732b8",
+        "697917657c5c0bd53a8cff0f",
+        "6976112e8928a96cd23450eb",
+        "6977b1e785be65824f903ba9",
+        "6980baba164c1577a1bc18a1",
+        "697b6f761a0bc85db3f6335d",
+        "697643574bfbdc5ce92bd4bc",
+        "6976249f7e891b8ec53d15d8",
+        "69763c40098c44f441cdf97d",
+        "69867885e4757698341452f4",
+        "697cd61cc9a035ea67e1f689",
+        "6989d86ad762a0c90eb3b37c",
+        "698953acb0b2351dbeac638f",
+        "6984ba5d019f541a803e1201"
+      ],
+      "createdAt": "2026-02-04T19:48:47.782Z",
+      "updatedAt": "2026-02-11T14:11:48.728Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 4
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-6983a29f019f541a802ce638-1770234740700-as4z8r8i.webp",
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 201798,
+          "rank": 179,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 35.33471,
+          "rank": 250,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 362156,
+          "rank": 250,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 65,
+          "rank": 267,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 111.81799999999998,
+          "rank": 205,
+          "tier": "bronze"
+        }
+      },
+      "investedMoneyByUsers": {
+        "69776cc8fbde11a3b59d961b": 81,
+        "697698a3aed8e4532613c1cb": 130,
+        "682787e1a3cf9ba485f027b9": 970,
+        "69770d49434a5842e0579f78": 55,
+        "697b2d6fcf514ca1552ca442": 24,
+        "697a77e27c5c0bd53a6732b8": 20,
+        "697cb058486cb4b904d741d9": 20,
+        "697917657c5c0bd53a8cff0f": 37,
+        "6976112e8928a96cd23450eb": 24,
+        "69763fa87ad3b1bff38f6a41": 20,
+        "6977b1e785be65824f903ba9": 42,
+        "697b6f761a0bc85db3f6335d": 7,
+        "6980baba164c1577a1bc18a1": 4,
+        "6988e8987a5ce7209cee2dc5": 10,
+        "6989053a537b1bf1e71767a3": 10,
+        "69768d3bd0b91ae6b46073ef": 10,
+        "6976249f7e891b8ec53d15d8": 6,
+        "692f75154befb7367383180e": 10,
+        "6988c3f3e65ed518af6b7fc7": 10,
+        "69867885e4757698341452f4": 12,
+        "6983b51acf7661b1642a693c": 10,
+        "698a2b77161b41bc5850ffda": 10,
+        "697643574bfbdc5ce92bd4bc": 2,
+        "698aa5bdc0b91cffed94b2b0": 10,
+        "698a7cabbe7cce8e9e73fbe2": 10,
+        "697cd61cc9a035ea67e1f689": 12,
+        "6989d86ad762a0c90eb3b37c": 10,
+        "698953acb0b2351dbeac638f": 10,
+        "6984ba5d019f541a803e1201": 10,
+        "6989c5052c44fa30e46e7f06": 10,
+        "698bcf609ffd816ca5d1876e": 10,
+        "698b56e833f259b66b6614ac": 10,
+        "698bdbc456f71dd425a1d980": 10,
+        "698bf34a549b8398fe8c6ce9": 10,
+        "698bc3e7855e1ab9d6440cd5": 10,
+        "698badb1052b6e7b63704653": 10
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "6820d2743175aaf8ed45d9b3"
+        ],
+        "commanders": [
+          "6820d2743175aaf8ed45d9b3"
+        ]
+      },
+      "_id": "6983a1d5cf05b6979b298b67",
+      "user": "6820d2743175aaf8ed45d9b3",
+      "region": "6813b7089403bc4170a5d8d6",
+      "name": "UNIT - 88",
+      "members": [
+        "6820d2743175aaf8ed45d9b3",
+        "69809eadd18698e481e2e7fa",
+        "6982b557e475769834b5569f",
+        "694fc99b4867735a9d6bd329",
+        "6984ec74019f541a806a29f9",
+        "697e65ed70af1f7f8ae555fa",
+        "69787536dfb35c158d69cb07",
+        "698489e51ec07e3038c4b826",
+        "6983993909d4e2cdfdc185ea",
+        "697b9869c0994f352fa7eec4",
+        "6984252ade0fe0d6db174b37",
+        "69834feb09d4e2cdfd187db7",
+        "69839be5de0fe0d6db512015",
+        "6988ddc555246862b2066e92",
+        "698bb26c052b6e7b63754396"
+      ],
+      "createdAt": "2026-02-04T19:45:25.260Z",
+      "updatedAt": "2026-02-11T14:00:11.774Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 3
+      },
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 178208,
+          "rank": 190,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 64.54013600000002,
+          "rank": 231,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 700182,
+          "rank": 241,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 121,
+          "rank": 260,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 60.08199999999988,
+          "rank": 238,
+          "tier": "bronze"
+        }
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-6983a1d5cf05b6979b298b67-1770235347222-z5mi6hqj.png",
+      "investedMoneyByUsers": {
+        "6820d2743175aaf8ed45d9b3": 1635,
+        "6982b557e475769834b5569f": 10,
+        "6984ec74019f541a806a29f9": 29,
+        "698489e51ec07e3038c4b826": 16,
+        "698450bfc04890e136e6c2a4": 4,
+        "697b9869c0994f352fa7eec4": 10,
+        "694fc99b4867735a9d6bd329": 2
+      }
+    },
+    {
+      "roles": {
+        "managers": [
+          "68c54987551a038619c4c4ab"
+        ],
+        "commanders": [
+          "693d9caa6a349c962ab0ba5f"
+        ]
+      },
+      "_id": "69831ed83a764aa9c0079a3e",
+      "user": "68c54987551a038619c4c4ab",
+      "region": "6813b7059403bc4170a5d76e",
+      "name": "Strelnieki",
+      "members": [
+        "697e35abfcf21af68c88a4b2",
+        "697f534154da98c1fc76c79d",
+        "69831346019f541a80382089",
+        "6967d61255cb9663e7272202",
+        "693d9caa6a349c962ab0ba5f",
+        "698883ff2c44fa30e457a78d",
+        "698c0ef6dd9e998685eb9270"
+      ],
+      "createdAt": "2026-02-04T10:26:32.608Z",
+      "updatedAt": "2026-02-11T14:00:11.780Z",
+      "__v": 0,
+      "activeUpgradeLevels": {
+        "dormitories": 3
+      },
+      "avatarUrl": "https://media.warera.io/avatars/mu/mu-69831ed83a764aa9c0079a3e-1770223432450-zfj5nr9t.png",
+      "rankings": {
+        "muWeeklyDamages": {
+          "value": 98988,
+          "rank": 213,
+          "tier": "bronze"
+        },
+        "muBounty": {
+          "value": 12.572419,
+          "rank": 266,
+          "tier": "bronze"
+        },
+        "muDamages": {
+          "value": 232377,
+          "rank": 261,
+          "tier": "bronze"
+        },
+        "muTerrain": {
+          "value": 63,
+          "rank": 269,
+          "tier": "bronze"
+        },
+        "muWealth": {
+          "value": 383.70599999999996,
+          "rank": 96,
+          "tier": "gold"
+        }
+      },
+      "investedMoneyByUsers": {
+        "68c54987551a038619c4c4ab": 1045,
+        "697e35abfcf21af68c88a4b2": 8,
+        "69831346019f541a80382089": 14,
+        "6980dea6fe49beb7241a6d5f": 4,
+        "697f534154da98c1fc76c79d": 110,
+        "6967d61255cb9663e7272202": 32,
+        "693d9caa6a349c962ab0ba5f": 10,
+        "698c0ef6dd9e998685eb9270": 10
+      }
+    }
+  ],
+  "nextCursor": "Wed Feb 04 2026 10:26:32 GMT+0000 (Coordinated Universal Time)|69831ed83a764aa9c0079a3e"
+}

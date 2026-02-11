@@ -1,0 +1,17 @@
+{
+  "_id": "696a81ebe1039872e3494f3c",
+  "country": "696a81da63e2489f47e5a28e",
+  "congressMembers": [
+    "6917261be1cde9246328b591",
+    "690d8a3e6fdd2d7701435d35",
+    "68e56ed059258bd320ca0e2c",
+    "6973e59c0ac08821ecc2eb5f",
+    "690d6b03becd7485dbb33b05"
+  ],
+  "__v": 0,
+  "president": "690d8a3e6fdd2d7701435d35",
+  "vicePresident": "6917261be1cde9246328b591",
+  "minOfDefense": "690d6b03becd7485dbb33b05",
+  "minOfEconomy": "6890cc222426ad2700113de8",
+  "minOfForeignAffairs": "68e56ed059258bd320ca0e2c"
+}

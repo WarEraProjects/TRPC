@@ -1,0 +1,48 @@
+{
+  "defender": {
+    "region": "6813b7059403bc4170a5d786",
+    "country": "6813b6d446e731854c7ac7eb",
+    "wonRoundsCount": 0,
+    "countryOrders": [],
+    "muOrders": [
+      "68f7056e24973b035fd73ea5",
+      "68ffb1ccbc987d23ba84a65a"
+    ],
+    "damages": 0,
+    "hitCount": 269
+  },
+  "attacker": {
+    "region": "6813b7059403bc4170a5d77d",
+    "country": "6813b6d446e731854c7ac7e8",
+    "wonRoundsCount": 0,
+    "countryOrders": [
+      "6813b6d446e731854c7ac7e8",
+      "6873d0ea1758b40e712b5f76",
+      "6873d0ea1758b40e712b5f19"
+    ],
+    "muOrders": [
+      "68c15f29ee5e6f706b3314b1",
+      "695d2a3f9cddbde050bebbbb"
+    ],
+    "damages": 0,
+    "hitCount": 321,
+    "moneyPer1kDamages": 0.8,
+    "moneyPool": 0
+  },
+  "stats": {
+    "hitCount": 0
+  },
+  "_id": "698c570b68c173a34057f75d",
+  "war": "698ba25246ddb740cc81ed7a",
+  "rounds": [
+    "698c570b68c173a34057f75f"
+  ],
+  "roundsHistory": [],
+  "isActive": true,
+  "isResistance": false,
+  "roundsToWin": 2,
+  "createdAt": "2026-02-11T10:16:43.294Z",
+  "updatedAt": "2026-02-11T14:20:20.343Z",
+  "__v": 1,
+  "currentRound": "698c570b68c173a34057f75f"
+}

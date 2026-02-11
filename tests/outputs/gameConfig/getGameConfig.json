@@ -1,0 +1,2305 @@
+{
+  "user": {
+    "maxHunger": 10,
+    "maxEnergy": 100,
+    "maxConstructionPoints": 30,
+    "dailyXp": 100,
+    "isInactiveAfterDays": 3,
+    "fieldsToPopulate": "_id avatar username infos country skills currentValues leveling isActive buffs dates avatarUrl createdAt rankings militaryRank stats.damagesCount",
+    "dailyReward": {
+      "xp": 50,
+      "money": 10,
+      "case1": 1
+    },
+    "constructionEnergyCost": 10,
+    "xpPerAction": 10,
+    "energyCostPerAction": 10,
+    "resetSkillsCostPerPoint": 0.5,
+    "resetSkillDaysCooldown": 7,
+    "takeControlCooldownInDays": 1,
+    "citizenshipDaysCooldown": 5,
+    "canTakeControlAtLevel": 15,
+    "regenDividedBy": 10,
+    "marketMinLevel": 7,
+    "equipmentSets": {
+      "nonPremiumMax": 1,
+      "premiumMax": 5
+    },
+    "donationMinLevel": 5,
+    "chatMinLevel": 0
+  },
+  "skills": {
+    "energy": {
+      "0": {
+        "value": 30,
+        "totalCost": 0,
+        "isABar": true,
+        "unlockAtLevel": 1
+      },
+      "1": {
+        "value": 40,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 1
+      },
+      "2": {
+        "value": 50,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 1
+      },
+      "3": {
+        "value": 60,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 1
+      },
+      "4": {
+        "value": 70,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 1
+      },
+      "5": {
+        "value": 80,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 1
+      },
+      "6": {
+        "value": 90,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 1
+      },
+      "7": {
+        "value": 100,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 1
+      },
+      "8": {
+        "value": 110,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 1
+      },
+      "9": {
+        "value": 120,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 1
+      },
+      "10": {
+        "value": 130,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 1
+      }
+    },
+    "health": {
+      "0": {
+        "value": 50,
+        "totalCost": 0,
+        "isABar": true,
+        "unlockAtLevel": 5
+      },
+      "1": {
+        "value": 60,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 5
+      },
+      "2": {
+        "value": 70,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 5
+      },
+      "3": {
+        "value": 80,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 5
+      },
+      "4": {
+        "value": 90,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 5
+      },
+      "5": {
+        "value": 100,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 5
+      },
+      "6": {
+        "value": 110,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 5
+      },
+      "7": {
+        "value": 120,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 5
+      },
+      "8": {
+        "value": 130,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 5
+      },
+      "9": {
+        "value": 140,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 5
+      },
+      "10": {
+        "value": 150,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 5
+      }
+    },
+    "hunger": {
+      "0": {
+        "value": 4,
+        "totalCost": 0,
+        "isABar": true,
+        "unlockAtLevel": 10
+      },
+      "1": {
+        "value": 5,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 10
+      },
+      "2": {
+        "value": 6,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 10
+      },
+      "3": {
+        "value": 7,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 10
+      },
+      "4": {
+        "value": 8,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 10
+      },
+      "5": {
+        "value": 9,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 10
+      },
+      "6": {
+        "value": 10,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 10
+      },
+      "7": {
+        "value": 11,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 10
+      },
+      "8": {
+        "value": 12,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 10
+      },
+      "9": {
+        "value": 13,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 10
+      },
+      "10": {
+        "value": 14,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 10
+      }
+    },
+    "attack": {
+      "0": {
+        "value": 100,
+        "totalCost": 0,
+        "unlockAtLevel": 1
+      },
+      "1": {
+        "value": 120,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 1
+      },
+      "2": {
+        "value": 140,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 1
+      },
+      "3": {
+        "value": 160,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 1
+      },
+      "4": {
+        "value": 180,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 1
+      },
+      "5": {
+        "value": 200,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 1
+      },
+      "6": {
+        "value": 220,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 1
+      },
+      "7": {
+        "value": 240,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 1
+      },
+      "8": {
+        "value": 260,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 1
+      },
+      "9": {
+        "value": 280,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 1
+      },
+      "10": {
+        "value": 300,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 1
+      }
+    },
+    "companies": {
+      "0": {
+        "value": 2,
+        "totalCost": 0,
+        "unlockAtLevel": 5
+      },
+      "1": {
+        "value": 3,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 5
+      },
+      "2": {
+        "value": 4,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 5
+      },
+      "3": {
+        "value": 5,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 5
+      },
+      "4": {
+        "value": 6,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 5
+      },
+      "5": {
+        "value": 7,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 5
+      },
+      "6": {
+        "value": 8,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 5
+      },
+      "7": {
+        "value": 9,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 5
+      },
+      "8": {
+        "value": 10,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 5
+      },
+      "9": {
+        "value": 11,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 5
+      },
+      "10": {
+        "value": 12,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 5
+      }
+    },
+    "entrepreneurship": {
+      "0": {
+        "value": 30,
+        "totalCost": 0,
+        "isABar": true,
+        "unlockAtLevel": 1
+      },
+      "1": {
+        "value": 35,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 1
+      },
+      "2": {
+        "value": 40,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 1
+      },
+      "3": {
+        "value": 45,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 1
+      },
+      "4": {
+        "value": 50,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 1
+      },
+      "5": {
+        "value": 55,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 1
+      },
+      "6": {
+        "value": 60,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 1
+      },
+      "7": {
+        "value": 65,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 1
+      },
+      "8": {
+        "value": 70,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 1
+      },
+      "9": {
+        "value": 75,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 1
+      },
+      "10": {
+        "value": 80,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 1
+      }
+    },
+    "production": {
+      "0": {
+        "value": 10,
+        "totalCost": 0,
+        "isABar": true,
+        "unlockAtLevel": 1
+      },
+      "1": {
+        "value": 13,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 1
+      },
+      "2": {
+        "value": 16,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 1
+      },
+      "3": {
+        "value": 19,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 1
+      },
+      "4": {
+        "value": 22,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 1
+      },
+      "5": {
+        "value": 25,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 1
+      },
+      "6": {
+        "value": 28,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 1
+      },
+      "7": {
+        "value": 31,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 1
+      },
+      "8": {
+        "value": 34,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 1
+      },
+      "9": {
+        "value": 37,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 1
+      },
+      "10": {
+        "value": 40,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 1
+      }
+    },
+    "criticalChance": {
+      "0": {
+        "value": 10,
+        "totalCost": 0,
+        "unlockAtLevel": 5
+      },
+      "1": {
+        "value": 15,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 5
+      },
+      "2": {
+        "value": 20,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 5
+      },
+      "3": {
+        "value": 25,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 5
+      },
+      "4": {
+        "value": 30,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 5
+      },
+      "5": {
+        "value": 35,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 5
+      },
+      "6": {
+        "value": 40,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 5
+      },
+      "7": {
+        "value": 45,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 5
+      },
+      "8": {
+        "value": 50,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 5
+      },
+      "9": {
+        "value": 55,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 5
+      },
+      "10": {
+        "value": 60,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 5
+      }
+    },
+    "criticalDamages": {
+      "0": {
+        "value": 100,
+        "totalCost": 0,
+        "unlockAtLevel": 10
+      },
+      "1": {
+        "value": 120,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 10
+      },
+      "2": {
+        "value": 140,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 10
+      },
+      "3": {
+        "value": 160,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 10
+      },
+      "4": {
+        "value": 180,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 10
+      },
+      "5": {
+        "value": 200,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 10
+      },
+      "6": {
+        "value": 220,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 10
+      },
+      "7": {
+        "value": 240,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 10
+      },
+      "8": {
+        "value": 260,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 10
+      },
+      "9": {
+        "value": 280,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 10
+      },
+      "10": {
+        "value": 300,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 10
+      }
+    },
+    "armor": {
+      "0": {
+        "value": 0,
+        "totalCost": 0,
+        "unlockAtLevel": 5
+      },
+      "1": {
+        "value": 4,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 5
+      },
+      "2": {
+        "value": 8,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 5
+      },
+      "3": {
+        "value": 12,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 5
+      },
+      "4": {
+        "value": 16,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 5
+      },
+      "5": {
+        "value": 20,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 5
+      },
+      "6": {
+        "value": 24,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 5
+      },
+      "7": {
+        "value": 28,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 5
+      },
+      "8": {
+        "value": 32,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 5
+      },
+      "9": {
+        "value": 36,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 5
+      },
+      "10": {
+        "value": 40,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 5
+      }
+    },
+    "precision": {
+      "0": {
+        "value": 50,
+        "totalCost": 0,
+        "unlockAtLevel": 1
+      },
+      "1": {
+        "value": 55,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 1
+      },
+      "2": {
+        "value": 60,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 1
+      },
+      "3": {
+        "value": 65,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 1
+      },
+      "4": {
+        "value": 70,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 1
+      },
+      "5": {
+        "value": 75,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 1
+      },
+      "6": {
+        "value": 80,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 1
+      },
+      "7": {
+        "value": 85,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 1
+      },
+      "8": {
+        "value": 90,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 1
+      },
+      "9": {
+        "value": 95,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 1
+      },
+      "10": {
+        "value": 100,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 1
+      }
+    },
+    "dodge": {
+      "0": {
+        "value": 0,
+        "totalCost": 0,
+        "unlockAtLevel": 10
+      },
+      "1": {
+        "value": 4,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 10
+      },
+      "2": {
+        "value": 8,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 10
+      },
+      "3": {
+        "value": 12,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 10
+      },
+      "4": {
+        "value": 16,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 10
+      },
+      "5": {
+        "value": 20,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 10
+      },
+      "6": {
+        "value": 24,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 10
+      },
+      "7": {
+        "value": 28,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 10
+      },
+      "8": {
+        "value": 32,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 10
+      },
+      "9": {
+        "value": 36,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 10
+      },
+      "10": {
+        "value": 40,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 10
+      }
+    },
+    "lootChance": {
+      "0": {
+        "value": 5,
+        "totalCost": 0,
+        "unlockAtLevel": 1
+      },
+      "1": {
+        "value": 6,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 1
+      },
+      "2": {
+        "value": 7,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 1
+      },
+      "3": {
+        "value": 8,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 1
+      },
+      "4": {
+        "value": 9,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 1
+      },
+      "5": {
+        "value": 10,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 1
+      },
+      "6": {
+        "value": 11,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 1
+      },
+      "7": {
+        "value": 12,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 1
+      },
+      "8": {
+        "value": 13,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 1
+      },
+      "9": {
+        "value": 14,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 1
+      },
+      "10": {
+        "value": 15,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 1
+      }
+    },
+    "management": {
+      "0": {
+        "value": 4,
+        "totalCost": 0,
+        "unlockAtLevel": 10
+      },
+      "1": {
+        "value": 6,
+        "totalCost": 1,
+        "cost": 1,
+        "unlockAtLevel": 10
+      },
+      "2": {
+        "value": 8,
+        "totalCost": 3,
+        "cost": 2,
+        "unlockAtLevel": 10
+      },
+      "3": {
+        "value": 10,
+        "totalCost": 6,
+        "cost": 3,
+        "unlockAtLevel": 10
+      },
+      "4": {
+        "value": 12,
+        "totalCost": 10,
+        "cost": 4,
+        "unlockAtLevel": 10
+      },
+      "5": {
+        "value": 14,
+        "totalCost": 15,
+        "cost": 5,
+        "unlockAtLevel": 10
+      },
+      "6": {
+        "value": 16,
+        "totalCost": 21,
+        "cost": 6,
+        "unlockAtLevel": 10
+      },
+      "7": {
+        "value": 18,
+        "totalCost": 28,
+        "cost": 7,
+        "unlockAtLevel": 10
+      },
+      "8": {
+        "value": 20,
+        "totalCost": 36,
+        "cost": 8,
+        "unlockAtLevel": 10
+      },
+      "9": {
+        "value": 22,
+        "totalCost": 45,
+        "cost": 9,
+        "unlockAtLevel": 10
+      },
+      "10": {
+        "value": 24,
+        "totalCost": 55,
+        "cost": 10,
+        "unlockAtLevel": 10
+      }
+    }
+  },
+  "battle": {
+    "roundsToWin": 2,
+    "maxRounds": 15,
+    "pointsToWinRound": 300,
+    "tickPoints": {
+      "1": 1,
+      "100": 2,
+      "200": 3,
+      "300": 4,
+      "400": 5,
+      "500": 6
+    },
+    "healthCost": 10,
+    "countryOrderBonusPercent": 10,
+    "muOrderBonusPercent": 10,
+    "allianceDamagesBonusPercent": 10,
+    "enemyDamagesBonusPercent": 10,
+    "regionNotLinkedToCapitalMalusPercent": -25,
+    "lostAttackingRegionMalusPercent": -25,
+    "setCountryOrderMoneyCost": 30,
+    "setMuOrderMoneyCost": 10,
+    "setOrderMoneyCost": 40,
+    "selfDefenseBonusPercent": 15,
+    "occupyingYourRegionsMalusPercent": -30,
+    "hitFor1CaseInPool": 20,
+    "casesPer1kDamagesInPool": 1
+  },
+  "org": {
+    "constructionCost": 1000,
+    "moveCost": 5
+  },
+  "company": {
+    "constructionCostIncreasePerCompany": 50,
+    "moveCost": 5,
+    "changeItemCost": 5,
+    "depositResourceBonus": 30,
+    "destructionValuePercent": 80
+  },
+  "worker": {
+    "maxFidelity": 10,
+    "fidelityProductionBonusPercent": 1
+  },
+  "mu": {
+    "constructionCost": 300,
+    "moveCost": 5,
+    "destructionValuePercent": 80,
+    "maxOwnedMus": 3,
+    "helpCooldownHours": 12,
+    "healthPerHelp": 2,
+    "helpValue": 2
+  },
+  "law": {
+    "abusiveLawPossibleVotersNeeded": 5,
+    "abusiveLawsCooldownInDays": 3,
+    "lawVotesDurationHours": 24,
+    "votersRatioNeeded": 0.5,
+    "propose_alliance": {
+      "cost": 10,
+      "maintenanceCost": 1
+    },
+    "accept_alliance": {
+      "cost": 10,
+      "maintenanceCost": 1
+    },
+    "define_enemy_country": {
+      "cost": 10,
+      "maintenanceCost": 3
+    },
+    "set_color_scheme": {
+      "cost": 5
+    }
+  },
+  "election": {
+    "candidateDurationHours": 24,
+    "electionVoteDurationHours": 24,
+    "voteMinLevel": 10,
+    "candidateMinLevel": 10
+  },
+  "badge": {
+    "referral": {
+      "reward": 20
+    },
+    "foundingFather": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "countryPresident": {
+      "reward": 0
+    },
+    "congressMember": {
+      "reward": 0
+    },
+    "vicePresident": {
+      "reward": 0
+    },
+    "battleTop1": {
+      "reward": 10
+    },
+    "roundTop1": {
+      "reward": 5
+    },
+    "hardWorker": {
+      "reward": 5
+    },
+    "battleTerrainTop1": {
+      "reward": 10
+    },
+    "roundTerrainTop1": {
+      "reward": 5
+    },
+    "voted": {
+      "reward": 0
+    },
+    "coffee": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "alphaTester": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "bugFinder": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "resetSurvivor": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "premium": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "staff": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "giftPremium": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "sugarDaddy": {
+      "reward": 0,
+      "preserveBetweenReset": true
+    },
+    "babyBoomer": {
+      "reward": 100,
+      "preserveBetweenReset": true
+    },
+    "countryTournamentWinner": {
+      "reward": 50,
+      "preserveBetweenReset": true
+    },
+    "muTournamentWinner": {
+      "reward": 50,
+      "preserveBetweenReset": true
+    },
+    "userTournamentWinner": {
+      "reward": 50,
+      "preserveBetweenReset": true
+    },
+    "giveawayWinner": {
+      "reward": 0
+    }
+  },
+  "mergingCost": {
+    "common": 2,
+    "uncommon": 4,
+    "rare": 8,
+    "epic": 16,
+    "legendary": 32,
+    "mythic": 64
+  },
+  "upgradesConfig": {
+    "headquarters": {
+      "canBeDisabled": true,
+      "pendingDurationHours": 3,
+      "canDowngrade": true,
+      "levels": {
+        "1": {
+          "level": 1,
+          "steelCost": 100,
+          "maintenanceCost": 1,
+          "stats": {
+            "attackBonus": 5
+          }
+        },
+        "2": {
+          "level": 2,
+          "steelCost": 200,
+          "maintenanceCost": 2,
+          "stats": {
+            "attackBonus": 10
+          }
+        },
+        "3": {
+          "level": 3,
+          "steelCost": 300,
+          "maintenanceCost": 5,
+          "stats": {
+            "attackBonus": 15
+          }
+        },
+        "4": {
+          "level": 4,
+          "steelCost": 600,
+          "maintenanceCost": 10,
+          "stats": {
+            "attackBonus": 20
+          }
+        }
+      }
+    },
+    "dormitories": {
+      "canDowngrade": true,
+      "levels": {
+        "1": {
+          "level": 1,
+          "steelCost": 0,
+          "stats": {
+            "members": 5
+          }
+        },
+        "2": {
+          "level": 2,
+          "steelCost": 200,
+          "stats": {
+            "members": 10
+          }
+        },
+        "3": {
+          "level": 3,
+          "steelCost": 300,
+          "stats": {
+            "members": 15
+          }
+        },
+        "4": {
+          "level": 4,
+          "steelCost": 400,
+          "stats": {
+            "members": 20
+          }
+        },
+        "5": {
+          "level": 5,
+          "steelCost": 500,
+          "stats": {
+            "members": 25
+          }
+        }
+      }
+    },
+    "bunker": {
+      "canDowngrade": true,
+      "pendingDurationHours": 6,
+      "canBeDisabled": true,
+      "canBeDestroyed": true,
+      "levels": {
+        "1": {
+          "level": 1,
+          "steelCost": 100,
+          "constructionPointsCost": 100,
+          "maintenanceCost": 1,
+          "stats": {
+            "defenseBonus": 5
+          }
+        },
+        "2": {
+          "level": 2,
+          "steelCost": 200,
+          "constructionPointsCost": 200,
+          "maintenanceCost": 2,
+          "stats": {
+            "defenseBonus": 10
+          }
+        },
+        "3": {
+          "level": 3,
+          "steelCost": 300,
+          "constructionPointsCost": 300,
+          "maintenanceCost": 5,
+          "stats": {
+            "defenseBonus": 15
+          }
+        },
+        "4": {
+          "level": 4,
+          "steelCost": 500,
+          "constructionPointsCost": 500,
+          "maintenanceCost": 10,
+          "stats": {
+            "defenseBonus": 20
+          }
+        },
+        "5": {
+          "level": 5,
+          "steelCost": 1000,
+          "constructionPointsCost": 1000,
+          "maintenanceCost": 25,
+          "stats": {
+            "defenseBonus": 25
+          }
+        }
+      }
+    },
+    "base": {
+      "canDowngrade": true,
+      "pendingDurationHours": 6,
+      "canBeDisabled": true,
+      "canBeDestroyed": true,
+      "levels": {
+        "1": {
+          "level": 1,
+          "steelCost": 100,
+          "constructionPointsCost": 100,
+          "maintenanceCost": 1,
+          "stats": {
+            "attackBonus": 5
+          }
+        },
+        "2": {
+          "level": 2,
+          "steelCost": 200,
+          "constructionPointsCost": 200,
+          "maintenanceCost": 2,
+          "stats": {
+            "attackBonus": 10
+          }
+        },
+        "3": {
+          "level": 3,
+          "steelCost": 300,
+          "constructionPointsCost": 300,
+          "maintenanceCost": 5,
+          "stats": {
+            "attackBonus": 15
+          }
+        },
+        "4": {
+          "level": 4,
+          "steelCost": 500,
+          "constructionPointsCost": 500,
+          "maintenanceCost": 10,
+          "stats": {
+            "attackBonus": 20
+          }
+        },
+        "5": {
+          "level": 5,
+          "steelCost": 1000,
+          "constructionPointsCost": 1000,
+          "maintenanceCost": 15,
+          "stats": {
+            "attackBonus": 25
+          }
+        }
+      }
+    },
+    "storage": {
+      "canDowngrade": true,
+      "pendingDurationHours": 6,
+      "levels": {
+        "1": {
+          "level": 1,
+          "steelCost": 0,
+          "constructionPointsCost": 0,
+          "stats": {
+            "maxProduction": 200
+          }
+        },
+        "2": {
+          "level": 2,
+          "steelCost": 10,
+          "constructionPointsCost": 20,
+          "stats": {
+            "maxProduction": 400
+          }
+        },
+        "3": {
+          "level": 3,
+          "steelCost": 20,
+          "constructionPointsCost": 40,
+          "stats": {
+            "maxProduction": 600
+          }
+        },
+        "4": {
+          "level": 4,
+          "steelCost": 40,
+          "constructionPointsCost": 80,
+          "stats": {
+            "maxProduction": 800
+          }
+        },
+        "5": {
+          "level": 5,
+          "steelCost": 80,
+          "constructionPointsCost": 160,
+          "stats": {
+            "maxProduction": 1000
+          }
+        },
+        "6": {
+          "level": 6,
+          "steelCost": 160,
+          "constructionPointsCost": 320,
+          "stats": {
+            "maxProduction": 1200
+          }
+        },
+        "7": {
+          "level": 7,
+          "steelCost": 320,
+          "constructionPointsCost": 680,
+          "stats": {
+            "maxProduction": 1400
+          }
+        }
+      }
+    },
+    "automatedEngine": {
+      "canDowngrade": true,
+      "pendingDurationHours": 6,
+      "levels": {
+        "1": {
+          "level": 1,
+          "steelCost": 0,
+          "constructionPointsCost": 0,
+          "stats": {
+            "dailyProd": 24
+          }
+        },
+        "2": {
+          "level": 2,
+          "steelCost": 20,
+          "constructionPointsCost": 20,
+          "stats": {
+            "dailyProd": 48
+          }
+        },
+        "3": {
+          "level": 3,
+          "steelCost": 40,
+          "constructionPointsCost": 40,
+          "stats": {
+            "dailyProd": 72
+          }
+        },
+        "4": {
+          "level": 4,
+          "steelCost": 80,
+          "constructionPointsCost": 80,
+          "stats": {
+            "dailyProd": 96
+          }
+        },
+        "5": {
+          "level": 5,
+          "steelCost": 160,
+          "constructionPointsCost": 160,
+          "stats": {
+            "dailyProd": 120
+          }
+        },
+        "6": {
+          "level": 6,
+          "steelCost": 320,
+          "constructionPointsCost": 320,
+          "stats": {
+            "dailyProd": 144
+          }
+        },
+        "7": {
+          "level": 7,
+          "steelCost": 640,
+          "constructionPointsCost": 680,
+          "stats": {
+            "dailyProd": 168
+          }
+        }
+      }
+    },
+    "breakRoom": {
+      "canDowngrade": true,
+      "levels": {
+        "1": {
+          "level": 1,
+          "steelCost": 0,
+          "stats": {
+            "maxWorkers": 2,
+            "dailyHires": 2
+          }
+        },
+        "2": {
+          "level": 2,
+          "steelCost": 10,
+          "stats": {
+            "maxWorkers": 4,
+            "dailyHires": 4
+          }
+        },
+        "3": {
+          "level": 3,
+          "steelCost": 20,
+          "stats": {
+            "maxWorkers": 6,
+            "dailyHires": 6
+          }
+        },
+        "4": {
+          "level": 4,
+          "steelCost": 40,
+          "stats": {
+            "maxWorkers": 8,
+            "dailyHires": 8
+          }
+        },
+        "5": {
+          "level": 5,
+          "steelCost": 80,
+          "stats": {
+            "maxWorkers": 10,
+            "dailyHires": 10
+          }
+        }
+      }
+    }
+  },
+  "upgrade": {
+    "refundPercent": 80
+  },
+  "items": {
+    "limestone": {
+      "type": "raw",
+      "code": "limestone",
+      "rarity": "common",
+      "productionPoints": 1,
+      "isDeposit": true,
+      "climates": [
+        "moderate",
+        "arid"
+      ],
+      "isTradable": true
+    },
+    "grain": {
+      "type": "raw",
+      "code": "grain",
+      "rarity": "common",
+      "productionPoints": 1,
+      "isDeposit": true,
+      "climates": [
+        "moderate",
+        "tropical"
+      ],
+      "isTradable": true
+    },
+    "livestock": {
+      "type": "raw",
+      "code": "livestock",
+      "rarity": "common",
+      "productionPoints": 20,
+      "isDeposit": true,
+      "climates": [
+        "moderate",
+        "tropical"
+      ],
+      "isTradable": true
+    },
+    "fish": {
+      "type": "raw",
+      "code": "fish",
+      "rarity": "common",
+      "productionPoints": 40,
+      "isDeposit": true,
+      "climates": [
+        "polar"
+      ],
+      "isTradable": true
+    },
+    "iron": {
+      "type": "raw",
+      "code": "iron",
+      "rarity": "common",
+      "productionPoints": 1,
+      "isDeposit": true,
+      "climates": [
+        "moderate",
+        "arid",
+        "tropical",
+        "polar"
+      ],
+      "isTradable": true
+    },
+    "coca": {
+      "type": "raw",
+      "code": "coca",
+      "rarity": "common",
+      "productionPoints": 1,
+      "climates": [
+        "tropical"
+      ],
+      "isDeposit": true,
+      "isTradable": true
+    },
+    "lead": {
+      "type": "raw",
+      "code": "lead",
+      "rarity": "common",
+      "productionPoints": 1,
+      "isDeposit": true,
+      "climates": [
+        "moderate",
+        "arid",
+        "polar"
+      ],
+      "isTradable": true
+    },
+    "petroleum": {
+      "type": "raw",
+      "code": "petroleum",
+      "rarity": "common",
+      "productionPoints": 1,
+      "isDeposit": true,
+      "climates": [
+        "moderate",
+        "arid",
+        "tropical"
+      ],
+      "isTradable": true
+    },
+    "concrete": {
+      "type": "product",
+      "code": "concrete",
+      "rarity": "uncommon",
+      "productionPoints": 10,
+      "productionNeeds": {
+        "limestone": 10
+      },
+      "isTradable": true
+    },
+    "steel": {
+      "type": "product",
+      "code": "steel",
+      "rarity": "uncommon",
+      "productionPoints": 10,
+      "productionNeeds": {
+        "iron": 10
+      },
+      "isTradable": true
+    },
+    "bread": {
+      "type": "product",
+      "code": "bread",
+      "rarity": "uncommon",
+      "productionPoints": 10,
+      "productionNeeds": {
+        "grain": 10
+      },
+      "flatStats": {
+        "healthRegen": 10
+      },
+      "isConsumable": true,
+      "isTradable": true
+    },
+    "steak": {
+      "type": "product",
+      "code": "steak",
+      "rarity": "rare",
+      "productionPoints": 20,
+      "productionNeeds": {
+        "livestock": 1
+      },
+      "flatStats": {
+        "healthRegen": 20
+      },
+      "isConsumable": true,
+      "isTradable": true
+    },
+    "cookedFish": {
+      "type": "product",
+      "code": "cookedFish",
+      "rarity": "epic",
+      "productionPoints": 40,
+      "productionNeeds": {
+        "fish": 1
+      },
+      "flatStats": {
+        "healthRegen": 30
+      },
+      "isConsumable": true,
+      "isTradable": true
+    },
+    "lightAmmo": {
+      "type": "product",
+      "code": "lightAmmo",
+      "usage": "ammo",
+      "rarity": "uncommon",
+      "productionPoints": 1,
+      "productionNeeds": {
+        "lead": 1
+      },
+      "flatStats": {
+        "percentAttack": 10
+      },
+      "isTradable": true
+    },
+    "ammo": {
+      "type": "product",
+      "code": "ammo",
+      "usage": "ammo",
+      "rarity": "rare",
+      "productionPoints": 4,
+      "productionNeeds": {
+        "lead": 4
+      },
+      "flatStats": {
+        "percentAttack": 20
+      },
+      "isTradable": true
+    },
+    "cocain": {
+      "type": "product",
+      "code": "cocain",
+      "rarity": "epic",
+      "productionPoints": 200,
+      "productionNeeds": {
+        "coca": 200
+      },
+      "flatStats": {
+        "percentAttack": 60,
+        "buffDurationHours": 8,
+        "debuffDurationHours": 16
+      },
+      "isTradable": true
+    },
+    "oil": {
+      "type": "product",
+      "code": "oil",
+      "rarity": "uncommon",
+      "productionPoints": 1,
+      "productionNeeds": {
+        "petroleum": 1
+      },
+      "isTradable": true
+    },
+    "heavyAmmo": {
+      "type": "product",
+      "code": "heavyAmmo",
+      "usage": "ammo",
+      "rarity": "epic",
+      "flatStats": {
+        "percentAttack": 40
+      },
+      "productionPoints": 16,
+      "productionNeeds": {
+        "lead": 16
+      },
+      "isTradable": true
+    },
+    "knife": {
+      "type": "weapon",
+      "code": "knife",
+      "usage": "weapon",
+      "rarity": "common",
+      "dynamicStats": {
+        "attack": [
+          20,
+          40
+        ],
+        "criticalChance": [
+          1,
+          5
+        ]
+      }
+    },
+    "gun": {
+      "type": "weapon",
+      "code": "gun",
+      "usage": "weapon",
+      "rarity": "uncommon",
+      "dynamicStats": {
+        "attack": [
+          50,
+          60
+        ],
+        "criticalChance": [
+          6,
+          10
+        ]
+      }
+    },
+    "rifle": {
+      "type": "weapon",
+      "code": "rifle",
+      "usage": "weapon",
+      "rarity": "rare",
+      "dynamicStats": {
+        "attack": [
+          70,
+          90
+        ],
+        "criticalChance": [
+          11,
+          15
+        ]
+      }
+    },
+    "sniper": {
+      "type": "weapon",
+      "code": "sniper",
+      "usage": "weapon",
+      "rarity": "epic",
+      "dynamicStats": {
+        "attack": [
+          100,
+          120
+        ],
+        "criticalChance": [
+          16,
+          20
+        ]
+      }
+    },
+    "tank": {
+      "type": "weapon",
+      "code": "tank",
+      "usage": "weapon",
+      "rarity": "legendary",
+      "dynamicStats": {
+        "attack": [
+          130,
+          160
+        ],
+        "criticalChance": [
+          21,
+          30
+        ]
+      }
+    },
+    "jet": {
+      "type": "weapon",
+      "code": "jet",
+      "usage": "weapon",
+      "rarity": "mythic",
+      "dynamicStats": {
+        "attack": [
+          200,
+          280
+        ],
+        "criticalChance": [
+          31,
+          40
+        ]
+      }
+    },
+    "case1": {
+      "usage": "case",
+      "type": "case",
+      "code": "case1",
+      "rarity": "legendary",
+      "isTradable": true
+    },
+    "case2": {
+      "usage": "case",
+      "type": "case",
+      "code": "case2",
+      "rarity": "mythic",
+      "isTradable": true
+    },
+    "scraps": {
+      "type": "product",
+      "code": "scraps",
+      "rarity": "rare",
+      "isTradable": true
+    },
+    "helmet1": {
+      "type": "equipment",
+      "code": "helmet1",
+      "usage": "helmet",
+      "rarity": "common",
+      "dynamicStats": {
+        "criticalDamages": [
+          1,
+          10
+        ]
+      }
+    },
+    "helmet2": {
+      "type": "equipment",
+      "code": "helmet2",
+      "usage": "helmet",
+      "rarity": "uncommon",
+      "dynamicStats": {
+        "criticalDamages": [
+          11,
+          20
+        ]
+      }
+    },
+    "helmet3": {
+      "type": "equipment",
+      "code": "helmet3",
+      "usage": "helmet",
+      "rarity": "rare",
+      "dynamicStats": {
+        "criticalDamages": [
+          21,
+          30
+        ]
+      }
+    },
+    "helmet4": {
+      "type": "equipment",
+      "code": "helmet4",
+      "usage": "helmet",
+      "rarity": "epic",
+      "dynamicStats": {
+        "criticalDamages": [
+          31,
+          40
+        ]
+      }
+    },
+    "helmet5": {
+      "type": "equipment",
+      "code": "helmet5",
+      "usage": "helmet",
+      "rarity": "legendary",
+      "dynamicStats": {
+        "criticalDamages": [
+          41,
+          60
+        ]
+      }
+    },
+    "helmet6": {
+      "type": "equipment",
+      "code": "helmet6",
+      "usage": "helmet",
+      "rarity": "mythic",
+      "dynamicStats": {
+        "criticalDamages": [
+          61,
+          80
+        ]
+      }
+    },
+    "chest1": {
+      "type": "equipment",
+      "code": "chest1",
+      "usage": "chest",
+      "rarity": "common",
+      "dynamicStats": {
+        "armor": [
+          1,
+          5
+        ]
+      }
+    },
+    "chest2": {
+      "type": "equipment",
+      "code": "chest2",
+      "usage": "chest",
+      "rarity": "uncommon",
+      "dynamicStats": {
+        "armor": [
+          6,
+          10
+        ]
+      }
+    },
+    "chest3": {
+      "type": "equipment",
+      "code": "chest3",
+      "usage": "chest",
+      "rarity": "rare",
+      "dynamicStats": {
+        "armor": [
+          11,
+          15
+        ]
+      }
+    },
+    "chest4": {
+      "type": "equipment",
+      "code": "chest4",
+      "usage": "chest",
+      "rarity": "epic",
+      "dynamicStats": {
+        "armor": [
+          16,
+          20
+        ]
+      }
+    },
+    "chest5": {
+      "type": "equipment",
+      "code": "chest5",
+      "usage": "chest",
+      "rarity": "legendary",
+      "dynamicStats": {
+        "armor": [
+          21,
+          30
+        ]
+      }
+    },
+    "chest6": {
+      "type": "equipment",
+      "code": "chest6",
+      "usage": "chest",
+      "rarity": "mythic",
+      "dynamicStats": {
+        "armor": [
+          31,
+          40
+        ]
+      }
+    },
+    "boots1": {
+      "type": "equipment",
+      "code": "boots1",
+      "usage": "boots",
+      "rarity": "common",
+      "dynamicStats": {
+        "dodge": [
+          1,
+          5
+        ]
+      }
+    },
+    "boots2": {
+      "type": "equipment",
+      "code": "boots2",
+      "usage": "boots",
+      "rarity": "uncommon",
+      "dynamicStats": {
+        "dodge": [
+          6,
+          10
+        ]
+      }
+    },
+    "boots3": {
+      "type": "equipment",
+      "code": "boots3",
+      "usage": "boots",
+      "rarity": "rare",
+      "dynamicStats": {
+        "dodge": [
+          11,
+          15
+        ]
+      }
+    },
+    "boots4": {
+      "type": "equipment",
+      "code": "boots4",
+      "usage": "boots",
+      "rarity": "epic",
+      "dynamicStats": {
+        "dodge": [
+          16,
+          20
+        ]
+      }
+    },
+    "boots5": {
+      "type": "equipment",
+      "code": "boots5",
+      "usage": "boots",
+      "rarity": "legendary",
+      "dynamicStats": {
+        "dodge": [
+          21,
+          30
+        ]
+      }
+    },
+    "boots6": {
+      "type": "equipment",
+      "code": "boots6",
+      "usage": "boots",
+      "rarity": "mythic",
+      "dynamicStats": {
+        "dodge": [
+          31,
+          40
+        ]
+      }
+    },
+    "gloves1": {
+      "type": "equipment",
+      "code": "gloves1",
+      "usage": "gloves",
+      "rarity": "common",
+      "dynamicStats": {
+        "precision": [
+          1,
+          5
+        ]
+      }
+    },
+    "gloves2": {
+      "type": "equipment",
+      "code": "gloves2",
+      "usage": "gloves",
+      "rarity": "uncommon",
+      "dynamicStats": {
+        "precision": [
+          6,
+          10
+        ]
+      }
+    },
+    "gloves3": {
+      "type": "equipment",
+      "code": "gloves3",
+      "usage": "gloves",
+      "rarity": "rare",
+      "dynamicStats": {
+        "precision": [
+          11,
+          15
+        ]
+      }
+    },
+    "gloves4": {
+      "type": "equipment",
+      "code": "gloves4",
+      "usage": "gloves",
+      "rarity": "epic",
+      "dynamicStats": {
+        "precision": [
+          16,
+          20
+        ]
+      }
+    },
+    "gloves5": {
+      "type": "equipment",
+      "code": "gloves5",
+      "usage": "gloves",
+      "rarity": "legendary",
+      "dynamicStats": {
+        "precision": [
+          21,
+          30
+        ]
+      }
+    },
+    "gloves6": {
+      "type": "equipment",
+      "code": "gloves6",
+      "usage": "gloves",
+      "rarity": "mythic",
+      "dynamicStats": {
+        "precision": [
+          31,
+          40
+        ]
+      }
+    },
+    "pants1": {
+      "usage": "pants",
+      "type": "equipment",
+      "code": "pants1",
+      "rarity": "common",
+      "dynamicStats": {
+        "armor": [
+          1,
+          5
+        ]
+      }
+    },
+    "pants2": {
+      "usage": "pants",
+      "type": "equipment",
+      "code": "pants2",
+      "rarity": "uncommon",
+      "dynamicStats": {
+        "armor": [
+          6,
+          10
+        ]
+      }
+    },
+    "pants3": {
+      "usage": "pants",
+      "type": "equipment",
+      "code": "pants3",
+      "rarity": "rare",
+      "dynamicStats": {
+        "armor": [
+          11,
+          15
+        ]
+      }
+    },
+    "pants4": {
+      "usage": "pants",
+      "type": "equipment",
+      "code": "pants4",
+      "rarity": "epic",
+      "dynamicStats": {
+        "armor": [
+          16,
+          20
+        ]
+      }
+    },
+    "pants5": {
+      "usage": "pants",
+      "type": "equipment",
+      "code": "pants5",
+      "rarity": "legendary",
+      "dynamicStats": {
+        "armor": [
+          21,
+          30
+        ]
+      }
+    },
+    "pants6": {
+      "usage": "pants",
+      "type": "equipment",
+      "code": "pants6",
+      "rarity": "mythic",
+      "dynamicStats": {
+        "armor": [
+          31,
+          40
+        ]
+      }
+    }
+  },
+  "referral": {
+    "levelNeededForBadge": 15,
+    "moneyForBeingReferred": 10,
+    "lifeTimeBadgeMoneySharePercent": 10,
+    "canSetReferrerBeforeOrAtLevel": 10
+  },
+  "region": {
+    "maxResistance": 40,
+    "minDailyResistance": 1,
+    "maxDailyResistance": 4,
+    "transferDaysCooldown": 5,
+    "regionNotLinkedToCapitalMalusDevelopmentPercent": 50,
+    "resourcesBonus": {
+      "1": 5,
+      "2": 0.5,
+      "3": 0.25
+    },
+    "depleteHourlyPercent": 0.5,
+    "increaseResistanceCost": 40,
+    "decreaseResistanceCost": 30,
+    "increaseBy": 5,
+    "decreaseBy": 5
+  },
+  "newspaper": {
+    "tipValue": 5,
+    "publishCost": 3,
+    "createArticleMinLevel": 5,
+    "tipMinLevel": 5
+  },
+  "country": {
+    "maxTaxAmount": 45,
+    "hijackedTaxPercentPerResistance": 1
+  },
+  "citizenshipApplication": {
+    "autoApprovalMaxPopulation": 5,
+    "autoApprovalEnabled": true
+  },
+  "government": {
+    "resistanceIncreasedCooldownInHours": 6,
+    "resistanceDecreasedCooldownInHours": 3
+  },
+  "mission": {
+    "reward": {
+      "daily": {
+        "xp": 10,
+        "xpWhenFinished": 100,
+        "cases": 1,
+        "money": 10
+      },
+      "weekly": {
+        "xp": 30,
+        "xpWhenFinished": 300,
+        "cases": 3,
+        "money": 30
+      },
+      "monthly": {
+        "xp": 50,
+        "xpWhenFinished": 500,
+        "cases": 5,
+        "money": 50
+      },
+      "starting": {
+        "xp": 50,
+        "xpWhenFinished": 500,
+        "cases": 5,
+        "money": 50
+      }
+    },
+    "rerollMissionCost": {
+      "0": 0,
+      "1": 2,
+      "2": 4,
+      "3": 6,
+      "4": 8,
+      "5": 10,
+      "6": 12,
+      "7": 14,
+      "8": 16,
+      "9": 18,
+      "10": 20,
+      "11": 22,
+      "12": 24,
+      "13": 26,
+      "14": 28,
+      "15": 30,
+      "16": 32,
+      "17": 34,
+      "18": 36,
+      "19": 38,
+      "20": 40
+    }
+  }
+}

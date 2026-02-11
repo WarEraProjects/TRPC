@@ -1,0 +1,40 @@
+{
+  "stats": {
+    "investedMoney": 0
+  },
+  "dates": {
+    "lastOwnershipChangeAt": "2026-01-17T07:34:04.005Z"
+  },
+  "_id": "696a81f5882256e1db11821a",
+  "code": "ru-tver-and-smolensk",
+  "country": "6813b6d446e731854c7ac7b8",
+  "initialCountry": "6813b6d546e731854c7ac868",
+  "neighbors": [
+    "6813b70a9403bc4170a5da14",
+    "6813b70a9403bc4170a5da17",
+    "6813b70a9403bc4170a5da1a",
+    "696a81f5882256e1db11821c",
+    "6813b70a9403bc4170a5da56",
+    "6813b70b9403bc4170a5da62"
+  ],
+  "isCapital": false,
+  "isLinkedToCapital": true,
+  "name": "Tver and Smolensk",
+  "mainCity": "Tver",
+  "development": 3.66,
+  "baseDevelopment": 3.66,
+  "countryCode": "ru",
+  "position": [
+    35.9176,
+    56.8587
+  ],
+  "biome": "forest",
+  "climate": "moderate",
+  "upgradesV2": {
+    "upgrades": {}
+  },
+  "__v": 1,
+  "resistance": 25,
+  "activeUpgradeLevels": {},
+  "strategicResource": "gold"
+}

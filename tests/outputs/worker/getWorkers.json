@@ -1,0 +1,13 @@
+{
+  "type": "user",
+  "workersPerCompany": [
+    {
+      "company": {
+        "_id": "698c6d3dc0bfa63535b7cc00",
+        "name": "My first company",
+        "itemCode": "livestock"
+      },
+      "workers": []
+    }
+  ]
+}

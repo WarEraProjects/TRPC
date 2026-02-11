@@ -1,0 +1,28 @@
+{
+    "rankings": [
+        {
+            "country": "6813b6d446e731854c7ac7aa",
+            "value": 33818,
+            "rank": 1,
+            "_id": "698ccfd2d57783925c3ece60"
+        },
+        {
+            "country": "6813b6d446e731854c7ac7ac",
+            "value": 2817,
+            "rank": 2,
+            "_id": "698ccfd2d57783925c3ece61"
+        },
+        {
+            "country": "6813b6d546e731854c7ac8c1",
+            "value": 917,
+            "rank": 3,
+            "_id": "698ccfd2d57783925c3ece62"
+        },
+        {
+            "country": "6813b6d546e731854c7ac848",
+            "value": 61,
+            "rank": 4,
+            "_id": "698ccfd2d57783925c3ece63"
+        }
+    ]
+}

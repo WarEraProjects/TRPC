@@ -1,0 +1,26 @@
+{
+  "buyOrders": [
+    {
+      "_id": "698cc92320737bc4c302a505",
+      "user": "6870727cee16d37c41a266e6",
+      "itemCode": "cookedFish",
+      "quantity": 30,
+      "price": 7.459,
+      "offerAt": "2026-02-11T18:23:31.926Z",
+      "type": "buy",
+      "__v": 0
+    }
+  ],
+  "sellOrders": [
+    {
+      "_id": "698cced3a2d06278b1e5265f",
+      "user": "696ff31d91307f1d7c562bb2",
+      "itemCode": "cookedFish",
+      "quantity": 20,
+      "price": 7.46,
+      "offerAt": "2026-02-11T18:47:47.732Z",
+      "type": "sell",
+      "__v": 0
+    }
+  ]
+}

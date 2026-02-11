@@ -1,0 +1,205 @@
+{
+  "items": [
+    {
+      "_id": "698c8fd9ac44388ff1982374",
+      "money": 3.2399999999999998,
+      "itemCode": "lightAmmo",
+      "quantity": 18,
+      "sellerId": "698b9dc5f5484d3f8eb3b61f",
+      "buyerId": "68f375b2717cdbc7b6a215fc",
+      "transactionType": "trading",
+      "offerCreatedAt": "2026-02-11T13:10:30.250Z",
+      "createdAt": "2026-02-11T14:19:05.606Z",
+      "updatedAt": "2026-02-11T14:19:05.606Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd65da07e6f865429f0",
+      "itemCode": "case1",
+      "quantity": 1,
+      "sellerId": "68414f9d4f7936ec89507ca9",
+      "buyerId": "68414f9d4f7936ec89507ca9",
+      "transactionType": "openCase",
+      "item": {
+        "_id": "698c8fd65da07e6f865429ea",
+        "code": "gun",
+        "skills": {
+          "attack": 57,
+          "criticalChance": 6
+        },
+        "state": 100,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-11T14:19:02.799Z"
+      },
+      "createdAt": "2026-02-11T14:19:02.801Z",
+      "updatedAt": "2026-02-11T14:19:02.801Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd65da07e6f865429ee",
+      "itemCode": "case1",
+      "quantity": 1,
+      "sellerId": "68414f9d4f7936ec89507ca9",
+      "buyerId": "68414f9d4f7936ec89507ca9",
+      "transactionType": "openCase",
+      "item": {
+        "_id": "698c8fd65da07e6f865429e6",
+        "type": "equipment",
+        "code": "boots1",
+        "skills": {
+          "dodge": 1
+        },
+        "state": 100,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-11T14:19:02.798Z"
+      },
+      "createdAt": "2026-02-11T14:19:02.801Z",
+      "updatedAt": "2026-02-11T14:19:02.801Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd65da07e6f865429ec",
+      "itemCode": "case1",
+      "quantity": 1,
+      "sellerId": "68414f9d4f7936ec89507ca9",
+      "buyerId": "68414f9d4f7936ec89507ca9",
+      "transactionType": "openCase",
+      "item": {
+        "_id": "698c8fd65da07e6f865429e3",
+        "code": "gun",
+        "skills": {
+          "attack": 56,
+          "criticalChance": 10
+        },
+        "state": 100,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-11T14:19:02.797Z"
+      },
+      "createdAt": "2026-02-11T14:19:02.801Z",
+      "updatedAt": "2026-02-11T14:19:02.801Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd55da07e6f86542722",
+      "itemCode": "case1",
+      "quantity": 1,
+      "sellerId": "698ba21d6bc7e7077de4882a",
+      "buyerId": "698ba21d6bc7e7077de4882a",
+      "transactionType": "openCase",
+      "item": {
+        "_id": "698c8fd55da07e6f8654271f",
+        "type": "equipment",
+        "code": "boots1",
+        "skills": {
+          "dodge": 1
+        },
+        "state": 100,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-11T14:19:01.881Z"
+      },
+      "createdAt": "2026-02-11T14:19:01.883Z",
+      "updatedAt": "2026-02-11T14:19:01.883Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd5d35f974220893e5d",
+      "itemCode": "case1",
+      "quantity": 1,
+      "sellerId": "682642756e32adde13c50b80",
+      "buyerId": "682642756e32adde13c50b80",
+      "transactionType": "openCase",
+      "item": {
+        "_id": "698c8fd5d35f974220893e5b",
+        "code": "knife",
+        "skills": {
+          "attack": 36,
+          "criticalChance": 2
+        },
+        "state": 100,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-11T14:19:01.290Z"
+      },
+      "createdAt": "2026-02-11T14:19:01.292Z",
+      "updatedAt": "2026-02-11T14:19:01.292Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd368c173a3408a499b",
+      "itemCode": "case1",
+      "quantity": 1,
+      "sellerId": "682642756e32adde13c50b80",
+      "buyerId": "682642756e32adde13c50b80",
+      "transactionType": "openCase",
+      "item": {
+        "_id": "698c8fd368c173a3408a4998",
+        "type": "equipment",
+        "code": "gloves2",
+        "skills": {
+          "precision": 8
+        },
+        "state": 100,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-11T14:18:59.334Z"
+      },
+      "createdAt": "2026-02-11T14:18:59.336Z",
+      "updatedAt": "2026-02-11T14:18:59.336Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd321c06469ee7ed215",
+      "itemCode": "scraps",
+      "quantity": 6,
+      "sellerId": "698c821856f71dd4251c4d4e",
+      "buyerId": "698c821856f71dd4251c4d4e",
+      "transactionType": "craftItem",
+      "item": {
+        "_id": "698c8fd321c06469ee7ed20e",
+        "type": "equipment",
+        "code": "boots1",
+        "skills": {
+          "dodge": 5
+        },
+        "state": 100,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-11T14:18:59.328Z"
+      },
+      "createdAt": "2026-02-11T14:18:59.332Z",
+      "updatedAt": "2026-02-11T14:18:59.332Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd256f71dd42526bffc",
+      "money": 104.58,
+      "itemCode": "lightAmmo",
+      "quantity": 581,
+      "sellerId": "68ff70b2ddd6dbcaaf468fc7",
+      "buyerId": "68f375b2717cdbc7b6a215fc",
+      "transactionType": "trading",
+      "offerCreatedAt": "2026-02-11T13:10:30.250Z",
+      "createdAt": "2026-02-11T14:18:58.624Z",
+      "updatedAt": "2026-02-11T14:18:58.624Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8fd256f71dd42526bfe2",
+      "money": 3.2399999999999998,
+      "itemCode": "lightAmmo",
+      "quantity": 18,
+      "sellerId": "68ff70b2ddd6dbcaaf468fc7",
+      "buyerId": "69602b43adaed5be35cb7532",
+      "transactionType": "trading",
+      "offerCreatedAt": "2026-02-11T14:16:48.758Z",
+      "createdAt": "2026-02-11T14:18:58.586Z",
+      "updatedAt": "2026-02-11T14:18:58.586Z",
+      "__v": 0
+    }
+  ],
+  "nextCursor": "Wed Feb 11 2026 14:18:58 GMT+0000 (Coordinated Universal Time)|698c8fd256f71dd42526bfe2"
+}

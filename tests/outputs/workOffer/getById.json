@@ -1,0 +1,14 @@
+{
+  "_id": "698c8442533a9ab4f388a576",
+  "company": "69340170aa3efacf86bd7485",
+  "user": "692b4535cd8db09190b8b8c8",
+  "region": "6813b7089403bc4170a5d91b",
+  "quantity": 1,
+  "initialQuantity": 1,
+  "wage": 0.126,
+  "minEnergy": 25,
+  "minProduction": 50,
+  "createdAt": "2026-02-11T13:29:38.908Z",
+  "updatedAt": "2026-02-11T13:29:38.908Z",
+  "__v": 0
+}

@@ -1,0 +1,2820 @@
+{
+  "items": [
+    {
+      "defender": {
+        "region": "6873d11494e6b3b7989a4bed",
+        "country": "6873d0ea1758b40e712b5eed",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "683ddd2c24b5a2e114af1600",
+          "6873d0ea1758b40e712b5eed"
+        ],
+        "muOrders": [
+          "6873f7ef5eb6b8bf7c1d2078"
+        ],
+        "damages": 0,
+        "hitCount": 61
+      },
+      "attacker": {
+        "region": "6873d11494e6b3b7989a4bf0",
+        "country": "6813b6d446e731854c7ac7e5",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d446e731854c7ac7ef"
+        ],
+        "muOrders": [],
+        "damages": 0,
+        "hitCount": 85,
+        "moneyPer1kDamages": 0.1,
+        "moneyPool": 22.794300000000003
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c785c21c06469ee6140ee",
+      "war": "698965ab14b4297da0a7c8d1",
+      "rounds": [
+        "698c785c21c06469ee6140f0"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": false,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T12:38:52.487Z",
+      "updatedAt": "2026-02-11T14:09:19.940Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6813b6d446e731854c7ac7e5",
+          "damages": 55779,
+          "points": 47,
+          "lastHits": [
+            {
+              "_id": "698c8d8f8bdebdf66d564b7d",
+              "user": "695c6e3ffb75e9229fb7f417",
+              "damages": 276,
+              "mu": "69850075019f541a80774a2f",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:09:19.940Z",
+              "weapon": {
+                "_id": "6987094c7cf831a523e7355d",
+                "code": "gun",
+                "skills": {
+                  "attack": 57,
+                  "criticalChance": 9
+                },
+                "state": 4,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-07T09:43:40.539Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8c4be2e07c537d3a383f",
+              "user": "698b7e0b46ddb740cc5ebbf4",
+              "damages": 54,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:03:55.683Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8b862e96c13ef4e74cfb",
+              "user": "695b6b003ae9eac7fb9c8ae1",
+              "damages": 288,
+              "mu": "69750c85956e76e05a2404d1",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:00:38.148Z",
+              "weapon": {
+                "_id": "6989e95519f338518a21660c",
+                "code": "rifle",
+                "skills": {
+                  "attack": 83,
+                  "criticalChance": 11
+                },
+                "state": 10,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T14:04:05.107Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8972549b8398fe0d6a7b",
+              "user": "698b7e0b46ddb740cc5ebbf4",
+              "damages": 55,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:51:46.240Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c897090b70ac76dccfe2a",
+              "user": "698b7e0b46ddb740cc5ebbf4",
+              "damages": 107,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:51:44.880Z",
+              "weapon": null,
+              "ammo": null
+            }
+          ],
+          "hitCount": 85
+        },
+        "defender": {
+          "country": "6873d0ea1758b40e712b5eed",
+          "damages": 42599,
+          "points": 2,
+          "lastHits": [
+            {
+              "_id": "698c8d78c30eb8c1c7d61aeb",
+              "user": "68f905ed11af965417ebe6e5",
+              "damages": 673,
+              "mu": "68fba5fc1e6dc00c9dc82823",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:08:56.532Z",
+              "weapon": {
+                "_id": "695efd0524420837e5a99c61",
+                "code": "rifle",
+                "skills": {
+                  "attack": 86,
+                  "criticalChance": 15
+                },
+                "state": 52,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-08T00:40:37.349Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c89ee3413a1d9407ce0f2",
+              "user": "691880de8510e269282a58e8",
+              "damages": 211,
+              "mu": "687d7183cda83bb23cd737cf",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:53:50.744Z",
+              "weapon": {
+                "_id": "69894daa9af25b35c70fdefd",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 15
+                },
+                "state": 56,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T02:59:54.912Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c89ed21c06469ee79800a",
+              "user": "691880de8510e269282a58e8",
+              "damages": 1116,
+              "mu": "687d7183cda83bb23cd737cf",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:53:49.576Z",
+              "weapon": {
+                "_id": "69894daa9af25b35c70fdefd",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 15
+                },
+                "state": 57,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T02:59:54.912Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c89ec21c06469ee797e7a",
+              "user": "691880de8510e269282a58e8",
+              "damages": 456,
+              "mu": "687d7183cda83bb23cd737cf",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:53:48.532Z",
+              "weapon": {
+                "_id": "69894daa9af25b35c70fdefd",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 15
+                },
+                "state": 58,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T02:59:54.912Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c85c3e2e07c537d33004e",
+              "user": "6976156efa12e692386deb78",
+              "damages": 310,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:36:03.933Z",
+              "weapon": {
+                "_id": "698873b1ad2758110feb63ef",
+                "code": "sniper",
+                "skills": {
+                  "attack": 110,
+                  "criticalChance": 16
+                },
+                "state": 29,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-08T11:29:53.449Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 61
+        },
+        "live": {
+          "ticksCount": 49,
+          "actualTickPoints": 1,
+          "nextTickAt": "2026-02-11T14:19:00.296Z"
+        },
+        "_id": "698c785c21c06469ee6140f0",
+        "battle": "698c785c21c06469ee6140ee",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T12:38:52.489Z",
+        "updatedAt": "2026-02-11T14:17:02.369Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6813b7059403bc4170a5d750",
+        "country": "6813b6d446e731854c7ac7b6",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6873d0ea1758b40e712b5f5c",
+          "6813b6d446e731854c7ac80e",
+          "6813b6d446e731854c7ac7f5",
+          "6813b6d546e731854c7ac87d"
+        ],
+        "muOrders": [
+          "6873ed1806cf11a5f9dc3ecf",
+          "687ec41718a81e2fad1d924d"
+        ],
+        "damages": 0,
+        "hitCount": 416
+      },
+      "attacker": {
+        "region": "6813b7059403bc4170a5d756",
+        "country": "6813b6d446e731854c7ac7b2",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d446e731854c7ac7be",
+          "6813b6d446e731854c7ac7a2",
+          "6813b6d446e731854c7ac7eb",
+          "6813b6d446e731854c7ac7b2",
+          "6813b6d446e731854c7ac7e8",
+          "683ddd2c24b5a2e114af1612",
+          "696a81da63e2489f47e5a28c",
+          "683ddd2c24b5a2e114af1606",
+          "683ddd2c24b5a2e114af15c3"
+        ],
+        "muOrders": [
+          "696baec5c9c4e2ee34bf004f",
+          "6886502bdb293829ac2d83ff",
+          "689f69064e095b8b9f1b885a",
+          "6874887c99753486f9eee8b0",
+          "68c15f29ee5e6f706b3314b1",
+          "6984779a732d3ee6deb08e28",
+          "6878edf02af76eb336767a7c",
+          "68b637f9a0e25720a775b728",
+          "696555d7cde9ff82a479dffd",
+          "68ea0e16e1fc701519b79ee7",
+          "6973b4d3eed64c805d54bd07",
+          "68c5e3a9b762d7b2c0611882",
+          "68b974d6c651a66b2ddf12f3"
+        ],
+        "damages": 0,
+        "hitCount": 936
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c67e2c0bfa63535b1b0d6",
+      "war": "689606f566ab3ba1bddd73df",
+      "rounds": [
+        "698c67e2c0bfa63535b1b0d9"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": false,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T11:28:34.294Z",
+      "updatedAt": "2026-02-11T14:17:49.400Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6813b6d446e731854c7ac7b2",
+          "damages": 888098,
+          "points": 73,
+          "lastHits": [
+            {
+              "_id": "698c8f8d475ea91643c2bace",
+              "user": "68fde31a9cbc5eb6c3cfea2f",
+              "damages": 598,
+              "mu": "6874887c99753486f9eee8b0",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:17:49.399Z",
+              "weapon": {
+                "_id": "698afdb6855e1ab9d67144bb",
+                "code": "sniper",
+                "skills": {
+                  "attack": 102,
+                  "criticalChance": 17
+                },
+                "state": 75,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T09:43:18.532Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8f7e067d5663f160cd6c",
+              "user": "68fde31a9cbc5eb6c3cfea2f",
+              "damages": 1084,
+              "mu": "6874887c99753486f9eee8b0",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:17:34.457Z",
+              "weapon": {
+                "_id": "698afdb6855e1ab9d67144bb",
+                "code": "sniper",
+                "skills": {
+                  "attack": 102,
+                  "criticalChance": 17
+                },
+                "state": 76,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T09:43:18.532Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8f7dd35f974220890016",
+              "user": "696a31fdf8fa9f2c17ebd8b3",
+              "damages": 314,
+              "mu": "696555d7cde9ff82a479dffd",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:17:33.939Z",
+              "weapon": {
+                "_id": "696ccdbc13bb46a94963cbcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 57,
+                  "criticalChance": 8
+                },
+                "state": 49,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-18T12:10:36.368Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f7c067d5663f160c92e",
+              "user": "696a31fdf8fa9f2c17ebd8b3",
+              "damages": 164,
+              "mu": "696555d7cde9ff82a479dffd",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:17:32.968Z",
+              "weapon": {
+                "_id": "696ccdbc13bb46a94963cbcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 57,
+                  "criticalChance": 8
+                },
+                "state": 50,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-18T12:10:36.368Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f7c0de4ceaa070c1f0a",
+              "user": "696a31fdf8fa9f2c17ebd8b3",
+              "damages": 170,
+              "mu": "696555d7cde9ff82a479dffd",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:17:32.250Z",
+              "weapon": {
+                "_id": "696ccdbc13bb46a94963cbcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 57,
+                  "criticalChance": 8
+                },
+                "state": 51,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-18T12:10:36.368Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 936
+        },
+        "defender": {
+          "country": "6813b6d446e731854c7ac7b6",
+          "damages": 415390,
+          "points": 11,
+          "lastHits": [
+            {
+              "_id": "698c8d9968c173a3408813a6",
+              "user": "6975f84e8928a96cd2272c06",
+              "damages": 123,
+              "mu": "689c3cb9053f8fbb3fe92cdd",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:09:29.442Z",
+              "weapon": {
+                "_id": "6987f787b0b2351dbe3d4f61",
+                "code": "knife",
+                "skills": {
+                  "attack": 36,
+                  "criticalChance": 2
+                },
+                "state": 18,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-08T02:40:07.936Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8d7fc30eb8c1c7d64702",
+              "user": "687b687445fea55d1835f075",
+              "damages": 138,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:09:03.921Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8cb4186391cbb6ce4929",
+              "user": "695e2a5115e487bcb51add97",
+              "damages": 222,
+              "mu": "6873ed1806cf11a5f9dc3ecf",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:05:40.564Z",
+              "weapon": {
+                "_id": "6980458ee913e0a8432c0889",
+                "code": "rifle",
+                "skills": {
+                  "attack": 77,
+                  "criticalChance": 12
+                },
+                "state": 75,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-02T06:34:54.497Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8cb23413a1d940809cef",
+              "user": "695e2a5115e487bcb51add97",
+              "damages": 1285,
+              "mu": "6873ed1806cf11a5f9dc3ecf",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:05:38.186Z",
+              "weapon": {
+                "_id": "6980458ee913e0a8432c0889",
+                "code": "rifle",
+                "skills": {
+                  "attack": 77,
+                  "criticalChance": 12
+                },
+                "state": 76,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-02T06:34:54.497Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8c68186391cbb6cdcc20",
+              "user": "68e2bbaf1c943635b82285ed",
+              "damages": 148,
+              "mu": "697f917064b9c8386b918a92",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:04:24.991Z",
+              "weapon": null,
+              "ammo": null
+            }
+          ],
+          "hitCount": 416
+        },
+        "live": {
+          "ticksCount": 84,
+          "actualTickPoints": 1,
+          "nextTickAt": "2026-02-11T14:19:00.271Z"
+        },
+        "_id": "698c67e2c0bfa63535b1b0d9",
+        "battle": "698c67e2c0bfa63535b1b0d6",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T11:28:34.295Z",
+        "updatedAt": "2026-02-11T14:17:49.400Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6873d11694e6b3b7989a4c8f",
+        "country": "6873d0ea1758b40e712b5f4c",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6873d0ea1758b40e712b5f4c",
+          "683ddd2c24b5a2e114af15b7"
+        ],
+        "muOrders": [
+          "691c988acc751d7f4585c059"
+        ],
+        "damages": 0,
+        "hitCount": 25
+      },
+      "attacker": {
+        "country": "6873d0ea1758b40e712b5ef5",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6873d0ea1758b40e712b5ef5"
+        ],
+        "muOrders": [
+          "695a866b31f299b219efb72b"
+        ],
+        "damages": 0,
+        "hitCount": 33
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c67c23413a1d940598dc3",
+      "war": "698c59be2e96c13ef4b35f93",
+      "rounds": [
+        "698c67c23413a1d940598dc5"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": true,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T11:28:02.908Z",
+      "updatedAt": "2026-02-11T14:09:40.680Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6873d0ea1758b40e712b5ef5",
+          "damages": 9314,
+          "points": 1,
+          "lastHits": [
+            {
+              "_id": "698c8da468c173a340883971",
+              "user": "687b687445fea55d1835f075",
+              "damages": 317,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:09:40.680Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8c3c475ea91643bf2de4",
+              "user": "694d8b42d792579fa9561993",
+              "damages": 90,
+              "mu": "695a866b31f299b219efb72b",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:03:40.471Z",
+              "weapon": {
+                "_id": "695361a7acdca89d86459f42",
+                "code": "knife",
+                "skills": {
+                  "attack": 28,
+                  "criticalChance": 1
+                },
+                "state": 12,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2025-12-30T05:22:47.508Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8c3c2e96c13ef4e8bd6b",
+              "user": "694d8b42d792579fa9561993",
+              "damages": 91,
+              "mu": "695a866b31f299b219efb72b",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:03:40.132Z",
+              "weapon": {
+                "_id": "695361a7acdca89d86459f42",
+                "code": "knife",
+                "skills": {
+                  "attack": 28,
+                  "criticalChance": 1
+                },
+                "state": 13,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2025-12-30T05:22:47.508Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8c3bdd9e99868555816c",
+              "user": "694d8b42d792579fa9561993",
+              "damages": 195,
+              "mu": "695a866b31f299b219efb72b",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:03:39.713Z",
+              "weapon": {
+                "_id": "695361a7acdca89d86459f42",
+                "code": "knife",
+                "skills": {
+                  "attack": 28,
+                  "criticalChance": 1
+                },
+                "state": 14,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2025-12-30T05:22:47.508Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8c3b5da07e6f8650cdfa",
+              "user": "694d8b42d792579fa9561993",
+              "damages": 369,
+              "mu": "695a866b31f299b219efb72b",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:03:39.287Z",
+              "weapon": {
+                "_id": "695361a7acdca89d86459f42",
+                "code": "knife",
+                "skills": {
+                  "attack": 28,
+                  "criticalChance": 1
+                },
+                "state": 15,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2025-12-30T05:22:47.508Z"
+              },
+              "ammo": null
+            }
+          ],
+          "hitCount": 33
+        },
+        "defender": {
+          "country": "6873d0ea1758b40e712b5f4c",
+          "damages": 25216,
+          "points": 83,
+          "lastHits": [
+            {
+              "_id": "698c736d74831a9507d6fa30",
+              "user": "68e8d2f628460d68b674ea91",
+              "damages": 983,
+              "mu": null,
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T12:17:49.120Z",
+              "weapon": {
+                "_id": "695c94372c5a585646b52811",
+                "code": "rifle",
+                "skills": {
+                  "attack": 75,
+                  "criticalChance": 15
+                },
+                "state": 7,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-06T04:48:55.831Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c7363ac44388ff1807020",
+              "user": "68e8d2f628460d68b674ea91",
+              "damages": 173,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T12:17:39.916Z",
+              "weapon": {
+                "_id": "695c94372c5a585646b52811",
+                "code": "rifle",
+                "skills": {
+                  "attack": 75,
+                  "criticalChance": 15
+                },
+                "state": 8,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-06T04:48:55.831Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c7360067d5663f146395e",
+              "user": "68e8d2f628460d68b674ea91",
+              "damages": 374,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T12:17:36.962Z",
+              "weapon": {
+                "_id": "695c94372c5a585646b52811",
+                "code": "rifle",
+                "skills": {
+                  "attack": 75,
+                  "criticalChance": 15
+                },
+                "state": 9,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-06T04:48:55.831Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c735cd35f9742206b6a25",
+              "user": "68e8d2f628460d68b674ea91",
+              "damages": 1019,
+              "mu": null,
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T12:17:32.898Z",
+              "weapon": {
+                "_id": "695c94372c5a585646b52811",
+                "code": "rifle",
+                "skills": {
+                  "attack": 75,
+                  "criticalChance": 15
+                },
+                "state": 10,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-06T04:48:55.831Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c735468c173a3407142d4",
+              "user": "68e8d2f628460d68b674ea91",
+              "damages": 387,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T12:17:24.648Z",
+              "weapon": {
+                "_id": "695c94372c5a585646b52811",
+                "code": "rifle",
+                "skills": {
+                  "attack": 75,
+                  "criticalChance": 15
+                },
+                "state": 11,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-06T04:48:55.831Z"
+              },
+              "ammo": "ammo"
+            }
+          ],
+          "hitCount": 25
+        },
+        "live": {
+          "ticksCount": 84,
+          "actualTickPoints": 1,
+          "nextTickAt": "2026-02-11T14:19:00.263Z"
+        },
+        "_id": "698c67c23413a1d940598dc5",
+        "battle": "698c67c23413a1d940598dc3",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T11:28:02.910Z",
+        "updatedAt": "2026-02-11T14:17:02.283Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "696a81f5882256e1db118228",
+        "country": "6813b6d446e731854c7ac79e",
+        "wonRoundsCount": 0,
+        "countryOrders": [],
+        "muOrders": [],
+        "damages": 0,
+        "hitCount": 168
+      },
+      "attacker": {
+        "region": "6813b70b9403bc4170a5da80",
+        "country": "6813b6d546e731854c7ac832",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d546e731854c7ac832",
+          "6873d0ea1758b40e712b5f2b"
+        ],
+        "muOrders": [
+          "6892c2a0b289f75a7db9da16",
+          "68852785a3685be8310798f8",
+          "68fd45872d0b627177e7eea4",
+          "6873ebf206cf11a5f9dbf7eb"
+        ],
+        "damages": 0,
+        "hitCount": 419
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c670d8bdebdf66d2f09ef",
+      "war": "6903ec5d3c5e15d5c265ba6d",
+      "rounds": [
+        "698c670d8bdebdf66d2f09f1"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": false,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T11:25:01.917Z",
+      "updatedAt": "2026-02-11T14:14:11.845Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6813b6d546e731854c7ac832",
+          "damages": 297150,
+          "points": 83,
+          "lastHits": [
+            {
+              "_id": "698c8eb33413a1d94082dd61",
+              "user": "6975b52837c8a5424d50314b",
+              "damages": 246,
+              "mu": "68fd45872d0b627177e7eea4",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:14:11.844Z",
+              "weapon": {
+                "_id": "698c781256f71dd42510583d",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 6
+                },
+                "state": 94,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-11T12:37:38.683Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8e1621c06469ee7d6b2c",
+              "user": "688ebbe3779d04817c4e9ae0",
+              "damages": 412,
+              "mu": "6873ebf206cf11a5f9dbf7eb",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:11:34.176Z",
+              "weapon": {
+                "_id": "6987d9802c44fa30e49c955a",
+                "code": "knife",
+                "skills": {
+                  "attack": 24,
+                  "criticalChance": 3
+                },
+                "state": 49,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-08T00:32:00.109Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8e1356f71dd42525d003",
+              "user": "688ebbe3779d04817c4e9ae0",
+              "damages": 418,
+              "mu": "6873ebf206cf11a5f9dbf7eb",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:11:31.899Z",
+              "weapon": {
+                "_id": "6987d9802c44fa30e49c955a",
+                "code": "knife",
+                "skills": {
+                  "attack": 24,
+                  "criticalChance": 3
+                },
+                "state": 50,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-08T00:32:00.109Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8e10dd9e99868557bac1",
+              "user": "688ebbe3779d04817c4e9ae0",
+              "damages": 1364,
+              "mu": "6873ebf206cf11a5f9dbf7eb",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:11:28.544Z",
+              "weapon": {
+                "_id": "6987d9802c44fa30e49c955a",
+                "code": "knife",
+                "skills": {
+                  "attack": 24,
+                  "criticalChance": 3
+                },
+                "state": 51,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-08T00:32:00.109Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8e0e0a1674d47d4047b6",
+              "user": "688ebbe3779d04817c4e9ae0",
+              "damages": 183,
+              "mu": "6873ebf206cf11a5f9dbf7eb",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:11:26.193Z",
+              "weapon": {
+                "_id": "6987d9802c44fa30e49c955a",
+                "code": "knife",
+                "skills": {
+                  "attack": 24,
+                  "criticalChance": 3
+                },
+                "state": 52,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-08T00:32:00.109Z"
+              },
+              "ammo": null
+            }
+          ],
+          "hitCount": 419
+        },
+        "defender": {
+          "country": "6813b6d446e731854c7ac79e",
+          "damages": 172029,
+          "points": 2,
+          "lastHits": [
+            {
+              "_id": "698c8dca186391cbb6cf8ec9",
+              "user": "6960e90acc472666cb90b5f6",
+              "damages": 191,
+              "mu": "68a0fb25b01695baa3f52def",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:10:18.325Z",
+              "weapon": {
+                "_id": "69723bc6aadefa3717fa087a",
+                "code": "rifle",
+                "skills": {
+                  "attack": 76,
+                  "criticalChance": 11
+                },
+                "state": 72,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-22T15:01:26.236Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8d773413a1d94081de6b",
+              "user": "687b687445fea55d1835f075",
+              "damages": 617,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:08:55.345Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8d0b186391cbb6cedef3",
+              "user": "6910ac5675802288140ff70c",
+              "damages": 1901,
+              "mu": "68a0fb25b01695baa3f52def",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:07:07.857Z",
+              "weapon": {
+                "_id": "696ece45bcd04419d1d8fcdc",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 11
+                },
+                "state": 69,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-20T00:37:25.173Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8cd9d365416295587174",
+              "user": "6910ac5675802288140ff70c",
+              "damages": 2037,
+              "mu": "68a0fb25b01695baa3f52def",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:06:17.835Z",
+              "weapon": {
+                "_id": "696ece45bcd04419d1d8fcdc",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 11
+                },
+                "state": 70,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-20T00:37:25.173Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8cd82e96c13ef4ea4fcf",
+              "user": "6910ac5675802288140ff70c",
+              "damages": 348,
+              "mu": "68a0fb25b01695baa3f52def",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:06:16.637Z",
+              "weapon": {
+                "_id": "696ece45bcd04419d1d8fcdc",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 11
+                },
+                "state": 71,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-20T00:37:25.173Z"
+              },
+              "ammo": "ammo"
+            }
+          ],
+          "hitCount": 168
+        },
+        "live": {
+          "ticksCount": 85,
+          "actualTickPoints": 1,
+          "nextTickAt": "2026-02-11T14:18:00.499Z"
+        },
+        "_id": "698c670d8bdebdf66d2f09f1",
+        "battle": "698c670d8bdebdf66d2f09ef",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T11:25:01.919Z",
+        "updatedAt": "2026-02-11T14:16:02.504Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6813b7069403bc4170a5d81f",
+        "country": "6813b6d446e731854c7ac7f8",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d446e731854c7ac7f8",
+          "6813b6d546e731854c7ac858",
+          "6813b6d446e731854c7ac808",
+          "6813b6d546e731854c7ac81d"
+        ],
+        "muOrders": [
+          "68b6097ca7bd5e832f88d39a",
+          "68a0c90107ff33d70c9fd56b",
+          "6911793297d62ac0d276cf93",
+          "6876841e7071f3c01bfe98a5",
+          "687b2ab34bab8aecb36c0ae4"
+        ],
+        "damages": 0,
+        "hitCount": 750,
+        "moneyPer1kDamages": 0.069,
+        "moneyPool": 49.546118
+      },
+      "attacker": {
+        "region": "6813b7069403bc4170a5d80a",
+        "country": "6813b6d546e731854c7ac83c",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d546e731854c7ac83c"
+        ],
+        "muOrders": [
+          "68a934a359ebef35178be8c0",
+          "68d9ca3b82c1ae97c8d6913a",
+          "68740e95fae6820f3c7daf35",
+          "6873e98a934fa3efd9f2443c",
+          "6895fa41d2bf43cdb3e6d2dc"
+        ],
+        "damages": 0,
+        "hitCount": 424
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c640b74831a9507c6bd15",
+      "war": "697c121ace6d2a319bdf957c",
+      "rounds": [
+        "698c640b74831a9507c6bd17"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": false,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T11:12:11.200Z",
+      "updatedAt": "2026-02-11T14:16:59.791Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6813b6d546e731854c7ac83c",
+          "damages": 293908,
+          "points": 70,
+          "lastHits": [
+            {
+              "_id": "698c8f49533a9ab4f394792a",
+              "user": "6951da962abbbb928025d324",
+              "damages": 1004,
+              "mu": "6873e98a934fa3efd9f2443c",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:16:41.097Z",
+              "weapon": {
+                "_id": "698931eee62f215311cd01f8",
+                "code": "rifle",
+                "skills": {
+                  "attack": 78,
+                  "criticalChance": 14
+                },
+                "state": 10,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T01:01:34.828Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8ef12e96c13ef4ec92ad",
+              "user": "6880d4e00a702b8f5529f55a",
+              "damages": 590,
+              "mu": "6873fa8736853585b90829cf",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:13.839Z",
+              "weapon": {
+                "_id": "697bfe0a3b8bd0ab3024de88",
+                "code": "rifle",
+                "skills": {
+                  "attack": 77,
+                  "criticalChance": 14
+                },
+                "state": 96,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-30T00:40:42.941Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8eea21c06469ee7e1312",
+              "user": "6880d4e00a702b8f5529f55a",
+              "damages": 1516,
+              "mu": "6873fa8736853585b90829cf",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:06.696Z",
+              "weapon": {
+                "_id": "697bfe0a3b8bd0ab3024de88",
+                "code": "rifle",
+                "skills": {
+                  "attack": 77,
+                  "criticalChance": 14
+                },
+                "state": 97,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-30T00:40:42.941Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8ee8dd9e9986855877e3",
+              "user": "6880d4e00a702b8f5529f55a",
+              "damages": 606,
+              "mu": "6873fa8736853585b90829cf",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:04.189Z",
+              "weapon": {
+                "_id": "697bfe0a3b8bd0ab3024de88",
+                "code": "rifle",
+                "skills": {
+                  "attack": 77,
+                  "criticalChance": 14
+                },
+                "state": 98,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-30T00:40:42.941Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8ee421c06469ee7df8d5",
+              "user": "6880d4e00a702b8f5529f55a",
+              "damages": 1681,
+              "mu": "6873fa8736853585b90829cf",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:00.132Z",
+              "weapon": {
+                "_id": "697bfe0a3b8bd0ab3024de88",
+                "code": "rifle",
+                "skills": {
+                  "attack": 77,
+                  "criticalChance": 14
+                },
+                "state": 99,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-30T00:40:42.941Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 424
+        },
+        "defender": {
+          "country": "6813b6d446e731854c7ac7f8",
+          "damages": 933314,
+          "points": 22,
+          "lastHits": [
+            {
+              "_id": "698c8f5b186391cbb6d22a92",
+              "user": "68e55d6341440cb58b75598e",
+              "damages": 369,
+              "mu": "6979db809a6b47ffc675aec0",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:16:59.790Z",
+              "weapon": {
+                "_id": "6982f4d910e902ca34e50169",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 9
+                },
+                "state": 91,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-04T07:27:21.877Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f5b533a9ab4f39496ed",
+              "user": "68e55d6341440cb58b75598e",
+              "damages": 164,
+              "mu": "6979db809a6b47ffc675aec0",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:16:59.481Z",
+              "weapon": {
+                "_id": "6982f4d910e902ca34e50169",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 9
+                },
+                "state": 92,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-04T07:27:21.877Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f5b0a1674d47d416b3b",
+              "user": "68e55d6341440cb58b75598e",
+              "damages": 945,
+              "mu": "6979db809a6b47ffc675aec0",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:16:59.158Z",
+              "weapon": {
+                "_id": "6982f4d910e902ca34e50169",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 9
+                },
+                "state": 93,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-04T07:27:21.877Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f5ae2e07c537d3e4b9a",
+              "user": "68e55d6341440cb58b75598e",
+              "damages": 1074,
+              "mu": "6979db809a6b47ffc675aec0",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:16:58.854Z",
+              "weapon": {
+                "_id": "6982f4d910e902ca34e50169",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 9
+                },
+                "state": 94,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-04T07:27:21.877Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f5a186391cbb6d21ba5",
+              "user": "68e55d6341440cb58b75598e",
+              "damages": 180,
+              "mu": "6979db809a6b47ffc675aec0",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:16:58.556Z",
+              "weapon": {
+                "_id": "6982f4d910e902ca34e50169",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 9
+                },
+                "state": 95,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-04T07:27:21.877Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 750
+        },
+        "live": {
+          "ticksCount": 92,
+          "actualTickPoints": 1,
+          "nextTickAt": "2026-02-11T14:19:00.270Z"
+        },
+        "_id": "698c640b74831a9507c6bd17",
+        "battle": "698c640b74831a9507c6bd15",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T11:12:11.202Z",
+        "updatedAt": "2026-02-11T14:17:02.290Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6813b7099403bc4170a5d9ba",
+        "country": "6813b6d546e731854c7ac858",
+        "wonRoundsCount": 0,
+        "countryOrders": [],
+        "muOrders": [],
+        "damages": 0,
+        "hitCount": 38
+      },
+      "attacker": {
+        "region": "6813b7089403bc4170a5d942",
+        "country": "6813b6d546e731854c7ac83c",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d546e731854c7ac83c"
+        ],
+        "muOrders": [
+          "68a934a359ebef35178be8c0",
+          "68d9ca3b82c1ae97c8d6913a",
+          "68740e95fae6820f3c7daf35",
+          "6873e98a934fa3efd9f2443c",
+          "6895fa41d2bf43cdb3e6d2dc"
+        ],
+        "damages": 0,
+        "hitCount": 238
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c639bc0bfa63535ac886d",
+      "war": "695ebca91e16247196d5d70a",
+      "rounds": [
+        "698c639bc0bfa63535ac886f"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": false,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T11:10:19.952Z",
+      "updatedAt": "2026-02-11T14:10:41.927Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6813b6d546e731854c7ac83c",
+          "damages": 190093,
+          "points": 93,
+          "lastHits": [
+            {
+              "_id": "698c8d4221c06469ee7cda06",
+              "user": "6917e8d8db65494c1bb35110",
+              "damages": 290,
+              "mu": "6895fa41d2bf43cdb3e6d2dc",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:08:02.761Z",
+              "weapon": {
+                "_id": "6970a9bc8db9904baaf2f317",
+                "code": "gun",
+                "skills": {
+                  "attack": 54,
+                  "criticalChance": 9
+                },
+                "state": 24,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-21T10:26:04.665Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8d310a1674d47d3ea3bc",
+              "user": "681def57ab50af38c93fe5c1",
+              "damages": 525,
+              "mu": "69692b7d115713497c44bb96",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:07:45.111Z",
+              "weapon": {
+                "_id": "698b5cd7855e1ab9d6e402db",
+                "code": "rifle",
+                "skills": {
+                  "attack": 83,
+                  "criticalChance": 14
+                },
+                "state": 47,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T16:29:11.469Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8d2f74831a9507f3c818",
+              "user": "681def57ab50af38c93fe5c1",
+              "damages": 532,
+              "mu": "69692b7d115713497c44bb96",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:07:43.719Z",
+              "weapon": {
+                "_id": "698b5cd7855e1ab9d6e402db",
+                "code": "rifle",
+                "skills": {
+                  "attack": 83,
+                  "criticalChance": 14
+                },
+                "state": 48,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T16:29:11.469Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8d2d21c06469ee7c81c3",
+              "user": "681def57ab50af38c93fe5c1",
+              "damages": 275,
+              "mu": "69692b7d115713497c44bb96",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:07:41.075Z",
+              "weapon": {
+                "_id": "698b5cd7855e1ab9d6e402db",
+                "code": "rifle",
+                "skills": {
+                  "attack": 83,
+                  "criticalChance": 14
+                },
+                "state": 49,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T16:29:11.469Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8d25ac44388ff195dc35",
+              "user": "681def57ab50af38c93fe5c1",
+              "damages": 508,
+              "mu": "69692b7d115713497c44bb96",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:07:33.627Z",
+              "weapon": {
+                "_id": "698b5cd7855e1ab9d6e402db",
+                "code": "rifle",
+                "skills": {
+                  "attack": 83,
+                  "criticalChance": 14
+                },
+                "state": 50,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T16:29:11.469Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 238
+        },
+        "defender": {
+          "country": "6813b6d546e731854c7ac858",
+          "damages": 6072,
+          "points": 0,
+          "lastHits": [
+            {
+              "_id": "698c8de10de4ceaa0708b1b7",
+              "user": "698c8a8221c06469ee7a2885",
+              "damages": 78,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:10:41.926Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8de1e2e07c537d3ceb29",
+              "user": "698c8a8221c06469ee7a2885",
+              "damages": 80,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:10:41.049Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8d6f8bdebdf66d5606df",
+              "user": "687b687445fea55d1835f075",
+              "damages": 614,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:08:47.881Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c7fadc30eb8c1c7c96451",
+              "user": "698bdbc456f71dd425a1d980",
+              "damages": 48,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:10:05.677Z",
+              "weapon": {
+                "_id": "698bdc5a0a1674d47dbc2ea1",
+                "code": "gun",
+                "skills": {
+                  "attack": 55,
+                  "criticalChance": 8
+                },
+                "state": 90,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-11T01:33:14.924Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c7c428bdebdf66d43ef72",
+              "user": "682946176eb7334102607230",
+              "damages": 142,
+              "mu": "6873e8e2f60e6c78cb43f06a",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T12:55:30.783Z",
+              "weapon": {
+                "_id": "698bdc2d0a1674d47dbc1913",
+                "code": "rifle",
+                "skills": {
+                  "attack": 80,
+                  "criticalChance": 13
+                },
+                "state": 78,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-11T01:32:29.239Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 38
+        },
+        "live": {
+          "ticksCount": 93,
+          "actualTickPoints": 1,
+          "nextTickAt": "2026-02-11T14:19:00.270Z"
+        },
+        "_id": "698c639bc0bfa63535ac886f",
+        "battle": "698c639bc0bfa63535ac886d",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T11:10:19.954Z",
+        "updatedAt": "2026-02-11T14:17:02.286Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6813b7069403bc4170a5d846",
+        "country": "6813b6d546e731854c7ac865",
+        "wonRoundsCount": 0,
+        "countryOrders": [],
+        "muOrders": [],
+        "damages": 0,
+        "hitCount": 262
+      },
+      "attacker": {
+        "region": "6813b70a9403bc4170a5da05",
+        "country": "6813b6d446e731854c7ac7b2",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d446e731854c7ac7b2",
+          "6873d0ea1758b40e712b5f3d",
+          "6813b6d446e731854c7ac7a2",
+          "696a81da63e2489f47e5a28c"
+        ],
+        "muOrders": [
+          "6874887c99753486f9eee8b0",
+          "6886502bdb293829ac2d83ff",
+          "6973b4d3eed64c805d54bd07"
+        ],
+        "damages": 0,
+        "hitCount": 352
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c614b5da07e6f86235916",
+      "war": "698621ba443461f213a2c09d",
+      "rounds": [
+        "698c614b5da07e6f86235918"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": false,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T11:00:27.689Z",
+      "updatedAt": "2026-02-11T14:17:21.761Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6813b6d446e731854c7ac7b2",
+          "damages": 199513,
+          "points": 96,
+          "lastHits": [
+            {
+              "_id": "698c8f71549b8398fe140e53",
+              "user": "698ba21d6bc7e7077de4882a",
+              "damages": 269,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:17:21.761Z",
+              "weapon": {
+                "_id": "698ba58e052b6e7b63634354",
+                "code": "rifle",
+                "skills": {
+                  "attack": 70,
+                  "criticalChance": 14
+                },
+                "state": 95,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T21:39:26.080Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f6a56f71dd4252695b4",
+              "user": "698ba21d6bc7e7077de4882a",
+              "damages": 271,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:17:14.018Z",
+              "weapon": {
+                "_id": "698ba58e052b6e7b63634354",
+                "code": "rifle",
+                "skills": {
+                  "attack": 70,
+                  "criticalChance": 14
+                },
+                "state": 96,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T21:39:26.080Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f6774831a9507f5c4bc",
+              "user": "698ba21d6bc7e7077de4882a",
+              "damages": 508,
+              "mu": null,
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:17:11.293Z",
+              "weapon": {
+                "_id": "698ba58e052b6e7b63634354",
+                "code": "rifle",
+                "skills": {
+                  "attack": 70,
+                  "criticalChance": 14
+                },
+                "state": 97,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T21:39:26.080Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f64afde15e082e6aac0",
+              "user": "698ba21d6bc7e7077de4882a",
+              "damages": 247,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:17:08.150Z",
+              "weapon": {
+                "_id": "698ba58e052b6e7b63634354",
+                "code": "rifle",
+                "skills": {
+                  "attack": 70,
+                  "criticalChance": 14
+                },
+                "state": 98,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T21:39:26.080Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8f5eafde15e082e68cb9",
+              "user": "698ba21d6bc7e7077de4882a",
+              "damages": 238,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:17:02.701Z",
+              "weapon": {
+                "_id": "698ba58e052b6e7b63634354",
+                "code": "rifle",
+                "skills": {
+                  "attack": 70,
+                  "criticalChance": 14
+                },
+                "state": 99,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-10T21:39:26.080Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 352
+        },
+        "defender": {
+          "country": "6813b6d546e731854c7ac865",
+          "damages": 111285,
+          "points": 2,
+          "lastHits": [
+            {
+              "_id": "698c8f00186391cbb6d15662",
+              "user": "696ffc9db74dc09afb67d289",
+              "damages": 130,
+              "mu": "694f5280bdda44c7213e7aa0",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:28.531Z",
+              "weapon": {
+                "_id": "697dc40fe57f6f1cb108dc66",
+                "code": "knife",
+                "skills": {
+                  "attack": 20,
+                  "criticalChance": 4
+                },
+                "state": 10,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-31T08:57:51.867Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8c56e2e07c537d3ad093",
+              "user": "6972c23911016f295ac9ae83",
+              "damages": 192,
+              "mu": "689c3cb9053f8fbb3fe92cdd",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:04:06.768Z",
+              "weapon": {
+                "_id": "698924687a5ce7209c41c065",
+                "code": "gun",
+                "skills": {
+                  "attack": 57,
+                  "criticalChance": 9
+                },
+                "state": 5,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T00:03:52.692Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8c1bc30eb8c1c7d57d28",
+              "user": "697b9c4b9ca8338d835cdbf6",
+              "damages": 140,
+              "mu": "6955d716d522007ff61caeff",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:03:07.965Z",
+              "weapon": {
+                "_id": "698b87cb852386695beaefe7",
+                "code": "knife",
+                "skills": {
+                  "attack": 40,
+                  "criticalChance": 4
+                },
+                "state": 84,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T08:43:37.880Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8c102e96c13ef4e817b0",
+              "user": "6962c5b04731ec7d7304ad3a",
+              "damages": 107,
+              "mu": "68740223fae6820f3c7ba0af",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:02:56.842Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8c105da07e6f86508567",
+              "user": "6962c5b04731ec7d7304ad3a",
+              "damages": 54,
+              "mu": "68740223fae6820f3c7ba0af",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:02:56.068Z",
+              "weapon": null,
+              "ammo": null
+            }
+          ],
+          "hitCount": 262
+        },
+        "live": {
+          "ticksCount": 98,
+          "actualTickPoints": 1,
+          "nextTickAt": "2026-02-11T14:19:00.277Z"
+        },
+        "_id": "698c614b5da07e6f86235918",
+        "battle": "698c614b5da07e6f86235916",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T11:00:27.691Z",
+        "updatedAt": "2026-02-11T14:17:21.761Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6873d11594e6b3b7989a4c68",
+        "country": "6873d0ea1758b40e712b5f22",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6873d0ea1758b40e712b5f22",
+          "6873d0ea1758b40e712b5f25"
+        ],
+        "muOrders": [
+          "693526dee76410bfb1b3242a",
+          "6951dfea04275298fae2b80a"
+        ],
+        "damages": 0,
+        "hitCount": 55
+      },
+      "attacker": {
+        "country": "6873d0ea1758b40e712b5f37",
+        "wonRoundsCount": 0,
+        "countryOrders": [],
+        "muOrders": [],
+        "damages": 0,
+        "hitCount": 18,
+        "moneyPer1kDamages": 0.05,
+        "moneyPool": 3.414999999999999
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c5ce556f71dd425f758bc",
+      "war": "698bb5636bc7e7077df8de2c",
+      "rounds": [
+        "698c5ce656f71dd425f758be"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": true,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T10:41:41.998Z",
+      "updatedAt": "2026-02-11T14:09:27.588Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6873d0ea1758b40e712b5f37",
+          "damages": 12045,
+          "points": 24,
+          "lastHits": [
+            {
+              "_id": "698c8d97e2e07c537d3c1960",
+              "user": "687b687445fea55d1835f075",
+              "damages": 265,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:09:27.588Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c801e533a9ab4f3817db6",
+              "user": "688550d9cc88c027c9554966",
+              "damages": 164,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:11:58.914Z",
+              "weapon": {
+                "_id": "693fd2cd6b63ca2b3428e631",
+                "code": "gun",
+                "skills": {
+                  "attack": 59,
+                  "criticalChance": 7
+                },
+                "state": 38,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2025-12-15T09:20:13.612Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c7fb968c173a3407bc903",
+              "user": "68a62cbd35aee16ea6f6383f",
+              "damages": 505,
+              "mu": "689f913ac4afb45d873d58ef",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:10:17.880Z",
+              "weapon": {
+                "_id": "6962f61eb5f355f3bfffbdef",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 13
+                },
+                "state": 72,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-07T01:50:09.187Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c7fb50de4ceaa07f91780",
+              "user": "68a62cbd35aee16ea6f6383f",
+              "damages": 584,
+              "mu": "689f913ac4afb45d873d58ef",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:10:13.293Z",
+              "weapon": {
+                "_id": "6962f61eb5f355f3bfffbdef",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 13
+                },
+                "state": 73,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-07T01:50:09.187Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c7be321c06469ee64ad6d",
+              "user": "68a62cbd35aee16ea6f6383f",
+              "damages": 1510,
+              "mu": "689f913ac4afb45d873d58ef",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T12:53:55.754Z",
+              "weapon": {
+                "_id": "6962f61eb5f355f3bfffbdef",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 13
+                },
+                "state": 82,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-07T01:50:09.187Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 18
+        },
+        "defender": {
+          "country": "6873d0ea1758b40e712b5f22",
+          "damages": 25966,
+          "points": 90,
+          "lastHits": [
+            {
+              "_id": "698c8ac5549b8398fe0e3d71",
+              "user": "6919be1bdb65494c1b26afa1",
+              "damages": 507,
+              "mu": "6951dfea04275298fae2b80a",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:57:25.170Z",
+              "weapon": {
+                "_id": "697d5f28e6db77b850a03bcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 54,
+                  "criticalChance": 8
+                },
+                "state": 87,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-31T01:47:20.132Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8abf21c06469ee7a7f8b",
+              "user": "6919be1bdb65494c1b26afa1",
+              "damages": 465,
+              "mu": "6951dfea04275298fae2b80a",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:57:19.155Z",
+              "weapon": {
+                "_id": "697d5f28e6db77b850a03bcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 54,
+                  "criticalChance": 8
+                },
+                "state": 88,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-31T01:47:20.132Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8abb74831a9507f123c8",
+              "user": "6919be1bdb65494c1b26afa1",
+              "damages": 444,
+              "mu": "6951dfea04275298fae2b80a",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:57:15.637Z",
+              "weapon": {
+                "_id": "697d5f28e6db77b850a03bcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 54,
+                  "criticalChance": 8
+                },
+                "state": 89,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-31T01:47:20.132Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8a68d365416295564d06",
+              "user": "6919be1bdb65494c1b26afa1",
+              "damages": 242,
+              "mu": "6951dfea04275298fae2b80a",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:55:52.748Z",
+              "weapon": {
+                "_id": "697d5f28e6db77b850a03bcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 54,
+                  "criticalChance": 8
+                },
+                "state": 90,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-31T01:47:20.132Z"
+              },
+              "ammo": "ammo"
+            },
+            {
+              "_id": "698c8a648bdebdf66d525e28",
+              "user": "6919be1bdb65494c1b26afa1",
+              "damages": 534,
+              "mu": "6951dfea04275298fae2b80a",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:55:48.589Z",
+              "weapon": {
+                "_id": "697d5f28e6db77b850a03bcd",
+                "code": "gun",
+                "skills": {
+                  "attack": 54,
+                  "criticalChance": 8
+                },
+                "state": 91,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-31T01:47:20.132Z"
+              },
+              "ammo": "ammo"
+            }
+          ],
+          "hitCount": 55
+        },
+        "live": {
+          "ticksCount": 107,
+          "actualTickPoints": 2,
+          "nextTickAt": "2026-02-11T14:18:00.449Z"
+        },
+        "_id": "698c5ce656f71dd425f758be",
+        "battle": "698c5ce556f71dd425f758bc",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T10:41:42.000Z",
+        "updatedAt": "2026-02-11T14:16:02.461Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6873d11594e6b3b7989a4c65",
+        "country": "6873d0ea1758b40e712b5eeb",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6873d0ea1758b40e712b5eeb"
+        ],
+        "muOrders": [],
+        "damages": 0,
+        "hitCount": 71,
+        "moneyPer1kDamages": 0.2,
+        "moneyPool": 5.6022
+      },
+      "attacker": {
+        "country": "6873d0ea1758b40e712b5f37",
+        "wonRoundsCount": 0,
+        "countryOrders": [],
+        "muOrders": [],
+        "damages": 0,
+        "hitCount": 76,
+        "moneyPer1kDamages": 0.07,
+        "moneyPool": 7.480560000000003
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c5b7f5da07e6f861f5eb6",
+      "war": "698bb540f5484d3f8ecf06c5",
+      "rounds": [
+        "698c5b7f5da07e6f861f5eb8"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": true,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T10:35:43.343Z",
+      "updatedAt": "2026-02-11T14:11:24.132Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6873d0ea1758b40e712b5f37",
+          "damages": 36664,
+          "points": 15,
+          "lastHits": [
+            {
+              "_id": "698c8d918bdebdf66d565343",
+              "user": "687b687445fea55d1835f075",
+              "damages": 315,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:09:21.385Z",
+              "weapon": null,
+              "ammo": null
+            },
+            {
+              "_id": "698c8885d36541629554174f",
+              "user": "688550d9cc88c027c9554966",
+              "damages": 158,
+              "mu": "68a2ed6e8671ad44a15d3920",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:47:49.893Z",
+              "weapon": {
+                "_id": "693fd2cd6b63ca2b3428e631",
+                "code": "gun",
+                "skills": {
+                  "attack": 59,
+                  "criticalChance": 7
+                },
+                "state": 37,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2025-12-15T09:20:13.612Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c81e38bdebdf66d4a3d4a",
+              "user": "6966681c660f212218e0a795",
+              "damages": 156,
+              "mu": "687633b772c4886cc6fa3d56",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:19:31.914Z",
+              "weapon": {
+                "_id": "69805ae1dadab02fa90bcb69",
+                "code": "gun",
+                "skills": {
+                  "attack": 51,
+                  "criticalChance": 6
+                },
+                "state": 99,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-02T08:05:53.619Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c7fa58bdebdf66d47552e",
+              "user": "68a62cbd35aee16ea6f6383f",
+              "damages": 298,
+              "mu": "689f913ac4afb45d873d58ef",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:09:57.640Z",
+              "weapon": {
+                "_id": "6962f61eb5f355f3bfffbdef",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 13
+                },
+                "state": 74,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-07T01:50:09.187Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c7fa521c06469ee6a7025",
+              "user": "68a62cbd35aee16ea6f6383f",
+              "damages": 588,
+              "mu": "689f913ac4afb45d873d58ef",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:09:57.307Z",
+              "weapon": {
+                "_id": "6962f61eb5f355f3bfffbdef",
+                "code": "rifle",
+                "skills": {
+                  "attack": 88,
+                  "criticalChance": 13
+                },
+                "state": 75,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-07T01:50:09.187Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 76
+        },
+        "defender": {
+          "country": "6873d0ea1758b40e712b5eeb",
+          "damages": 40693,
+          "points": 105,
+          "lastHits": [
+            {
+              "_id": "698c8e0c21c06469ee7d5774",
+              "user": "6977517ab97ab5db453bdd58",
+              "damages": 180,
+              "mu": "697816a629f63efefd359385",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:11:24.131Z",
+              "weapon": {
+                "_id": "697772c181af219a70d205d8",
+                "code": "gun",
+                "skills": {
+                  "attack": 60,
+                  "criticalChance": 10
+                },
+                "state": 86,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-26T13:57:21.420Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c89c2c0bfa63535d11b39",
+              "user": "6829380107c3bd8a261d82d9",
+              "damages": 482,
+              "mu": "6876841e7071f3c01bfe98a5",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:53:06.877Z",
+              "weapon": {
+                "_id": "6976b3263fab53a548d4c980",
+                "code": "gun",
+                "skills": {
+                  "attack": 60,
+                  "criticalChance": 9
+                },
+                "state": 14,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-26T00:19:50.637Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c87f9ac44388ff191c85f",
+              "user": "698a4f5b79e585b5d3812a04",
+              "damages": 86,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:45:29.231Z",
+              "weapon": {
+                "_id": "698a530db7ff222f1bb26ae1",
+                "code": "knife",
+                "skills": {
+                  "attack": 34,
+                  "criticalChance": 1
+                },
+                "state": 84,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T21:35:09.611Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c87f5afde15e082ded682",
+              "user": "698a4f5b79e585b5d3812a04",
+              "damages": 167,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:45:25.895Z",
+              "weapon": {
+                "_id": "698a530db7ff222f1bb26ae1",
+                "code": "knife",
+                "skills": {
+                  "attack": 34,
+                  "criticalChance": 1
+                },
+                "state": 85,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T21:35:09.611Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c87f2afde15e082dece3e",
+              "user": "698a4f5b79e585b5d3812a04",
+              "damages": 171,
+              "mu": null,
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:45:22.830Z",
+              "weapon": {
+                "_id": "698a530db7ff222f1bb26ae1",
+                "code": "knife",
+                "skills": {
+                  "attack": 34,
+                  "criticalChance": 1
+                },
+                "state": 86,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T21:35:09.611Z"
+              },
+              "ammo": null
+            }
+          ],
+          "hitCount": 71
+        },
+        "live": {
+          "ticksCount": 110,
+          "actualTickPoints": 2,
+          "nextTickAt": "2026-02-11T14:18:00.337Z"
+        },
+        "_id": "698c5b7f5da07e6f861f5eb8",
+        "battle": "698c5b7f5da07e6f861f5eb6",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T10:35:43.345Z",
+        "updatedAt": "2026-02-11T14:16:02.448Z",
+        "__v": 0
+      }
+    },
+    {
+      "defender": {
+        "region": "6813b7059403bc4170a5d786",
+        "country": "6813b6d446e731854c7ac7eb",
+        "wonRoundsCount": 0,
+        "countryOrders": [],
+        "muOrders": [
+          "68f7056e24973b035fd73ea5",
+          "68ffb1ccbc987d23ba84a65a"
+        ],
+        "damages": 0,
+        "hitCount": 261
+      },
+      "attacker": {
+        "region": "6813b7059403bc4170a5d77d",
+        "country": "6813b6d446e731854c7ac7e8",
+        "wonRoundsCount": 0,
+        "countryOrders": [
+          "6813b6d446e731854c7ac7e8",
+          "6873d0ea1758b40e712b5f76",
+          "6873d0ea1758b40e712b5f19"
+        ],
+        "muOrders": [
+          "68c15f29ee5e6f706b3314b1",
+          "695d2a3f9cddbde050bebbbb"
+        ],
+        "damages": 0,
+        "hitCount": 321,
+        "moneyPer1kDamages": 0.8,
+        "moneyPool": 0
+      },
+      "stats": {
+        "hitCount": 0
+      },
+      "_id": "698c570b68c173a34057f75d",
+      "war": "698ba25246ddb740cc81ed7a",
+      "rounds": [
+        "698c570b68c173a34057f75f"
+      ],
+      "roundsHistory": [],
+      "isActive": true,
+      "isResistance": false,
+      "roundsToWin": 2,
+      "createdAt": "2026-02-11T10:16:43.294Z",
+      "updatedAt": "2026-02-11T14:15:49.418Z",
+      "__v": 1,
+      "currentRound": {
+        "attacker": {
+          "country": "6813b6d446e731854c7ac7e8",
+          "damages": 147588,
+          "points": 140,
+          "lastHits": [
+            {
+              "_id": "698c8f15549b8398fe131e3d",
+              "user": "697a8c0d8dda5d5776bfc00e",
+              "damages": 1267,
+              "mu": "692b2e57aa306c063bafb438",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:49.418Z",
+              "weapon": {
+                "_id": "698b8b2f855e1ab9d61387c7",
+                "code": "rifle",
+                "skills": {
+                  "attack": 80,
+                  "criticalChance": 12
+                },
+                "state": 45,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8ef6067d5663f16048bf",
+              "user": "697a8c0d8dda5d5776bfc00e",
+              "damages": 1275,
+              "mu": "692b2e57aa306c063bafb438",
+              "isCriticalHit": true,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:18.735Z",
+              "weapon": {
+                "_id": "698b8b2f855e1ab9d61387c7",
+                "code": "rifle",
+                "skills": {
+                  "attack": 80,
+                  "criticalChance": 12
+                },
+                "state": 46,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8ef6067d5663f16047e8",
+              "user": "697a8c0d8dda5d5776bfc00e",
+              "damages": 462,
+              "mu": "692b2e57aa306c063bafb438",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:18.117Z",
+              "weapon": {
+                "_id": "698b8b2f855e1ab9d61387c7",
+                "code": "rifle",
+                "skills": {
+                  "attack": 80,
+                  "criticalChance": 12
+                },
+                "state": 47,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8ef5d3654162955a068c",
+              "user": "697a8c0d8dda5d5776bfc00e",
+              "damages": 225,
+              "mu": "692b2e57aa306c063bafb438",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:15:17.149Z",
+              "weapon": {
+                "_id": "698b8b2f855e1ab9d61387c7",
+                "code": "rifle",
+                "skills": {
+                  "attack": 80,
+                  "criticalChance": 12
+                },
+                "state": 48,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8ef4afde15e082e57456",
+              "user": "697a8c0d8dda5d5776bfc00e",
+              "damages": 436,
+              "mu": "692b2e57aa306c063bafb438",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T14:15:16.290Z",
+              "weapon": {
+                "_id": "698b8b2f855e1ab9d61387c7",
+                "code": "rifle",
+                "skills": {
+                  "attack": 80,
+                  "criticalChance": 12
+                },
+                "state": 49,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 321
+        },
+        "defender": {
+          "country": "6813b6d446e731854c7ac7eb",
+          "damages": 116637,
+          "points": 0,
+          "lastHits": [
+            {
+              "_id": "698c8d02ac44388ff195bf7f",
+              "user": "697480b70a6d7021dd3a81c6",
+              "damages": 121,
+              "mu": "6935a8851d5b42aed261f81b",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:06:58.109Z",
+              "weapon": {
+                "_id": "698936072c44fa30e41db19e",
+                "code": "knife",
+                "skills": {
+                  "attack": 39,
+                  "criticalChance": 4
+                },
+                "state": 77,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T01:19:03.237Z"
+              },
+              "ammo": null
+            },
+            {
+              "_id": "698c8cd32e96c13ef4ea4b2f",
+              "user": "69620f2fa60488db42a05bc1",
+              "damages": 131,
+              "mu": "68f7056e24973b035fd73ea5",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T14:06:11.894Z",
+              "weapon": {
+                "_id": "6977091de06697135d411957",
+                "code": "gun",
+                "skills": {
+                  "attack": 55,
+                  "criticalChance": 8
+                },
+                "state": 8,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-26T06:26:37.182Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8b4d186391cbb6cd15e3",
+              "user": "6979e200abf9ec82486dbbee",
+              "damages": 197,
+              "mu": "68e0f3b86351b310a982d79e",
+              "isCriticalHit": false,
+              "isMissed": false,
+              "hitAt": "2026-02-11T13:59:41.150Z",
+              "weapon": {
+                "_id": "69898aeb2c44fa30e4473e6b",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 10
+                },
+                "state": 81,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T07:21:15.148Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c8b4c74831a9507f21166",
+              "user": "6979e200abf9ec82486dbbee",
+              "damages": 91,
+              "mu": "68e0f3b86351b310a982d79e",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:59:40.880Z",
+              "weapon": {
+                "_id": "69898aeb2c44fa30e4473e6b",
+                "code": "gun",
+                "skills": {
+                  "attack": 56,
+                  "criticalChance": 10
+                },
+                "state": 82,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-02-09T07:21:15.148Z"
+              },
+              "ammo": "lightAmmo"
+            },
+            {
+              "_id": "698c89fdafde15e082e0813a",
+              "user": "694ebd7de56b298355a8d390",
+              "damages": 193,
+              "mu": "6962988acde9ff82a4dd49be",
+              "isCriticalHit": false,
+              "isMissed": true,
+              "hitAt": "2026-02-11T13:54:05.052Z",
+              "weapon": {
+                "_id": "697097888db9904baaed7cb4",
+                "code": "tank",
+                "skills": {
+                  "attack": 154,
+                  "criticalChance": 24
+                },
+                "state": 6,
+                "maxState": 100,
+                "quantity": 1,
+                "lastAcquisitionAt": "2026-01-21T09:08:24.360Z"
+              },
+              "ammo": "lightAmmo"
+            }
+          ],
+          "hitCount": 261
+        },
+        "live": {
+          "ticksCount": 120,
+          "actualTickPoints": 2,
+          "nextTickAt": "2026-02-11T14:19:00.266Z"
+        },
+        "_id": "698c570b68c173a34057f75f",
+        "battle": "698c570b68c173a34057f75d",
+        "number": 1,
+        "isActive": true,
+        "createdAt": "2026-02-11T10:16:43.296Z",
+        "updatedAt": "2026-02-11T14:17:02.284Z",
+        "__v": 0
+      }
+    }
+  ],
+  "nextCursor": "Wed Feb 11 2026 10:16:43 GMT+0000 (Coordinated Universal Time)|698c570b68c173a34057f75d"
+}

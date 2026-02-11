@@ -1,0 +1,16 @@
+{
+  "_id": "697b0ff2cf514ca1551d940d",
+  "region": "696a81f5882256e1db11821a",
+  "upgradeType": "bunker",
+  "level": 3,
+  "status": "disabled",
+  "investedMoney": 0,
+  "investedConcrete": 0,
+  "investedSteel": 500,
+  "dependantUsersCount": 0,
+  "createdAt": "2026-01-29T07:44:50.008Z",
+  "updatedAt": "2026-02-09T17:22:42.755Z",
+  "__v": 0,
+  "statusChangedAt": "2026-02-09T17:22:42.755Z",
+  "willBeActiveAt": "2026-02-09T08:59:59.999Z"
+}

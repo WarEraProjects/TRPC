@@ -1,0 +1,73 @@
+{
+  "_id": "686c778419aa9077c03b38c8",
+  "user": "684f5a4bde35509db16e07f7",
+  "region": "6813b7059403bc4170a5d73e",
+  "itemCode": "cocain",
+  "name": "Carnimex Inc.",
+  "production": 270.11000000000354,
+  "upgradesV2": {
+    "upgrades": {
+      "storage": {
+        "level": 2,
+        "lastConstructions": [],
+        "status": "active",
+        "constructionPoints": 0,
+        "constructionStartedAt": "2025-07-08T13:29:20.251Z",
+        "isUnderConstruction": null,
+        "constructionEndedAt": "2025-07-09T02:08:10.375Z"
+      },
+      "automatedEngine": {
+        "level": 2,
+        "lastConstructions": [
+          {
+            "user": "684f5a4bde35509db16e07f7",
+            "construction": 15,
+            "constructionAt": "2025-07-13T13:52:23.383Z"
+          }
+        ],
+        "status": "active",
+        "constructionPoints": 15,
+        "constructionStartedAt": "2025-07-13T13:52:21.311Z",
+        "isUnderConstruction": true,
+        "constructionEndedAt": "2025-07-09T22:28:22.277Z"
+      }
+    },
+    "totalInvestedConcrete": 70,
+    "activeConstructionCount": 1
+  },
+  "workers": [],
+  "createdAt": "2025-07-08T01:42:28.433Z",
+  "updatedAt": "2026-02-11T15:38:30.757Z",
+  "__v": 0,
+  "estimatedValue": 328.223978890393,
+  "activeUpgradeLevels": {
+    "automatedEngine": 4,
+    "storage": 3,
+    "breakRoom": 2
+  },
+  "concreteInvested": 0,
+  "isFull": false,
+  "dates": {
+    "lastHiresAt": [
+      "2025-10-21T12:41:51.877Z",
+      "2025-10-21T17:44:59.284Z",
+      "2025-10-22T14:01:59.914Z",
+      "2025-10-22T18:22:34.629Z",
+      "2025-10-24T22:07:33.321Z",
+      "2025-10-24T22:08:35.582Z",
+      "2025-11-10T19:03:58.962Z",
+      "2025-11-15T16:56:54.419Z",
+      "2025-11-20T18:36:22.235Z",
+      "2025-11-21T19:50:53.075Z",
+      "2025-11-22T21:26:01.154Z",
+      "2025-11-27T22:49:32.225Z",
+      "2025-12-16T04:14:17.705Z",
+      "2025-12-16T16:58:09.071Z",
+      "2025-12-17T17:22:59.598Z",
+      "2025-12-19T21:33:13.290Z",
+      "2025-12-23T00:51:23.696Z"
+    ]
+  },
+  "movedUpAt": "2026-02-11T14:03:18.914Z",
+  "workerCount": 3
+}

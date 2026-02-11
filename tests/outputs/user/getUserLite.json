@@ -1,0 +1,171 @@
+{
+  "dates": {
+    "lastConnectionAt": "2026-02-11T11:51:25.138Z",
+    "lastNotificationsCheckAt": "2026-02-11T11:51:25.090Z",
+    "lastCountryMessageCheckAt": "2026-02-11T11:51:25.090Z",
+    "lastGlobalMessageCheckAt": "2026-02-11T11:51:25.090Z",
+    "lastEventsCheckAt": "2026-02-11T11:51:25.090Z",
+    "lastWorkOfferApplications": [],
+    "lastHiresAt": []
+  },
+  "leveling": {
+    "level": 1,
+    "totalXp": 0,
+    "dailyXpLeft": 100,
+    "availableSkillPoints": 4,
+    "spentSkillPoints": 0,
+    "totalSkillPoints": 4,
+    "freeReset": 2
+  },
+  "_id": "698c6d3dc0bfa63535b7cbf0",
+  "username": "user_2ZDHGN",
+  "country": "696a81da63e2489f47e5a28e",
+  "isActive": true,
+  "skills": {
+    "energy": {
+      "level": 0,
+      "value": 30,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 30,
+      "currentBarValue": 30,
+      "hourlyBarRegen": 3
+    },
+    "health": {
+      "level": 0,
+      "value": 50,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 50,
+      "currentBarValue": 50,
+      "hourlyBarRegen": 5
+    },
+    "hunger": {
+      "level": 0,
+      "value": 4,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 4,
+      "currentBarValue": 4,
+      "hourlyBarRegen": 0.4
+    },
+    "attack": {
+      "level": 0,
+      "ammoPercent": 0,
+      "buffsPercent": 0,
+      "debuffsPercent": 0,
+      "militaryRankPercent": 0,
+      "value": 100,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 100
+    },
+    "companies": {
+      "level": 0,
+      "value": 2,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 2
+    },
+    "entrepreneurship": {
+      "level": 0,
+      "value": 30,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 30,
+      "currentBarValue": 30,
+      "hourlyBarRegen": 3
+    },
+    "production": {
+      "level": 0,
+      "value": 10,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 10,
+      "currentBarValue": 10,
+      "hourlyBarRegen": 1
+    },
+    "criticalChance": {
+      "level": 0,
+      "value": 10,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 10
+    },
+    "criticalDamages": {
+      "level": 0,
+      "value": 100,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 100
+    },
+    "armor": {
+      "level": 0,
+      "value": null,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 0
+    },
+    "precision": {
+      "level": 0,
+      "value": 50,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 50
+    },
+    "dodge": {
+      "level": 0,
+      "value": null,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 0
+    },
+    "lootChance": {
+      "level": 0,
+      "value": 5,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 5
+    },
+    "management": {
+      "level": 0,
+      "value": 4,
+      "weapon": null,
+      "equipment": null,
+      "limited": null,
+      "total": 4
+    }
+  },
+  "militaryRank": 1,
+  "createdAt": "2026-02-11T11:51:25.091Z",
+  "rankings": {
+    "userWealth": {
+      "value": 346.597,
+      "rank": 5709,
+      "tier": "bronze"
+    },
+    "userLevel": {
+      "value": 0,
+      "rank": 6324,
+      "tier": "bronze"
+    },
+    "userReferrals": {
+      "value": 0,
+      "rank": 586,
+      "tier": "platinum"
+    }
+  }
+}

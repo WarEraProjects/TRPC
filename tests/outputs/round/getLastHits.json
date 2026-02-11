@@ -1,0 +1,226 @@
+{
+  "attacker": [
+    {
+      "_id": "698c8f15549b8398fe131e3d",
+      "user": "697a8c0d8dda5d5776bfc00e",
+      "damages": 1267,
+      "mu": "692b2e57aa306c063bafb438",
+      "isCriticalHit": true,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:15:49.418Z",
+      "weapon": {
+        "_id": "698b8b2f855e1ab9d61387c7",
+        "code": "rifle",
+        "skills": {
+          "attack": 80,
+          "criticalChance": 12
+        },
+        "state": 45,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c8ef6067d5663f16048bf",
+      "user": "697a8c0d8dda5d5776bfc00e",
+      "damages": 1275,
+      "mu": "692b2e57aa306c063bafb438",
+      "isCriticalHit": true,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:15:18.735Z",
+      "weapon": {
+        "_id": "698b8b2f855e1ab9d61387c7",
+        "code": "rifle",
+        "skills": {
+          "attack": 80,
+          "criticalChance": 12
+        },
+        "state": 46,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c8ef6067d5663f16047e8",
+      "user": "697a8c0d8dda5d5776bfc00e",
+      "damages": 462,
+      "mu": "692b2e57aa306c063bafb438",
+      "isCriticalHit": false,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:15:18.117Z",
+      "weapon": {
+        "_id": "698b8b2f855e1ab9d61387c7",
+        "code": "rifle",
+        "skills": {
+          "attack": 80,
+          "criticalChance": 12
+        },
+        "state": 47,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c8ef5d3654162955a068c",
+      "user": "697a8c0d8dda5d5776bfc00e",
+      "damages": 225,
+      "mu": "692b2e57aa306c063bafb438",
+      "isCriticalHit": false,
+      "isMissed": true,
+      "hitAt": "2026-02-11T14:15:17.149Z",
+      "weapon": {
+        "_id": "698b8b2f855e1ab9d61387c7",
+        "code": "rifle",
+        "skills": {
+          "attack": 80,
+          "criticalChance": 12
+        },
+        "state": 48,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c8ef4afde15e082e57456",
+      "user": "697a8c0d8dda5d5776bfc00e",
+      "damages": 436,
+      "mu": "692b2e57aa306c063bafb438",
+      "isCriticalHit": false,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:15:16.290Z",
+      "weapon": {
+        "_id": "698b8b2f855e1ab9d61387c7",
+        "code": "rifle",
+        "skills": {
+          "attack": 80,
+          "criticalChance": 12
+        },
+        "state": 49,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-02-07T05:33:10.146Z"
+      },
+      "ammo": "lightAmmo"
+    }
+  ],
+  "defender": [
+    {
+      "_id": "698c902468c173a3408b437b",
+      "user": "68f29043c9df13b2fe7047a5",
+      "damages": 195,
+      "mu": "6962988acde9ff82a4dd49be",
+      "isCriticalHit": false,
+      "isMissed": true,
+      "hitAt": "2026-02-11T14:20:20.343Z",
+      "weapon": {
+        "_id": "696644f6d83cd4e381752ad4",
+        "code": "rifle",
+        "skills": {
+          "attack": 86,
+          "criticalChance": 13
+        },
+        "state": 27,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-01-13T13:13:26.392Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c901add9e9986855a676b",
+      "user": "68f29043c9df13b2fe7047a5",
+      "damages": 1173,
+      "mu": "6962988acde9ff82a4dd49be",
+      "isCriticalHit": true,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:20:10.821Z",
+      "weapon": {
+        "_id": "696644f6d83cd4e381752ad4",
+        "code": "rifle",
+        "skills": {
+          "attack": 86,
+          "criticalChance": 13
+        },
+        "state": 28,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-01-13T13:13:26.392Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c9018d35f9742208ace33",
+      "user": "68f29043c9df13b2fe7047a5",
+      "damages": 354,
+      "mu": "6962988acde9ff82a4dd49be",
+      "isCriticalHit": false,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:20:08.802Z",
+      "weapon": {
+        "_id": "696644f6d83cd4e381752ad4",
+        "code": "rifle",
+        "skills": {
+          "attack": 86,
+          "criticalChance": 13
+        },
+        "state": 29,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-01-13T13:13:26.392Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c901768c173a3408b1fff",
+      "user": "68f29043c9df13b2fe7047a5",
+      "damages": 388,
+      "mu": "6962988acde9ff82a4dd49be",
+      "isCriticalHit": false,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:20:07.228Z",
+      "weapon": {
+        "_id": "696644f6d83cd4e381752ad4",
+        "code": "rifle",
+        "skills": {
+          "attack": 86,
+          "criticalChance": 13
+        },
+        "state": 30,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-01-13T13:13:26.392Z"
+      },
+      "ammo": "lightAmmo"
+    },
+    {
+      "_id": "698c9015dd9e9986855a4526",
+      "user": "68f29043c9df13b2fe7047a5",
+      "damages": 1023,
+      "mu": "6962988acde9ff82a4dd49be",
+      "isCriticalHit": true,
+      "isMissed": false,
+      "hitAt": "2026-02-11T14:20:05.207Z",
+      "weapon": {
+        "_id": "696644f6d83cd4e381752ad4",
+        "code": "rifle",
+        "skills": {
+          "attack": 86,
+          "criticalChance": 13
+        },
+        "state": 31,
+        "maxState": 100,
+        "quantity": 1,
+        "lastAcquisitionAt": "2026-01-13T13:13:26.392Z"
+      },
+      "ammo": "lightAmmo"
+    }
+  ]
+}

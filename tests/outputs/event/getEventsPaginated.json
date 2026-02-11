@@ -1,0 +1,192 @@
+{
+  "items": [
+    {
+      "_id": "698c8b7b6fec43f9d670118e",
+      "countries": [
+        "6873d0ea1758b40e712b5f43",
+        "6873d0ea1758b40e712b5f43"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "depositDiscovered",
+        "durationDays": 4,
+        "region": "6873d11594e6b3b7989a4c47",
+        "itemCode": "iron",
+        "bonusPercent": 30
+      },
+      "createdAt": "2026-02-11T14:00:27.310Z",
+      "updatedAt": "2026-02-11T14:00:27.310Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c8b7b6fec43f9d6701173",
+      "countries": [
+        "683ddd2c24b5a2e114af15d5",
+        "6813b6d446e731854c7ac7ae"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "depositDiscovered",
+        "durationDays": 3,
+        "region": "683ddd3e36dbc90b780474e9",
+        "itemCode": "iron",
+        "bonusPercent": 30
+      },
+      "createdAt": "2026-02-11T14:00:27.293Z",
+      "updatedAt": "2026-02-11T14:00:27.293Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c817321c06469ee6db347",
+      "countries": [
+        "6813b6d446e731854c7ac7e5",
+        "6873d0ea1758b40e712b5eef"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "warDeclared",
+        "war": "698c817321c06469ee6db33c",
+        "attackerCountry": "6813b6d446e731854c7ac7e5",
+        "defenderCountry": "6873d0ea1758b40e712b5eef"
+      },
+      "createdAt": "2026-02-11T13:17:39.860Z",
+      "updatedAt": "2026-02-11T13:17:39.860Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c806382518682a7a6f9bc",
+      "countries": [
+        "6813b6d446e731854c7ac7e5",
+        "6813b6d546e731854c7ac848"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "battleEnded",
+        "battle": "698bd394475ea91643437a15",
+        "attackerCountry": "6813b6d446e731854c7ac7e5",
+        "defenderCountry": "6813b6d546e731854c7ac848",
+        "attackerRegion": "6813b7089403bc4170a5d951",
+        "defenderRegion": "6813b7099403bc4170a5d95d",
+        "wonBy": "attacker"
+      },
+      "createdAt": "2026-02-11T13:13:07.473Z",
+      "updatedAt": "2026-02-11T13:13:07.473Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c7f2bd35f974220777c56",
+      "countries": [
+        "6873d0ea1758b40e712b5eed",
+        "6873d0ea1758b40e712b5ee9"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "regionLiberated",
+        "region": "6873d11394e6b3b7989a4bd2",
+        "fromCountry": "6873d0ea1758b40e712b5eed",
+        "toCountry": "6873d0ea1758b40e712b5ee9"
+      },
+      "createdAt": "2026-02-11T13:07:55.370Z",
+      "updatedAt": "2026-02-11T13:07:55.370Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c7ea6186391cbb6c19ade",
+      "countries": [
+        "683ddd2c24b5a2e114af15fd",
+        "6813b6d446e731854c7ac7be"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "allianceBroken",
+        "countries": [
+          "683ddd2c24b5a2e114af15fd",
+          "6813b6d446e731854c7ac7be"
+        ]
+      },
+      "createdAt": "2026-02-11T13:05:42.530Z",
+      "updatedAt": "2026-02-11T13:05:42.530Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c7df056f71dd42517c46c",
+      "countries": [
+        "6813b6d446e731854c7ac7eb",
+        "6813b6d446e731854c7ac7ba"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "peaceMade",
+        "wars": [
+          "6988f730b0b2351dbe5575d9"
+        ],
+        "countries": [
+          "6813b6d446e731854c7ac7eb",
+          "6813b6d446e731854c7ac7ba"
+        ]
+      },
+      "createdAt": "2026-02-11T13:02:40.592Z",
+      "updatedAt": "2026-02-11T13:02:40.592Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c7d6a5c6ae7c94c906cd3",
+      "countries": [
+        "6873d0ea1758b40e712b5f1f",
+        "6873d0ea1758b40e712b5f1f"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "depositDiscovered",
+        "durationDays": 3,
+        "region": "6873d11794e6b3b7989a4cf2",
+        "itemCode": "iron",
+        "bonusPercent": 30
+      },
+      "createdAt": "2026-02-11T13:00:26.912Z",
+      "updatedAt": "2026-02-11T13:00:26.912Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c7d6a5c6ae7c94c906ca1",
+      "countries": [
+        "6813b6d546e731854c7ac848",
+        "6813b6d546e731854c7ac848"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "depositDiscovered",
+        "durationDays": 1,
+        "region": "6813b7099403bc4170a5d957",
+        "itemCode": "limestone",
+        "bonusPercent": 30
+      },
+      "createdAt": "2026-02-11T13:00:26.883Z",
+      "updatedAt": "2026-02-11T13:00:26.883Z",
+      "__v": 0
+    },
+    {
+      "_id": "698c7d20475ea91643ae8876",
+      "countries": [
+        "6813b6d446e731854c7ac7a8",
+        "6813b6d446e731854c7ac79a"
+      ],
+      "priority": "2",
+      "data": {
+        "type": "regionTransfer",
+        "regions": [
+          "6813b7049403bc4170a5d6ed"
+        ],
+        "countries": [
+          "6813b6d446e731854c7ac7a8",
+          "6813b6d446e731854c7ac79a"
+        ],
+        "amount": 50
+      },
+      "createdAt": "2026-02-11T12:59:12.778Z",
+      "updatedAt": "2026-02-11T12:59:12.778Z",
+      "__v": 0
+    }
+  ],
+  "nextCursor": "Wed Feb 11 2026 12:59:12 GMT+0000 (Coordinated Universal Time)|698c7d20475ea91643ae8876"
+}

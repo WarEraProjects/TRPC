@@ -1,0 +1,22 @@
+{
+  "_id": "698ba068052b6e7b635f4922",
+  "user": "6813b764efecdf9bab195bad",
+  "country": "6813b6d546e731854c7ac835",
+  "price": 500,
+  "itemCode": "gloves6",
+  "item": {
+    "_id": "6987df88ad2758110f584ca0",
+    "type": "equipment",
+    "code": "gloves6",
+    "skills": {
+      "precision": 39
+    },
+    "state": 100,
+    "maxState": 100,
+    "quantity": 1,
+    "lastAcquisitionAt": "2026-02-08T00:57:44.952Z"
+  },
+  "createdAt": "2026-02-10T21:17:28.278Z",
+  "updatedAt": "2026-02-10T21:17:28.278Z",
+  "__v": 0
+}
