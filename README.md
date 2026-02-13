@@ -1,5 +1,5 @@
 # WarEra tRPC Client
-This package provides a frontend + backend compatible tRPC communication layer.
+This package provides a frontend + backend compatible tRPC communication layer for the WarEra.io API.
 
 ## Install
 ```bash
