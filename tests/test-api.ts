@@ -5,19 +5,19 @@ async function main() {
     url: "https://api2.warera.io/trpc",
     apiKey: process.env.WARERA_API_KEY
   });
+  // Test rate limiting: fire 800 requests to `tradingOrder.getTopOrders` and measure time
+  const TOTAL = 800;
+  console.log(`Starting ${TOTAL} requests to trpc.tradingOrder.getTopOrders`);
+  const start = Date.now();
 
-  const allCountries: any = await trpc.country.getAllCountries({});
-  const firstID = allCountries[0]._id;
+  const promises = Array.from({ length: TOTAL }, () => trpc.tradingOrder.getTopOrders({ itemCode: process.env.WARERA_ITEM_CODE ?? 'cookedFish', limit: 1 }));
+  const results = await Promise.allSettled(promises);
 
+  const duration = Date.now() - start;
+  const fulfilled = results.filter((r) => r.status === "fulfilled").length;
+  const rejected = results.filter((r) => r.status === "rejected").length;
 
-  // Test: run multiple requests concurrently
-  const [countryById, government] = await Promise.all([
-    trpc.country.getCountryById({ countryId: firstID }),
-    trpc.government.getByCountryId({ countryId: firstID })
-  ]);
-
-  console.log("Country details:", countryById);
-  console.log("Government:", government);
+  console.log(`Completed ${TOTAL} requests in ${duration} ms — ${fulfilled} ok, ${rejected} failed`);
 }
 
 main().catch((err) => {

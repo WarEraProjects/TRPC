@@ -435,7 +435,7 @@ export interface paths {
         put?: never;
         /**
          * Global search
-         * @description Performs a global search across users, companies, articles, and other entities
+         * @description Performs a global search across users, countries, regions, military units, parties, and other entities
          */
         post: operations["search.searchAnything"];
         delete?: never;
@@ -538,6 +538,26 @@ export interface paths {
          * @description Retrieves detailed information about a specific article
          */
         post: operations["article.getArticleById"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/article.getArticleLiteById": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get article lite by ID
+         * @description Retrieves only the title and basic stats of an article without counting as a view
+         */
+        post: operations["article.getArticleLiteById"];
         delete?: never;
         options?: never;
         head?: never;
@@ -818,7 +838,7 @@ export interface operations {
                     /** @description Filter events by country ID */
                     countryId?: string;
                     /** @description Filter events by event types */
-                    eventTypes?: ("warDeclared" | "peace_agreement" | "battleOpened" | "battleEnded" | "newPresident" | "regionTransfer" | "peaceMade" | "countryMoneyTransfer" | "depositDiscovered" | "depositDepleted" | "systemRevolt" | "bankruptcy" | "allianceFormed" | "allianceBroken" | "regionLiberated" | "strategicResourcesReshuffled" | "resistanceIncreased" | "resistanceDecreased")[];
+                    eventTypes?: ("warDeclared" | "peace_agreement" | "battleOpened" | "battleEnded" | "newPresident" | "regionTransfer" | "peaceMade" | "countryMoneyTransfer" | "depositDiscovered" | "depositDepleted" | "systemRevolt" | "bankruptcy" | "allianceFormed" | "allianceBroken" | "regionLiberated" | "strategicResourcesReshuffled" | "resistanceIncreased" | "resistanceDecreased" | "revolutionStarted" | "revolutionEnded" | "financedRevolt")[];
                 };
             };
         };
@@ -1404,6 +1424,30 @@ export interface operations {
             };
         };
     };
+    "article.getArticleLiteById": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** @description The ID of the article to get */
+                    articleId: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     "article.getArticlesPaginated": {
         parameters: {
             query?: never;
@@ -1418,7 +1462,7 @@ export interface operations {
                      * @description The type of articles to get
                      * @enum {string}
                      */
-                    type: "weekly" | "top" | "my" | "subscriptions" | "last";
+                    type: "daily" | "weekly" | "top" | "my" | "subscriptions" | "last";
                     /**
                      * @description The limit of articles to get
                      * @default 10
@@ -1518,6 +1562,8 @@ export interface operations {
                     muId?: string;
                     /** @description The country ID to get transactions for */
                     countryId?: string;
+                    /** @description The party ID to get transactions for */
+                    partyId?: string;
                     /** @description The item code to get transactions for */
                     itemCode?: string;
                     /** @description The type of transactions to get */
@@ -1548,7 +1594,7 @@ export interface operations {
                      * @description The upgrade type to get
                      * @enum {string}
                      */
-                    upgradeType: "bunker" | "base" | "storage" | "automatedEngine" | "breakRoom" | "headquarters" | "dormitories";
+                    upgradeType: "bunker" | "base" | "pacificationCenter" | "storage" | "automatedEngine" | "breakRoom" | "headquarters" | "dormitories";
                     /** @description The region ID to get upgrade for */
                     regionId?: string;
                     /** @description The company ID to get upgrade for */
