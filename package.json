@@ -23,6 +23,7 @@
 		"build": "tsup",
 		"dev": "tsup --watch",
 		"clean": "rimraf dist",
+		"prepare": "npm run build",
 		"openapi": "openapi-typescript https://api2.warera.io/openapi.json -o src/api/warera-openapi.d.ts",
 		"test": "tsx -r dotenv/config tests/test-api.ts",
 		"allEndpoints": "tsx -r dotenv/config tests/AllEndpoints.ts"
