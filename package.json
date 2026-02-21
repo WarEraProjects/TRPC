@@ -2,6 +2,7 @@
 	"name": "warera-trpc-client",
 	"version": "0.1.0",
 	"description": "tRPC communication layer for WarEra (frontend and backend compatible)",
+	"repository": {"url": "https://github.com/WarEraProjects/trpc"},
 	"license": "MIT",
 	"type": "module",
 	"main": "./dist/index.cjs",
@@ -16,7 +17,8 @@
 	},
 	"files": [
 		"dist",
-		"src/api/warera-openapi.d.ts"
+		"src/api/warera-openapi.d.ts",
+		"src/api/Responses.d.ts"
 	],
 	"sideEffects": false,
 	"scripts": {
@@ -24,6 +26,7 @@
 		"dev": "tsup --watch",
 		"clean": "rimraf dist",
 		"prepare": "npm run build",
+		"prepublishOnly": "npm run build",
 		"openapi": "openapi-typescript https://api2.warera.io/openapi.json -o src/api/warera-openapi.d.ts",
 		"test": "tsx -r dotenv/config tests/test-api.ts",
 		"allEndpoints": "tsx -r dotenv/config tests/AllEndpoints.ts"
