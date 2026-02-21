@@ -2,7 +2,7 @@
 This package provides a frontend + backend compatible tRPC communication layer for the WarEra.io API.
 
 # Why should I use this package?
-[WarEra.io](app.warera.io) is built on tRPC, and this client gives you a contract-aware integration layer instead of “raw HTTP calls”.
+[WarEra.io](https://app.warera.io) is built on tRPC, and this client gives you a contract-aware integration layer instead of “raw HTTP calls”.
 
 You get typed procedures, batching, and rate-limit safety out of the box.
 
