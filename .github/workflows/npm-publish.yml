@@ -6,6 +6,7 @@ name: Publish @wareraprojects/api
 on:
   release:
     types: [created]
+  workflow_dispatch:
 
 permissions:
   contents: read
