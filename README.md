@@ -81,6 +81,11 @@ See the [Auto-Pagination Guide](./docs/AUTO_PAGINATION.md) for more details and 
 
 ---
 
+Found an issue?
+Open up a ticket here: https://github.com/WarEraProjects/TRPC/issues
+
+---
+
 If you wish to support future development, feel free to support the devs:
 
 ZaLimitless (Dog):
