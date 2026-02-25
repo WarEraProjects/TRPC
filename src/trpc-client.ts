@@ -9,7 +9,17 @@ export interface TrpcLikeClientOptions {
   headers?: Record<string, string>;
   maxBatchSize?: number;
   batchIntervalMs?: number;
+  logBatches?: boolean | ((info: BatchLogInfo) => void);
 }
+
+type BatchLogInfo = {
+  method: string;
+  url: string;
+  path: string;
+  paths: string[];
+  batchSize: number;
+  body?: string;
+};
 
 type UntypedClient = {
   query: (path: string, input: unknown) => Promise<unknown>;
@@ -26,6 +36,7 @@ function parseCursorDate(cursor: string | null | undefined): Date | null {
   if (pipeIndex === -1) return null;
   
   const dateStr = cursor.substring(0, pipeIndex);
+  if (dateStr === 'undefined') return null;
   try {
     const date = new Date(dateStr);
     return isNaN(date.getTime()) ? null : date;
@@ -50,7 +61,7 @@ async function* autoPaginate<K extends ProcedureKey>(
 
   while (pageCount < maxPages) {
     // Make the request with the current cursor
-    const requestInput = { ...input, cursor: currentCursor };
+    const requestInput = currentCursor ? { ...input, cursor: currentCursor } : input;
     const response = (await client.query(path, requestInput)) as {
       items: unknown[];
       nextCursor: string;
@@ -65,8 +76,8 @@ async function* autoPaginate<K extends ProcedureKey>(
     pageCount++;
 
     // Check termination conditions
-    if (!response.nextCursor) {
-      break; // No more pages
+    if (!response.nextCursor || response.items.length === 0 || response.nextCursor.includes('undefined')) {
+      break; // No more pages, empty page, or invalid cursor
     }
 
     // Check cursorEnd condition
@@ -128,6 +139,102 @@ function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100): type
     })) as unknown as typeof fetch;
 }
 
+function createPostQueryFetch(origFetch?: typeof fetch): typeof fetch {
+  const f: typeof fetch = origFetch ?? (globalThis as any).fetch;
+
+  return ((input: RequestInfo | URL, init?: RequestInit) => {
+    const isRequest =
+      typeof Request !== "undefined" && input instanceof Request;
+    const method = (init?.method ?? (isRequest ? input.method : "GET")).toUpperCase();
+
+    if (method !== "GET") {
+      return f(input as any, init as any);
+    }
+
+    const urlString =
+      typeof input === "string" || input instanceof URL
+        ? input.toString()
+        : input.url;
+
+    let urlObj: URL;
+    try {
+      urlObj = new URL(urlString);
+    } catch {
+      return f(input as any, init as any);
+    }
+
+    const inputParam = urlObj.searchParams.get("input");
+    if (!inputParam) {
+      return f(input as any, init as any);
+    }
+
+    urlObj.searchParams.delete("input");
+
+    const headers = new Headers(isRequest ? input.headers : undefined);
+    if (init?.headers) {
+      new Headers(init.headers).forEach((value, key) => {
+        headers.set(key, value);
+      });
+    }
+    if (!headers.has("content-type")) {
+      headers.set("content-type", "application/json");
+    }
+
+    const nextInit: RequestInit = {
+      ...init,
+      method: "POST",
+      headers,
+      body: inputParam,
+    };
+
+    return f(urlObj.toString(), nextInit as any);
+  }) as unknown as typeof fetch;
+}
+
+function createBatchLoggingFetch(
+  origFetch: typeof fetch,
+  logBatches?: boolean | ((info: BatchLogInfo) => void)
+): typeof fetch {
+  if (!logBatches) return origFetch;
+  const logFn =
+    typeof logBatches === "function"
+      ? logBatches
+      : (info: BatchLogInfo) => {
+          console.log("[trpc-batch]", info);
+        };
+
+  return ((input: RequestInfo | URL, init?: RequestInit) => {
+    const urlString =
+      typeof input === "string" || input instanceof URL
+        ? input.toString()
+        : input.url;
+
+    try {
+      const urlObj = new URL(urlString);
+      const path = urlObj.pathname;
+      const lastSegment = path.split("/").pop() ?? "";
+      const paths = lastSegment.split(",").filter(Boolean);
+      const isBatch = urlObj.searchParams.get("batch") === "1" || paths.length > 1;
+
+      if (isBatch) {
+        const body = typeof init?.body === "string" ? init.body : undefined;
+        logFn({
+          method: (init?.method ?? (input as Request).method ?? "GET").toUpperCase(),
+          url: urlObj.toString(),
+          path: lastSegment,
+          paths,
+          batchSize: paths.length,
+          body,
+        });
+      }
+    } catch {
+      // ignore URL parse issues
+    }
+
+    return origFetch(input as any, init as any);
+  }) as unknown as typeof fetch;
+}
+
 /**
  * Create a lightweight TRPC-like client proxy backed by an untyped @trpc/client.
  *
@@ -155,14 +262,18 @@ function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100): type
  */
 export function createTrpcClient(options?: TrpcLikeClientOptions & {rateLimit?: number}): TrpcLikeClient {
   const appliedRateLimit = options?.rateLimit ?? (options?.apiKey !== undefined ? 200 : 100);
+  const baseFetch = options?.fetch ?? (globalThis as any).fetch;
+  const loggedFetch = createBatchLoggingFetch(baseFetch, options?.logBatches);
+  const postQueryFetch = createPostQueryFetch(loggedFetch);
+  const rateLimitedFetch = createRateLimitedFetch(postQueryFetch, appliedRateLimit);
   
   const client = createTRPCUntypedClient({
     links: [
       ...(options?.logger === true ? [loggerLink()] : []),
       httpBatchLink({
         url: options?.url ?? "https://api2.warera.io/trpc",
-        fetch: createRateLimitedFetch(options?.fetch, appliedRateLimit),
-        maxURLLength: 2000,
+        fetch: rateLimitedFetch,
+        maxURLLength: 16000,
         headers() {
           return {
             ...(options?.headers ?? {}),
