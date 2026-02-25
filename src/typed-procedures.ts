@@ -86,7 +86,7 @@ type HasRequiredInput<K extends ProcedureKey> = IsNever<
 type ProcedureFunction<K extends ProcedureKey> = HasRequiredInput<K> extends true
   ? IsPaginatedResponse<K> extends true
     ? {
-        (input: InputFor<K>): Promise<ResponseFor<K>>;
+        (input: InputFor<K> & { autoPaginate?: false | undefined }): Promise<ResponseFor<K>>;
         (input: InputFor<K> & { autoPaginate: true }): AsyncIterableIterator<
           PageResult<K>
         >;
@@ -94,7 +94,7 @@ type ProcedureFunction<K extends ProcedureKey> = HasRequiredInput<K> extends tru
     : (input: InputFor<K>) => Promise<ResponseFor<K>>
   : IsPaginatedResponse<K> extends true
   ? {
-      (input?: InputFor<K>): Promise<ResponseFor<K>>;
+      (input?: InputFor<K> & { autoPaginate?: false | undefined }): Promise<ResponseFor<K>>;
       (input?: InputFor<K> & { autoPaginate: true }): AsyncIterableIterator<
         PageResult<K>
       >;
