@@ -67,6 +67,17 @@ export type {
 	WorkOfferWageStatsOffer
 } from "./WorkOffer";
 
+export type {
+	TournamentCustomEndpoints,
+	TournamentGetLastTournamentResponse,
+	TournamentTeamGetByIdInput,
+	TournamentTeamGetByTournamentIdInput,
+	TournamentTeam,
+	TournamentMatch,
+	TournamentRound,
+	TournamentRegistered
+} from "./Tournament";
+
 import type { CompanyCustomEndpoints } from "./Company";
 import type { DonationCustomEndpoints } from "./Donation";
 import type { ElectionCustomEndpoints } from "./Election";
@@ -76,6 +87,7 @@ import type { PartyCustomEndpoints } from "./Party";
 import type { TradingOrderCustomEndpoints } from "./TradingOrder";
 import type { WorkCustomEndpoints } from "./Work";
 import type { WorkOfferCustomEndpoints } from "./WorkOffer";
+import type { TournamentCustomEndpoints } from "./Tournament";
 
 export type WarEraCustomEndpoints =
 	PartyCustomEndpoints
@@ -86,4 +98,5 @@ export type WarEraCustomEndpoints =
 	& MuMemberCustomEndpoints
 	& TradingOrderCustomEndpoints
 	& WorkCustomEndpoints
-	& WorkOfferCustomEndpoints;
+	& WorkOfferCustomEndpoints
+	& TournamentCustomEndpoints;

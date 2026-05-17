@@ -72,6 +72,25 @@ async function getPartyId(): Promise<string> {
 	return cachedPartyId;
 }
 
+let cachedTournamentId: string | undefined;
+async function getTournamentId(): Promise<string> {
+	if (cachedTournamentId) return cachedTournamentId;
+	const tournament = await client.tournament.getLastTournament();
+	assert(tournament?._id, "expected a tournament to test tournament endpoints");
+	cachedTournamentId = tournament._id;
+	return cachedTournamentId;
+}
+
+let cachedTournamentTeamId: string | undefined;
+async function getTournamentTeamId(): Promise<string> {
+	if (cachedTournamentTeamId) return cachedTournamentTeamId;
+	const teams = await client.tournamentTeam.getByTournamentId({ tournamentId: await getTournamentId() });
+	const teamId = teams?.[0]?._id;
+	assert(teamId, "expected at least one team for the tournament");
+	cachedTournamentTeamId = teamId;
+	return cachedTournamentTeamId;
+}
+
 const tests: EndpointTest[] = [
 	{
 		name: "company.getProductionBonus",
@@ -221,6 +240,42 @@ const tests: EndpointTest[] = [
 		validate: (value) => {
 			assert(Array.isArray(value), "expected array response");
 			console.log("Received recommended region IDs response:", value);
+		},
+	},
+	{
+		name: "tournament.getLastTournament",
+		run: () => client.tournament.getLastTournament(),
+		validate: (value) => {
+			assert(isObject(value), "expected object response");
+			assert(typeof value._id === "string", "expected string _id");
+			assert(typeof value.name === "string", "expected string name");
+			assert(typeof value.status === "string", "expected string status");
+			assert(isObject(value.registered), "expected registered object");
+			assert(isObject(value.rounds), "expected rounds object");
+			console.log("Received last tournament response:", value);
+		},
+	},
+	{
+		name: "tournamentTeam.getByTournamentId",
+		run: async () => client.tournamentTeam.getByTournamentId({ tournamentId: await getTournamentId() }),
+		validate: (value) => {
+			assert(Array.isArray(value), "expected array response");
+			if (value.length > 0) {
+				assert(typeof value[0]._id === "string", "expected string _id on first team");
+				assert(typeof value[0].tournament === "string", "expected string tournament on first team");
+			}
+			console.log(`Received ${value.length} tournament teams`);
+		},
+	},
+	{
+		name: "tournamentTeam.getById",
+		run: async () => client.tournamentTeam.getById({ tournamentTeamId: await getTournamentTeamId() }),
+		validate: (value) => {
+			assert(isObject(value), "expected object response");
+			assert(typeof value._id === "string", "expected string _id");
+			assert(typeof value.tournament === "string", "expected string tournament");
+			assert(Array.isArray(value.participants), "expected participants array");
+			console.log("Received tournament team response:", value);
 		},
 	},
 ];
