@@ -1,3 +1,9 @@
+Do you want to support future developments?
+
+[![Buy Dog a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jvdlanger)
+
+---
+
 # WarEra tRPC Client
 This package provides a frontend + backend compatible tRPC communication layer for the WarEra.io API.
 
@@ -84,11 +90,3 @@ See the [Auto-Pagination Guide](./docs/AUTO_PAGINATION.md) for more details and 
 
 Found an issue?
 Open up a ticket here: https://github.com/WarEraProjects/TRPC/issues
-
----
-
-If you wish to support future development, feel free to support the devs:
-
-ZaLimitless (Dog):
-
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jvdlanger)
