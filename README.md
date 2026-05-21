@@ -1,5 +1,3 @@
-Do you want to support future developments?
-
 [![Buy Dog a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jvdlanger)
 
 ---
