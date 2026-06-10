@@ -735,7 +735,7 @@ export interface paths {
         put?: never;
         /**
          * Get battle orders
-         * @description Retrieves active battle orders for a specific battle and side
+         * @description Retrieves active battle orders for a specific battle and side. Order text is only included for citizens of the ordering country / members of the ordering MU.
          */
         post: operations["battleOrder.getByBattle"];
         delete?: never;
@@ -936,7 +936,7 @@ export interface operations {
                     /** @description Filter events by country ID */
                     countryId?: string;
                     /** @description Filter events by event types */
-                    eventTypes?: ("warDeclared" | "peace_agreement" | "battleOpened" | "battleEnded" | "newPresident" | "regionTransfer" | "peaceMade" | "countryMoneyTransfer" | "depositDiscovered" | "depositDepleted" | "systemRevolt" | "bankruptcy" | "allianceFormed" | "allianceBroken" | "regionLiberated" | "strategicResourcesReshuffled" | "resistanceIncreased" | "resistanceDecreased" | "revolutionStarted" | "revolutionEnded" | "financedRevolt")[];
+                    eventTypes?: ("warDeclared" | "peace_agreement" | "battleOpened" | "battleEnded" | "newPresident" | "regionTransfer" | "peaceMade" | "countryMoneyTransfer" | "depositDiscovered" | "depositDepleted" | "systemRevolt" | "bankruptcy" | "allianceFormed" | "allianceBroken" | "allianceMemberJoined" | "allianceMemberLeft" | "allianceMemberExcluded" | "defensivePactFormed" | "defensivePactBroken" | "regionLiberated" | "strategicResourcesReshuffled" | "resistanceIncreased" | "resistanceDecreased" | "revolutionStarted" | "revolutionEnded" | "financedRevolt")[];
                 };
             };
         };
@@ -1194,6 +1194,13 @@ export interface operations {
                      * @enum {string}
                      */
                     side: "attacker" | "defender" | "merged";
+                    /**
+                     * @description Number of ranking entries per page
+                     * @default 20
+                     */
+                    limit?: number;
+                    /** @description Cursor to fetch the next page of entries */
+                    cursor?: string;
                 };
             };
         };
@@ -1342,6 +1349,7 @@ export interface operations {
                     limit?: number;
                     energy?: number;
                     production?: number;
+                    level?: number;
                     citizenship?: string;
                 };
             };
@@ -1369,7 +1377,7 @@ export interface operations {
                      * @description The type of ranking to retrieve
                      * @enum {string}
                      */
-                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryProductionBonus" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muReputation";
+                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryProductionBonus" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
                 };
             };
         };
@@ -1689,7 +1697,7 @@ export interface operations {
                     /** @description The item code to get transactions for */
                     itemCode?: string;
                     /** @description The type of transactions to get */
-                    transactionType?: ("applicationFee" | "trading" | "itemMarket" | "wage" | "donation" | "articleTip" | "openCase" | "craftItem" | "dismantleItem" | "battleLoot") | ("applicationFee" | "trading" | "itemMarket" | "wage" | "donation" | "articleTip" | "openCase" | "craftItem" | "dismantleItem" | "battleLoot")[];
+                    transactionType?: ("applicationFee" | "trading" | "itemMarket" | "wage" | "donation" | "articleTip" | "openCase" | "craftItem" | "dismantleItem" | "battleLoot" | "countryMoneyTransfer") | ("applicationFee" | "trading" | "itemMarket" | "wage" | "donation" | "articleTip" | "openCase" | "craftItem" | "dismantleItem" | "battleLoot" | "countryMoneyTransfer")[];
                 };
             };
         };
