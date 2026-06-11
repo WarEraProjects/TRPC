@@ -1,4 +1,16 @@
 export type {
+	Alliance,
+	AllianceCustomEndpoints,
+	AllianceGetByIdInput,
+	AllianceGetByIdsInput,
+	AllianceGetManyPaginatedInput,
+	AllianceGetManyPaginatedResponse,
+	AllianceMemberCountry,
+	AllianceRankingEntry,
+	AllianceRankings
+} from "./Alliance";
+
+export type {
 	PartyCustomEndpoints,
 	PartyEthics,
 	PartyGetByIdInput,
@@ -78,6 +90,7 @@ export type {
 	TournamentRegistered
 } from "./Tournament";
 
+import type { AllianceCustomEndpoints } from "./Alliance";
 import type { CompanyCustomEndpoints } from "./Company";
 import type { DonationCustomEndpoints } from "./Donation";
 import type { ElectionCustomEndpoints } from "./Election";
@@ -90,7 +103,8 @@ import type { WorkOfferCustomEndpoints } from "./WorkOffer";
 import type { TournamentCustomEndpoints } from "./Tournament";
 
 export type WarEraCustomEndpoints =
-	PartyCustomEndpoints
+	AllianceCustomEndpoints
+	& PartyCustomEndpoints
 	& CompanyCustomEndpoints
 	& DonationCustomEndpoints
 	& ElectionCustomEndpoints

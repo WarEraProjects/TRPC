@@ -91,6 +91,16 @@ async function getTournamentTeamId(): Promise<string> {
 	return cachedTournamentTeamId;
 }
 
+let cachedAllianceId: string | undefined;
+async function getAllianceId(): Promise<string> {
+	if (cachedAllianceId) return cachedAllianceId;
+	const alliances = await client.alliance.getManyPaginated({ limit: 100 });
+	const allianceId = alliances.items?.[0]?._id;
+	assert(allianceId, "expected at least one alliance to test alliance endpoints");
+	cachedAllianceId = allianceId;
+	return cachedAllianceId;
+}
+
 const tests: EndpointTest[] = [
 	{
 		name: "company.getProductionBonus",
@@ -276,6 +286,38 @@ const tests: EndpointTest[] = [
 			assert(typeof value.tournament === "string", "expected string tournament");
 			assert(Array.isArray(value.participants), "expected participants array");
 			console.log("Received tournament team response:", value);
+		},
+	},
+	{
+		name: "alliance.getManyPaginated",
+		run: () => client.alliance.getManyPaginated({ limit: 100 }),
+		validate: (value) => {
+			assert(Array.isArray(value.items), "expected items array");
+			assert(value.nextCursor === undefined || typeof value.nextCursor === "string", "expected optional string nextCursor");
+			console.log(`Received ${value.items.length} alliances`);
+		},
+	},
+	{
+		name: "alliance.getById",
+		run: async () => client.alliance.getById({ allianceId: await getAllianceId() }),
+		validate: (value) => {
+			assert(isObject(value), "expected object response");
+			assert(typeof value._id === "string", "expected string _id");
+			assert(typeof value.name === "string", "expected string name");
+			assert(typeof value.leader === "string", "expected string leader");
+			assert(Array.isArray(value.memberCountries), "expected memberCountries array");
+			assert(isObject(value.rankings), "expected rankings object");
+			console.log("Received alliance by ID response:", value);
+		},
+	},
+	{
+		name: "alliance.getByIds",
+		run: async () => client.alliance.getByIds({ ids: [await getAllianceId()] }),
+		validate: (value) => {
+			assert(Array.isArray(value), "expected array response");
+			assert(value.length > 0, "expected at least one alliance");
+			assert(typeof value[0]._id === "string", "expected string _id on first alliance");
+			console.log(`Received ${value.length} alliances by IDs`);
 		},
 	},
 ];
