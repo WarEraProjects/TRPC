@@ -1,7 +1,7 @@
+/** The explorer also lists a `count` parameter, but the server ignores it and always returns five regions. */
 export type CompanyGetRecommendedRegionIdsByItemCodeInput = {
 	itemCode: string;
 	includeDeposit?: boolean;
-	count?: number;
 };
 
 export type CompanyGetProductionBonusInput = {
