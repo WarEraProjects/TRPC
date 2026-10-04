@@ -6,7 +6,8 @@ export {
     /**
      * @deprecated Use createAPIClient instead
      */
-    createAPIClient as createTrpcLikeClient
+    createAPIClient as createTrpcLikeClient,
+    VOID_INPUT_PROCEDURES
 } from "./trpc-client";
 export type {
     TrpcLikeClientOptions as APIClientOptions,
