@@ -1,5 +1,8 @@
 export type TradingOrderGetPublicOrdersByOwnerInput = {
-	countryId: string;
+	countryId?: string;
+	userId?: string;
+	muId?: string;
+	partyId?: string;
 };
 
 export type PublicTradingOrder = {

@@ -39,6 +39,7 @@ export type TournamentGetLastTournamentResponse = {
 	createdAt: string;
 	updatedAt: string;
 	__v: number;
+	winnerTournamentTeam?: string;
 };
 
 export type TournamentTeamGetByIdInput = {
@@ -65,7 +66,13 @@ export type TournamentTeam = {
 	__v: number;
 };
 
+export type TournamentGetByIdInput = { tournamentId: string };
+export type TournamentGetManyPaginatedInput = { limit?: number; cursor?: string };
+export type TournamentGetManyPaginatedResponse = { items: TournamentGetLastTournamentResponse[]; nextCursor?: string | null };
+
 export type TournamentCustomEndpoints = {
+	"tournament.getById": { input: TournamentGetByIdInput; output: TournamentGetLastTournamentResponse };
+	"tournament.getManyPaginated": { input: TournamentGetManyPaginatedInput; output: TournamentGetManyPaginatedResponse };
 	"tournament.getLastTournament": {
 		output: TournamentGetLastTournamentResponse;
 	};

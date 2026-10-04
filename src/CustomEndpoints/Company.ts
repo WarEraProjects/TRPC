@@ -1,6 +1,7 @@
 export type CompanyGetRecommendedRegionIdsByItemCodeInput = {
 	itemCode: string;
 	includeDeposit?: boolean;
+	count?: number;
 };
 
 export type CompanyGetProductionBonusInput = {

@@ -630,10 +630,13 @@ export function createAPIClient(options?: TrpcLikeClientOptions & {rateLimit?: n
       },
       apply(_t, _thisArg, argArray) {
         const path = parts.join(".");
-        const input = argArray?.[0] ?? {};
+        // This procedure validates void input and rejects an empty object.
+        const input = path === "gameStat.getWorldDevelopment"
+          ? argArray?.[0]
+          : argArray?.[0] ?? {};
         
         // Check if auto-pagination is requested
-        if (input.autoPaginate === true) {
+        if (input?.autoPaginate === true) {
           const { autoPaginate: _unused, maxPages, cursorEnd, ...cleanedInput } = input;
           return autoPaginate(client, path, cleanedInput, {
             maxPages,

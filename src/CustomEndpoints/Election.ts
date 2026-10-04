@@ -1,5 +1,6 @@
 export type ElectionGetElectionsInput = {
 	countryId?: string;
+	partyId?: string;
 	limit?: number;
 	cursor?: string;
 	direction?: "forward" | "backward";
@@ -35,7 +36,11 @@ export type ElectionGetElectionsResponse = {
 	nextCursor?: string;
 };
 
+export type ElectionGetElectionInput = { electionId: string };
+export type ElectionGetElectionResponse = ElectionListItem;
+
 export type ElectionCustomEndpoints = {
+	"election.getElection": { input: ElectionGetElectionInput; output: ElectionGetElectionResponse };
 	"election.getElections": {
 		input: ElectionGetElectionsInput;
 		output: ElectionGetElectionsResponse;

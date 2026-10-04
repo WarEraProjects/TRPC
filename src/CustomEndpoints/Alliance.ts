@@ -7,7 +7,9 @@ export type AllianceGetByIdsInput = {
 };
 
 export type AllianceGetManyPaginatedInput = {
+	page?: number;
 	limit?: number;
+	/** Retained for compatibility; the explorer documents page-based pagination. */
 	cursor?: string;
 };
 

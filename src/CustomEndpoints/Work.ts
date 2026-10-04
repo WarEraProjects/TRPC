@@ -1,20 +1,23 @@
 export type WorkGetStatsByUserIdInput = {
 	userId: string;
-	days: number;
-	timezone: string;
+	/** Between 1 and 60. */
+	days?: number;
+	timezone?: string;
 };
 
 export type WorkGetStatsByCompanyInput = {
 	companyId: string;
-	days: number;
-	timezone: string;
+	/** Between 1 and 60. */
+	days?: number;
+	timezone?: string;
 };
 
 export type WorkGetStatsByWorkerAndCompanyInput = {
 	workerId: string;
 	companyId: string;
-	days: number;
-	timezone: string;
+	/** Between 1 and 60. */
+	days?: number;
+	timezone?: string;
 };
 
 export type WorkStatsItem = {
@@ -26,7 +29,15 @@ export type WorkStatsItem = {
 	automatedEngine: number;
 };
 
+export type WorkGetStatsByWorkerInput = {
+	workerId: string;
+	/** Between 1 and 60. */
+	days?: number;
+	timezone?: string;
+};
+
 export type WorkCustomEndpoints = {
+	"work.getStatsByWorker": { input: WorkGetStatsByWorkerInput; output: WorkStatsItem[] };
 	"work.getStatsByUserId": {
 		input: WorkGetStatsByUserIdInput;
 		output: WorkStatsItem[];
