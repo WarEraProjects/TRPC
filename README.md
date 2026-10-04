@@ -88,3 +88,59 @@ See the [Auto-Pagination Guide](./docs/AUTO_PAGINATION.md) for more details and 
 
 Found an issue?
 Open up a ticket here: https://github.com/WarEraProjects/TRPC/issues
+
+## Testing
+
+`npm test` runs the offline unit suite in `tests/unit` with mocked fetch responses.
+It needs no API key, `.env`, response cache, or live API access. The suite covers
+retry behavior and the client's pagination implementation.
+
+| Command | Purpose |
+|---|---|
+| `npm test` / `npm run test:unit` | Run all offline unit tests. |
+| `npm run test:retry` | Run only offline retry tests. |
+| `npm run test:integration:pagination` | Run bounded live pagination checks. |
+| `npm run test:integration:custom` | Validate custom endpoints against the live API. |
+| `npm run test:integration` | Run both live integration suites. |
+| `npm run benchmark:api` | Run the former default test: a live countries/users/companies crawl. |
+
+Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
+`WARERA_API_KEY`. Custom endpoint checks also need `WARERA_COMPANY_ID`,
+`WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`, or suitable existing
+samples in `Responses/outputs`. They depend on available live entities.
+
+The API benchmark can make many requests and is intended for deliberate manual
+runs. It is separate from both unit and integration testing. Response collection
+and type generation remain separate maintenance commands.
+
+Integration tests are grouped by API area in `tests/integration/*.test.ts`.
+Each endpoint has an individual Node test-runner result. Shared client and ID
+lookup helpers live in `tests/integration/helpers`; IDs are required only by the
+checks that use them. Suites run one file at a time to limit concurrent API traffic.
+Each check has a 60-second timeout. Missing credentials or required IDs fail with
+setup instructions; failures are not silently skipped.
+
+Run one API area:
+
+```bash
+node --import tsx --require dotenv/config --test tests/integration/company.test.ts
+```
+
+Set `WARERA_API_URL` to override the integration client's tRPC base URL.
+
+## Type checking
+
+Run `npm run typecheck` to check the library, all unit and integration tests,
+benchmarks, response-generation tools, and the build configuration. These checks
+only compile types: they emit no files, make no API requests, and need no credentials.
+
+| Command | Configuration | Scope |
+|---|---|---|
+| `npm run typecheck:src` | `tsconfig.json` | Library source and declarations. |
+| `npm run typecheck:tests` | `tsconfig.tests.json` | All tests, shared helpers, and benchmarks. |
+| `npm run typecheck:tools` | `tsconfig.tools.json` | Response collection/generation and `tsup.config.ts`. |
+
+The test and tool configurations inherit the library's strict compiler settings.
+Node-based tools use ES2022 to support `Object.hasOwn`; the library remains ES2020.
+Raw response outputs and backups are excluded from the tool check. The package
+build continues to use `tsconfig.json` and bundles only the library entry point.

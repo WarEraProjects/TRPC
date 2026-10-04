@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ]
+  },
+  "include": [
+    "Responses/**/*.ts",
+    "tsup.config.ts"
+  ],
+  "exclude": [
+    "Responses/outputs",
+    "Responses/outputs-backups"
+  ]
+}

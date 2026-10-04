@@ -1,4 +1,5 @@
-import { createRetryFetch, type RetryInfo } from "../src/trpc-client";
+import { test } from "node:test";
+import { createRetryFetch, type RetryInfo } from "../../src/trpc-client";
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) {
@@ -89,14 +90,6 @@ async function testDoesNotRetryClientErrors() {
   assert(calls === 1, `expected 1 fetch call, received ${calls}`);
 }
 
-async function runTests() {
-  await testRetriesNetworkErrors();
-  await testRetriesTransientStatuses();
-  await testDoesNotRetryClientErrors();
-  console.log("Retry fetch tests passed");
-}
-
-runTests().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+test("retries network errors", testRetriesNetworkErrors);
+test("retries transient statuses", testRetriesTransientStatuses);
+test("does not retry client errors", testDoesNotRetryClientErrors);
