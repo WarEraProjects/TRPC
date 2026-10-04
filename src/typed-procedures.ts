@@ -83,8 +83,11 @@ type MergeDeep<T> = { [K in keyof T]: T[K] };
 // Helper type to check if a type is exactly `never`
 type IsNever<T> = [T] extends [never] ? true : false;
 
-// Helper type to check if all properties in a type are optional
-type AllPropertiesOptional<T> = { [K in keyof T]-?: T[K] } extends T ? true : false;
+// Helper type to check if all properties in a type are optional.
+// `{}` is assignable to T exactly when T has no required property. The previous
+// form, `Required<T> extends T`, is true for every object type, which made every
+// procedure input optional.
+type AllPropertiesOptional<T> = {} extends T ? true : false;
 
 type EndpointDefinition<RawInput, Output> = {
   input: RawInput;
