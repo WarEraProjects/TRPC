@@ -1,4 +1,4 @@
-import { createAPIClient } from "../src/index";
+import { createAPIClient } from "../../src/index";
 
 async function processCountries(allCountries: { _id: string; name: string }[], client: ReturnType<typeof createAPIClient>): Promise<{ totalUsers: number; totalCompanies: number }> {
   let totalUsers = 0;
@@ -6,7 +6,7 @@ async function processCountries(allCountries: { _id: string; name: string }[], c
 
   await Promise.all(allCountries.map(async (country) => {
     let countryUserCount = 0;
-    
+
     const companyBatchPromises = [];
 
     for await (const userPage of client.user.getUsersByCountry({
@@ -34,7 +34,7 @@ async function processCountries(allCountries: { _id: string; name: string }[], c
 
     // Wait for all company requests to complete for this country
     await Promise.all(companyBatchPromises);
-    
+
     console.log(`${country.name}: ${countryUserCount} users`);
   }));
 
@@ -50,7 +50,7 @@ async function getAllFromCountry(countryID: string, client: ReturnType<typeof cr
     const userLitePromises = Promise.all(userPage.items.map(async (userItem) => {
       return await client.user.getUserLite({userId: userItem._id})
     }));
-    
+
     allUserPromises.push(userLitePromises);
   }
 
@@ -80,7 +80,7 @@ async function main() {
     },
     rateLimit: 500
   });
-  
+
   // Intensly test the performance:
   // Get all countries
   // Get all users for each country
@@ -103,7 +103,7 @@ async function main() {
   console.log(`  - Total Companies: ${totalCompanies}`);
   console.log(`  - Elapsed Time: ${(elapsedTime / 1000).toFixed(2)}s`);
   console.log(`  - Batch calls: ${countingBatches}`);
-  
+
 }
 
 main().catch((err) => {
