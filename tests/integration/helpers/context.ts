@@ -34,7 +34,8 @@ function workerIdFromOutput(): string | undefined {
         (typeof entry.company === "string" ? entry.company : entry.company?._id) === companyId)
     : undefined;
   const worker = Array.isArray(value) ? value[0] : group?.workers?.[0] ?? value.workers?.[0] ?? value.items?.[0];
-	return worker?._id ?? worker?.user ?? worker?.workerId;
+  // work.* procedures key workers by their user id, not by the worker document `_id`.
+	return worker?.user ?? worker?.workerId ?? worker?._id;
 }
 
 const ids = {
