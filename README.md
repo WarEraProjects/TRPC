@@ -108,6 +108,9 @@ Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
 `WARERA_API_KEY`. Custom endpoint checks also need `WARERA_COMPANY_ID`,
 `WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`, or suitable existing
 samples in `Responses/outputs`. They depend on available live entities.
+`WARERA_WORKER_ID` is the worker's user id (the `user` field of a
+`worker.getWorkers` entry), which is what the `work.*` procedures key on. The
+`work.*` checks need an API key from a WarEra Premium account.
 
 The API benchmark can make many requests and is intended for deliberate manual
 runs. It is separate from both unit and integration testing. Response collection

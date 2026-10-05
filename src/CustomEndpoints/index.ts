@@ -45,25 +45,25 @@ import type { WorkCustomEndpoints } from "./Work";
 import type { WorkOfferCustomEndpoints } from "./WorkOffer";
 
 export type WarEraCustomEndpoints =
-  AllianceCustomEndpoints
-  & ArticleCustomEndpoints
-  & CompanyCustomEndpoints
-  & ContributionCustomEndpoints
-  & CountryCustomEndpoints
-  & CountryDiplomacyCustomEndpoints
-  & DonationCustomEndpoints
-  & ElectionCustomEndpoints
-  & GameStatCustomEndpoints
-  & GiveawayCustomEndpoints
-  & MuMemberCustomEndpoints
-  & PartyCustomEndpoints
-  & RegionCustomEndpoints
-  & SanctionCustomEndpoints
-  & SearchCustomEndpoints
-  & ShopCustomEndpoints
-  & TournamentCustomEndpoints
-  & TradingOrderCustomEndpoints
-  & UpgradeConstructionCustomEndpoints
-  & WarCustomEndpoints
-  & WorkCustomEndpoints
-  & WorkOfferCustomEndpoints;
+	AllianceCustomEndpoints
+	& ArticleCustomEndpoints
+	& CompanyCustomEndpoints
+	& ContributionCustomEndpoints
+	& CountryCustomEndpoints
+	& CountryDiplomacyCustomEndpoints
+	& DonationCustomEndpoints
+	& ElectionCustomEndpoints
+	& GameStatCustomEndpoints
+	& GiveawayCustomEndpoints
+	& MuMemberCustomEndpoints
+	& PartyCustomEndpoints
+	& RegionCustomEndpoints
+	& SanctionCustomEndpoints
+	& SearchCustomEndpoints
+	& ShopCustomEndpoints
+	& TournamentCustomEndpoints
+	& TradingOrderCustomEndpoints
+	& UpgradeConstructionCustomEndpoints
+	& WarCustomEndpoints
+	& WorkCustomEndpoints
+	& WorkOfferCustomEndpoints;

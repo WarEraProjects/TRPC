@@ -1,15 +1,25 @@
 export type TournamentMatch = {
+	/** Absent on tournaments created before the bracket rework. */
+	matchIndex?: number;
 	attacker: string;
 	defender: string;
-	isQualificationRound: boolean;
+	/** Only set on qualification-round matches. */
+	isQualificationRound?: boolean;
+	possibleAttackerTeamIds?: string[];
+	possibleDefenderTeamIds?: string[];
 	battle: string;
+	/** Set once the match's battle has ended. */
+	wonBy?: "attacker" | "defender";
+	/** Match indexes of the previous-round matches feeding each side. */
+	predecessors?: Partial<Record<"attacker" | "defender", number>>;
 };
 
 export type TournamentRound = {
 	roundNumber: number;
 	cases: number;
-	skillValue: number | null;
-	isQualificationRound: boolean;
+	skillValue?: number | null;
+	/** Only set on the qualification round. */
+	isQualificationRound?: boolean;
 	matches: TournamentMatch[];
 };
 
@@ -25,12 +35,14 @@ export type TournamentGetLastTournamentResponse = {
 	description?: string;
 	isActive: boolean;
 	status: string;
-	startAt: string;
+	/** Absent on some older tournaments. */
+	startAt?: string;
 	teamSize: number;
 	teamCount: number;
 	roundsCount: number;
 	type: string;
-	maxRarity: string;
+	/** Absent on some older tournaments. */
+	maxRarity?: string;
 	skillKey: string;
 	autoQualify1stRound: string[];
 	registered: TournamentRegistered;
@@ -61,6 +73,9 @@ export type TournamentTeam = {
 	colorScheme: string;
 	estimatedUsers: number;
 	status: string;
+	totalDamage: number;
+	/** Damage dealt per participating entity id (country, MU or user). */
+	damageByEntity: Record<string, number>;
 	createdAt: string;
 	updatedAt: string;
 	__v: number;
