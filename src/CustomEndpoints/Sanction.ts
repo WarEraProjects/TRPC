@@ -24,7 +24,7 @@ export type SanctionType =
 
 export type SanctionGetPaginatedInput = {
 	targetUserId?: string;
-	type?: SanctionType | (string & {});
+	type?: SanctionType;
 	/** Between 1 and 100. */
 	limit?: number;
 	cursor?: string;

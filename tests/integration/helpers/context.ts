@@ -91,6 +91,7 @@ async function resolveTestId(key: keyof typeof ids) {
     // worker employed at the selected company. Preserve explicitly supplied IDs.
     await (discoveredWorkers ??= (async () => {
       const response = await client.worker.getWorkers({ userId: ids.userId ?? user._id });
+      assert(response.type === "user", "expected user-scoped workers response");
       const groups = response.workersPerCompany;
       const candidates = ids.companyId
         ? groups.filter(group => group.company._id === ids.companyId)

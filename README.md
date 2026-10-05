@@ -53,6 +53,22 @@ main().catch((err) => {
 });
 ```
 
+## Custom endpoint constraints
+
+- `worker.getWorkers` requires `companyId`, `userId`, or both. The company selector
+  takes precedence and returns `{ type: "company", workers }`; user-only selection
+  returns `{ type: "user", workersPerCompany }`. Narrow by `type` before reading rows.
+- `election.getElections` requires `countryId`, `partyId`, or both.
+- `upgradeConstruction.listConstructions` requires `regionId`, `countryId`, or both.
+- `contribution.getCountryUnrestContributions` and `getRegionContributions` use
+  one-based `page` pagination. The server ignores `limit` and uses 10 rows per page
+  (the final page may contain fewer). These endpoints do not use cursor auto-pagination.
+- `sanction.getPaginated.type` accepts uppercase `SanctionType` values such as
+  `BAN`, `MUTE_USER`, and `WARN_USER`; lowercase `ban` is invalid. Its response
+  `data` is a discriminated union: narrow by `data.type` to access action fields
+  such as `durationInHours`, `unMuteAt`, `removeDamages`, `oldUsername`,
+  `newUsername`, and `message`.
+
 ## Auto-Pagination
 
 For endpoints that support cursor-based pagination, use the `autoPaginate` flag to automatically iterate through all pages:
@@ -135,7 +151,14 @@ rediscover current entities.
 
 `WARERA_WORKER_ID` is the worker's user id (the `user` field of a
 `worker.getWorkers` entry), which is what the `work.*` procedures key on. The
-`work.*` checks need an API key from a WarEra Premium account.
+`work.getStatsByWorker`, `work.getStatsByUserId`, and `work.getStatsByCompany`
+checks need a WarEra Premium API key; normal keys receive HTTP 403
+`Premium required`. `work.getStatsByWorkerAndCompany` has been reported to
+return HTTP 401 even with an API key, suggesting it requires session authentication.
+The configured key passed all five work checks, including worker-and-company,
+on 2026-10-05, so that session restriction is not universal.
+The live work suite checks successful responses and will fail when the supplied
+credentials cannot access an endpoint.
 
 The API benchmark can make many requests and is intended for deliberate manual
 runs. It is separate from both unit and integration testing. Response collection

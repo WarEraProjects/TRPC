@@ -1,6 +1,10 @@
 /**
- * Every `work.*` procedure requires the calling API key to belong to a WarEra Premium
- * account; other keys get `Unauthorized`. `days` defaults server-side and is capped at 60.
+ * `getStatsByWorker`, `getStatsByUserId`, and `getStatsByCompany` require a
+ * WarEra Premium API key; normal keys receive HTTP 403 "Premium required".
+ * `getStatsByWorkerAndCompany` has been reported to return HTTP 401 even with an
+ * API key, suggesting session authentication may be required for some accounts;
+ * live checks with a Premium key also succeeded without a session.
+ * `days` defaults server-side and is capped at 60.
  * `workerId` is the worker's **user** id, not the worker document `_id` returned by
  * `worker.getWorkers`; the document id returns an empty array.
  */
@@ -59,6 +63,7 @@ export type WorkCustomEndpoints = {
 		input: WorkGetStatsByCompanyInput;
 		output: WorkStatsItem[];
 	};
+	/** API-key access varies: HTTP 401 was reported, but live Premium-key checks succeeded. */
 	"work.getStatsByWorkerAndCompany": {
 		input: WorkGetStatsByWorkerAndCompanyInput;
 		output: WorkStatsItem[];

@@ -23,7 +23,8 @@ export async function runCompanyWorkflow(
     return;
   }
 
-  if (ids.userId) {
-    await runner.loadOrFetch("worker.getWorkers", () => trpc.worker.getWorkers({ userId: ids.userId }));
+  const userId = ids.userId;
+  if (userId) {
+    await runner.loadOrFetch("worker.getWorkers", () => trpc.worker.getWorkers({ userId }));
   }
 }

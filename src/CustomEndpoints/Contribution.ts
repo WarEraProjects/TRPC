@@ -9,7 +9,8 @@ export type ContributionUser = {
 export type Contribution = {
 	_id: string;
 	type: string;
-	user: ContributionUser;
+	/** Depending on the endpoint, a user id or a populated user document. */
+	user: string | ContributionUser;
 	country: string;
 	region?: string;
 	amount: number;

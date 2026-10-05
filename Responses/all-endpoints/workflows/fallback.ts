@@ -152,7 +152,7 @@ export async function runFallbackWorkflow(
       case "worker.getWorkers":
         return finalCompanyIdResolved
           ? { companyId: finalCompanyIdResolved }
-          : { userId: ids.userId };
+          : { userId: runner.requireId("userId", ids.userId, "WARERA_USER_ID") };
       case "worker.getTotalWorkersCount":
         return { userId: ids.userId };
       case "battleOrder.getByBattle":

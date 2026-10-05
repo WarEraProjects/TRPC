@@ -1,4 +1,5 @@
 export type * from './api/Responses';
+export type { WorkerGetWorkersInput, WorkerGetWorkersCompanyResponse, WorkerGetWorkersUserResponse } from "./api/endpoint-overrides";
 export type { components, operations, paths } from "./api/warera-openapi";
 export type * from "./CustomEndpoints";
 export {
