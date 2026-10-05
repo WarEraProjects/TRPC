@@ -8,7 +8,7 @@ integrationTest("company.getProductionBonus", async () => {
 			for (const key of ["strategicBonus", "depositBonus", "ethicSpecializationBonus", "ethicDepositBonus", "total"] as const) {
 				assert(typeof value[key] === "number", `expected numeric ${key}`);
 			}
-});
+}, ["companyId"]);
 
 integrationTest("company.getRecommendedRegionIdsByItemCode", async () => {
   const value = await client.company.getRecommendedRegionIdsByItemCode({ itemCode: "steel", includeDeposit: true });

@@ -12,25 +12,25 @@ integrationTest("work.getStatsByUserId", async () => {
   const value = await client.work.getStatsByUserId({ userId: testIds.userId, days: 7, timezone: "Europe/Amsterdam" });
 
 			assertStatsRows(value);
-});
+}, ["userId"]);
 
 integrationTest("work.getStatsByCompany", async () => {
   const value = await client.work.getStatsByCompany({ companyId: testIds.companyId, days: 7, timezone: "Europe/Amsterdam" });
 
 			assertStatsRows(value);
-});
+}, ["companyId"]);
 
 integrationTest("work.getStatsByCompany without days and timezone", async () => {
   const value = await client.work.getStatsByCompany({ companyId: testIds.companyId });
 
 			assertStatsRows(value);
-});
+}, ["companyId"]);
 
 integrationTest("work.getStatsByWorker", async () => {
   const value = await client.work.getStatsByWorker({ workerId: testIds.workerId, days: 14 });
 
 			assertStatsRows(value);
-});
+}, ["workerId"]);
 
 integrationTest("work.getStatsByWorkerAndCompany", async () => {
   const value = await client.work.getStatsByWorkerAndCompany({
@@ -41,4 +41,4 @@ integrationTest("work.getStatsByWorkerAndCompany", async () => {
 		});
 
 			assertStatsRows(value);
-});
+}, ["workerId", "companyId"]);

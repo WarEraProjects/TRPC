@@ -23,4 +23,4 @@ integrationTest("tradingOrder.getPublicOrdersByOwner by user", async () => {
 				assert(typeof order.user === "string", "expected string user on user order");
 				assert(order.type === "buy" || order.type === "sell", "expected order type");
 			}
-});
+}, ["userId"]);

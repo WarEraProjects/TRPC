@@ -105,9 +105,34 @@ retry behavior and the client's pagination implementation.
 | `npm run benchmark:api` | Run the former default test: a live countries/users/companies crawl. |
 
 Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
-`WARERA_API_KEY`. Custom endpoint checks also need `WARERA_COMPANY_ID`,
-`WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`, or suitable existing
-samples in `Responses/outputs`. They depend on available live entities.
+`WARERA_API_KEY`. Exported environment variables also work; if your key is in
+`~/.bashrc`, run the suite from an interactive Bash shell (`bash -ic 'npm run test:integration'`).
+Missing test IDs are discovered through `search.searchAnything`: the default
+username is `Dog`, or set `WARERA_TEST_USERNAME` to another exact, case-sensitive
+username. The setup fetches search results' user profiles and requires exactly
+one matching username. It uses that user's MU and selects a company with a worker
+from `worker.getWorkers`, keeping the company and worker paired. Company-only
+checks can fall back to `company.getCompanies` if no worker is available.
+`WARERA_COMPANY_ID`, `WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`
+override discovery; existing samples in `Responses/outputs` also take precedence.
+When a user ID is supplied, related IDs are discovered from that user's profile.
+Only IDs required by a selected test are resolved. Discovery depends on the
+account's current MU membership, companies, and workers.
+
+To pin the live entities found for `Dog` on 2026-10-05, export these variables
+in your shell or put the assignments in `.env` (without `export`):
+
+```bash
+export WARERA_USER_ID=690d6b03becd7485dbb33b05
+export WARERA_MU_ID=694ce4f14bff8f86caa9e8e2
+export WARERA_COMPANY_ID=690d6b03becd7485dbb33b2c
+export WARERA_WORKER_ID=690efde8fa2a3c7c37ee867d
+```
+
+The company belongs to `Dog`; the worker ID identifies a user employed at that
+company. Membership and employment can change; remove these overrides to
+rediscover current entities.
+
 `WARERA_WORKER_ID` is the worker's user id (the `user` field of a
 `worker.getWorkers` entry), which is what the `work.*` procedures key on. The
 `work.*` checks need an API key from a WarEra Premium account.

@@ -37,6 +37,7 @@
 		"convertToTypes": "tsx -r dotenv/config Responses/ConvertToTypes.ts",
 		"convertToTypes:ignoreNaming": "tsx -r dotenv/config Responses/ConvertToTypes.ts --ignore-type-naming",
 		"test": "npm run test:unit",
+		"playground": "tsx tests/playground.ts",
 		"test:unit": "tsx --test tests/unit/*.test.ts",
 		"test:integration": "node --import tsx --require dotenv/config --test --test-concurrency=1 tests/integration/*.test.ts",
 		"test:integration:pagination": "node --import tsx --require dotenv/config --test tests/integration/pagination.test.ts",

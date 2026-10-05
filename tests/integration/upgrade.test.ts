@@ -6,7 +6,7 @@ integrationTest("upgrade.getUpgradeByTypeAndEntity headquarters", async () => {
 			assert(isObject(value), "expected object response");
 			assert(value.upgradeType === "headquarters", "expected headquarters upgrade");
 			assert(value.mu === testIds.muId, "expected MU-scoped upgrade");
-});
+}, ["muId"]);
 
 integrationTest("upgrade.getUpgradeByTypeAndEntity dormitories", async () => {
   const value = await client.upgrade.getUpgradeByTypeAndEntity({ upgradeType: "dormitories", muId: testIds.muId });
@@ -14,4 +14,4 @@ integrationTest("upgrade.getUpgradeByTypeAndEntity dormitories", async () => {
 			assert(isObject(value), "expected object response");
 			assert(value.upgradeType === "dormitories", "expected dormitories upgrade");
 			assert(value.mu === testIds.muId, "expected MU-scoped upgrade");
-});
+}, ["muId"]);

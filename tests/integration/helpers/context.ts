@@ -64,6 +64,58 @@ const client = createAPIClient({
   url: process.env.WARERA_API_URL ?? "https://api2.warera.io/trpc",
 });
 
+let discoveredUser: Promise<Awaited<ReturnType<typeof client.user.getUserById>>> | undefined;
+function getTestUser() {
+  return discoveredUser ??= (async () => {
+    if (ids.userId) return client.user.getUserById({ userId: ids.userId });
+    const username = process.env.WARERA_TEST_USERNAME ?? "Dog";
+    const search = await client.search.searchAnything({ searchText: username });
+    const users = await Promise.all(search.userIds.map(userId => client.user.getUserById({ userId })));
+    const matches = users.filter(user => user.username === username);
+    assert(matches.length === 1, `Expected one exact username match for ${JSON.stringify(username)}, found ${matches.length}. Set WARERA_TEST_USERNAME or explicit WARERA_*_ID overrides.`);
+    return matches[0];
+  })();
+}
+
+let discoveredWorkers: Promise<void> | undefined;
+async function resolveTestId(key: keyof typeof ids) {
+  if (ids[key]) return;
+  const user = await getTestUser();
+  if (key === "userId") {
+    ids.userId = user._id;
+  } else if (key === "muId") {
+    assert(user.mu, `User ${user.username} has no MU. Set WARERA_MU_ID.`);
+    ids.muId = user.mu;
+  } else {
+    // Resolve the company and worker together so worker-and-company stats use a
+    // worker employed at the selected company. Preserve explicitly supplied IDs.
+    await (discoveredWorkers ??= (async () => {
+      const response = await client.worker.getWorkers({ userId: ids.userId ?? user._id });
+      const groups = response.workersPerCompany;
+      const candidates = ids.companyId
+        ? groups.filter(group => group.company._id === ids.companyId)
+        : groups;
+      const group = candidates.find(group => group.workers.some(worker => {
+        const entry = worker as JsonRecord;
+        return typeof entry.user === "string" && (!ids.workerId || entry.user === ids.workerId);
+      }));
+      if (group) {
+        const worker = group.workers.find(worker => {
+          const entry = worker as JsonRecord;
+          return typeof entry.user === "string" && (!ids.workerId || entry.user === ids.workerId);
+        }) as JsonRecord;
+        ids.companyId ??= group.company._id;
+        ids.workerId ??= worker.user;
+      }
+      if (!ids.companyId && !ids.workerId) {
+        const companies = await client.company.getCompanies({ userId: ids.userId ?? user._id, perPage: 1 });
+        ids.companyId = companies.items[0];
+      }
+    })());
+  }
+  requireId(key);
+}
+
 function assert(condition: unknown, message: string): asserts condition {
 	if (!condition) throw new Error(message);
 }
@@ -112,9 +164,10 @@ async function getAllianceId(): Promise<string> {
 }
 
 
-export function integrationTest(name: string, run: () => Promise<void>) {
+export function integrationTest(name: string, run: () => Promise<void>, requiredIds: (keyof typeof ids)[] = []) {
   test(name, { timeout: 60000 }, async () => {
     assert(process.env.WARERA_API_KEY, "Set WARERA_API_KEY in .env before running live integration tests.");
+    for (const key of requiredIds) await resolveTestId(key);
     await run();
   });
 }
