@@ -10,6 +10,9 @@ This package provides a frontend + backend compatible tRPC communication layer f
 
 You get typed procedures, batching, and rate-limit safety out of the box.
 
+# Where can I explore endpoints?
+Right here: [https://warera.realmarijn.nl/api-explorer](https://warera.realmarijn.nl/api-explorer)
+
 ## What it can do
 - End-to-end TypeScript typing for inputs and responses.
 - Procedure discovery via IntelliSense (no manual endpoint hunting).
