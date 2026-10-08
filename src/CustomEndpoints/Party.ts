@@ -7,6 +7,7 @@ export interface PartyEthics {
 	isolationism: number;
 	imperialism: number;
 	industrialism: number;
+	unethical: boolean;
 }
 
 export type PartyGetByIdResponse = {
@@ -16,7 +17,8 @@ export type PartyGetByIdResponse = {
 	description?: string;
 	country: string;
 	region: string;
-	leader: string;
+	/** Absent while a party has no leader. */
+	leader?: string;
 	councilMembers: string[];
 	members: string[];
 	createdAt: string;

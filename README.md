@@ -53,6 +53,22 @@ main().catch((err) => {
 });
 ```
 
+## Custom endpoint constraints
+
+- `worker.getWorkers` requires `companyId`, `userId`, or both. The company selector
+  takes precedence and returns `{ type: "company", workers }`; user-only selection
+  returns `{ type: "user", workersPerCompany }`. Narrow by `type` before reading rows.
+- `election.getElections` requires `countryId`, `partyId`, or both.
+- `upgradeConstruction.listConstructions` requires `regionId`, `countryId`, or both.
+- `contribution.getCountryUnrestContributions` and `getRegionContributions` use
+  one-based `page` pagination. The server ignores `limit` and uses 10 rows per page
+  (the final page may contain fewer). These endpoints do not use cursor auto-pagination.
+- `sanction.getPaginated.type` accepts uppercase `SanctionType` values such as
+  `BAN`, `MUTE_USER`, and `WARN_USER`; lowercase `ban` is invalid. Its response
+  `data` is a discriminated union: narrow by `data.type` to access action fields
+  such as `durationInHours`, `unMuteAt`, `removeDamages`, `oldUsername`,
+  `newUsername`, and `message`.
+
 ## Auto-Pagination
 
 For endpoints that support cursor-based pagination, use the `autoPaginate` flag to automatically iterate through all pages:
@@ -105,9 +121,44 @@ retry behavior and the client's pagination implementation.
 | `npm run benchmark:api` | Run the former default test: a live countries/users/companies crawl. |
 
 Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
-`WARERA_API_KEY`. Custom endpoint checks also need `WARERA_COMPANY_ID`,
-`WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`, or suitable existing
-samples in `Responses/outputs`. They depend on available live entities.
+`WARERA_API_KEY`. Exported environment variables also work; if your key is in
+`~/.bashrc`, run the suite from an interactive Bash shell (`bash -ic 'npm run test:integration'`).
+Missing test IDs are discovered through `search.searchAnything`: the default
+username is `Dog`, or set `WARERA_TEST_USERNAME` to another exact, case-sensitive
+username. The setup fetches search results' user profiles and requires exactly
+one matching username. It uses that user's MU and selects a company with a worker
+from `worker.getWorkers`, keeping the company and worker paired. Company-only
+checks can fall back to `company.getCompanies` if no worker is available.
+`WARERA_COMPANY_ID`, `WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`
+override discovery; existing samples in `Responses/outputs` also take precedence.
+When a user ID is supplied, related IDs are discovered from that user's profile.
+Only IDs required by a selected test are resolved. Discovery depends on the
+account's current MU membership, companies, and workers.
+
+To pin the live entities found for `Dog` on 2026-10-05, export these variables
+in your shell or put the assignments in `.env` (without `export`):
+
+```bash
+export WARERA_USER_ID=690d6b03becd7485dbb33b05
+export WARERA_MU_ID=694ce4f14bff8f86caa9e8e2
+export WARERA_COMPANY_ID=690d6b03becd7485dbb33b2c
+export WARERA_WORKER_ID=690efde8fa2a3c7c37ee867d
+```
+
+The company belongs to `Dog`; the worker ID identifies a user employed at that
+company. Membership and employment can change; remove these overrides to
+rediscover current entities.
+
+`WARERA_WORKER_ID` is the worker's user id (the `user` field of a
+`worker.getWorkers` entry), which is what the `work.*` procedures key on. The
+`work.getStatsByWorker`, `work.getStatsByUserId`, and `work.getStatsByCompany`
+checks need a WarEra Premium API key; normal keys receive HTTP 403
+`Premium required`. `work.getStatsByWorkerAndCompany` has been reported to
+return HTTP 401 even with an API key, suggesting it requires session authentication.
+The configured key passed all five work checks, including worker-and-company,
+on 2026-10-05, so that session restriction is not universal.
+The live work suite checks successful responses and will fail when the supplied
+credentials cannot access an endpoint.
 
 The API benchmark can make many requests and is intended for deliberate manual
 runs. It is separate from both unit and integration testing. Response collection

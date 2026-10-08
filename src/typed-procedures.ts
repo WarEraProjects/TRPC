@@ -1,5 +1,6 @@
 import type { Responses } from "./api/Responses";
 import type { operations } from "./api/warera-openapi";
+import type { ApiInputOverrides, ApiResponseOverrides } from "./api/endpoint-overrides";
 import type { WarEraCustomEndpoints } from "./CustomEndpoints";
 
 export type ProcedureKey = keyof operations;
@@ -21,7 +22,9 @@ export type CustomEndpointDefinition<Input = never, Output = unknown> = {
 
 export type CustomEndpointMap = Record<string, CustomEndpointDefinition<any, any>>;
 
-type BaseInputFor<K extends ProcedureKey> = operations[K] extends {
+type BaseInputFor<K extends ProcedureKey> = K extends keyof ApiInputOverrides
+  ? ApiInputOverrides[K]
+  : operations[K] extends {
   requestBody?: infer RB;
 }
   ? JsonContent<RB>
@@ -50,7 +53,9 @@ type ResponseFromOpenApi<K extends ProcedureKey> = operations[K] extends {
     : JsonContent<R>
   : unknown;
 
-export type ResponseFor<K extends ProcedureKey> = K extends keyof Responses
+export type ResponseFor<K extends ProcedureKey> = K extends keyof ApiResponseOverrides
+  ? ApiResponseOverrides[K]
+  : K extends keyof Responses
   ? Responses[K]
   : ResponseFromOpenApi<K>;
 
@@ -83,8 +88,11 @@ type MergeDeep<T> = { [K in keyof T]: T[K] };
 // Helper type to check if a type is exactly `never`
 type IsNever<T> = [T] extends [never] ? true : false;
 
-// Helper type to check if all properties in a type are optional
-type AllPropertiesOptional<T> = { [K in keyof T]-?: T[K] } extends T ? true : false;
+// Helper type to check if all properties in a type are optional.
+// `{}` is assignable to T exactly when T has no required property. The previous
+// form, `Required<T> extends T`, is true for every object type, which made every
+// procedure input optional.
+type AllPropertiesOptional<T> = {} extends T ? true : false;
 
 type EndpointDefinition<RawInput, Output> = {
   input: RawInput;

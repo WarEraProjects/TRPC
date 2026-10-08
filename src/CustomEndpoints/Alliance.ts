@@ -6,6 +6,7 @@ export type AllianceGetByIdsInput = {
 	ids: string[];
 };
 
+/** Cursor-paginated. The explorer also lists a `page` parameter, but the server ignores it. */
 export type AllianceGetManyPaginatedInput = {
 	limit?: number;
 	cursor?: string;

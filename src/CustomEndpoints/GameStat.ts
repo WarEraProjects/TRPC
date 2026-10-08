@@ -3,6 +3,7 @@ export type GameStatGetEquipmentAvgByCodeInput = {
 };
 
 export type GameStatCustomEndpoints = {
+	"gameStat.getWorldDevelopment": { output: number };
 	"gameStat.getEquipmentAvgByCode": {
 		input: GameStatGetEquipmentAvgByCodeInput;
 		output: number;

@@ -1,5 +1,15 @@
-export type ElectionGetElectionsInput = {
-	countryId?: string;
+export type ElectionType =
+	| "president"
+	| "congress"
+	| "partyPrimary"
+	| "partyLeader"
+	| "partyCouncil";
+
+/** The server requires `countryId` or `partyId` (both may be given). */
+export type ElectionGetElectionsInput = (
+	| { countryId: string; partyId?: string }
+	| { partyId: string; countryId?: string }
+) & {
 	limit?: number;
 	cursor?: string;
 	direction?: "forward" | "backward";
@@ -18,7 +28,7 @@ export type ElectionListItem = {
 	country: string;
 	electedCandidates: string[];
 	isActive: boolean;
-	type: string;
+	type: ElectionType | (string & {});
 	candidates: ElectionCandidate[];
 	votesStartAt: string;
 	votesEndAt: string;
@@ -35,7 +45,11 @@ export type ElectionGetElectionsResponse = {
 	nextCursor?: string;
 };
 
+export type ElectionGetElectionInput = { electionId: string };
+export type ElectionGetElectionResponse = ElectionListItem;
+
 export type ElectionCustomEndpoints = {
+	"election.getElection": { input: ElectionGetElectionInput; output: ElectionGetElectionResponse };
 	"election.getElections": {
 		input: ElectionGetElectionsInput;
 		output: ElectionGetElectionsResponse;

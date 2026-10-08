@@ -1,4 +1,5 @@
 export type * from './api/Responses';
+export type { WorkerGetWorkersInput, WorkerGetWorkersCompanyResponse, WorkerGetWorkersUserResponse } from "./api/endpoint-overrides";
 export type { components, operations, paths } from "./api/warera-openapi";
 export type * from "./CustomEndpoints";
 export {
@@ -6,7 +7,8 @@ export {
     /**
      * @deprecated Use createAPIClient instead
      */
-    createAPIClient as createTrpcLikeClient
+    createAPIClient as createTrpcLikeClient,
+    VOID_INPUT_PROCEDURES
 } from "./trpc-client";
 export type {
     TrpcLikeClientOptions as APIClientOptions,

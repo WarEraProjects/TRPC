@@ -11,7 +11,20 @@ export interface TrpcLikeClientOptions {
   batchIntervalMs?: number;
   logBatches?: boolean | ((info: BatchLogInfo) => void);
   retry?: boolean | RetryOptions;
+  /**
+   * Extra procedure paths whose input schema is `z.void()`. Merged with
+   * {@link VOID_INPUT_PROCEDURES}; use it for custom endpoints registered through `_ce`.
+   */
+  voidInputProcedures?: string[];
 }
+
+/**
+ * Procedures whose server-side input schema is `z.void()`. The server rejects `{}` for
+ * these, so the client sends no input at all. Every other no-input procedure accepts `{}`.
+ */
+export const VOID_INPUT_PROCEDURES: ReadonlySet<string> = new Set([
+  "gameStat.getWorldDevelopment",
+]);
 
 type BatchLogInfo = {
   method: string;
@@ -599,6 +612,10 @@ export function createAPIClient(options?: TrpcLikeClientOptions & {rateLimit?: n
   const maxBatchSize = normalizeMaxBatchSize(options?.maxBatchSize);
   const maxBatchSizeFetch = createMaxBatchSizeFetch(retryFetch, maxBatchSize);
   const responseTypes = getResponseStatusCodes();
+  const voidInputProcedures = new Set([
+    ...VOID_INPUT_PROCEDURES,
+    ...(options?.voidInputProcedures ?? []),
+  ]);
   
   const client = createTRPCUntypedClient({
     links: [
@@ -630,10 +647,13 @@ export function createAPIClient(options?: TrpcLikeClientOptions & {rateLimit?: n
       },
       apply(_t, _thisArg, argArray) {
         const path = parts.join(".");
-        const input = argArray?.[0] ?? {};
-        
+        // Void-input procedures reject `{}`; everything else gets `{}` as the default input.
+        const input = voidInputProcedures.has(path)
+          ? argArray?.[0]
+          : argArray?.[0] ?? {};
+
         // Check if auto-pagination is requested
-        if (input.autoPaginate === true) {
+        if (input?.autoPaginate === true) {
           const { autoPaginate: _unused, maxPages, cursorEnd, ...cleanedInput } = input;
           return autoPaginate(client, path, cleanedInput, {
             maxPages,
