@@ -1,6 +1,6 @@
 {
 	"name": "@wareraprojects/api",
-	"version": "0.3.3",
+	"version": "0.4.0",
 	"description": "tRPC communication layer for WarEra (frontend and backend compatible)",
 	"repository": {
 		"url": "https://github.com/WarEraProjects/trpc"
