@@ -98,8 +98,8 @@ main().catch((err) => {
   13 item codes tried. Their types are marked `@deprecated`.
 - A tournament in registration has no `rounds` or `activeRound` yet, and no teams, so
   `tournament.getLastTournament` may return one without them.
-- `shop.getTopGiftGivers` rows carry `_id` and `giftCount` only; `username` is no longer
-  returned (checked 2026-11-04).
+- `shop.getTopGiftGivers` rows carried only `_id` and `giftCount` on 2026-11-04; `username`
+  stays optional in the type.
 - The response types were rechecked against live responses on 2026-11-04. Fields the API no
   longer returns are gone from the types; most belong to mechanics v0.27 removed (player
   workers and work offers, hiring, party ethics, deposits, production bonuses).

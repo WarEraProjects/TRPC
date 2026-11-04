@@ -102,11 +102,11 @@ let cachedTournamentId: string | undefined;
 /** A tournament that has started; the last one may still be in registration, without rounds or teams. */
 async function getTournamentId(): Promise<string> {
   if (cachedTournamentId) return cachedTournamentId;
-  const { items } = await client.tournament.getManyPaginated({ limit: 10 });
-  const started = items.find((tournament) => tournament.rounds && Object.keys(tournament.rounds).length > 0);
-  assert(started?._id, "expected a started tournament among the last 10 to test tournament endpoints");
-  cachedTournamentId = started._id;
-  return cachedTournamentId;
+  for await (const page of client.tournament.getManyPaginated({ limit: 10, autoPaginate: true, maxPages: 5 })) {
+    const started = page.items.find((tournament) => tournament.rounds && Object.keys(tournament.rounds).length > 0);
+    if (started) return (cachedTournamentId = started._id);
+  }
+  throw new Error("expected a started tournament among the last 50 to test tournament endpoints");
 }
 
 let cachedTournamentTeamId: string | undefined;
