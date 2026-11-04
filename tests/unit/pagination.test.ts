@@ -69,3 +69,23 @@ test("pagination stops on an empty page even when a cursor exists", async () => 
   })) assert.deepEqual(page.items, []);
   assert.equal(requests.length, 1);
 });
+
+test("regular pagination calls strip client options and preserve server input", async () => {
+  const { client, requests } = mockClient([
+    { items: [] }, { items: [] }, { items: [] },
+  ]);
+  const input = { type: "last" as const, limit: 3, autoPaginate: false as const, maxPages: 2 };
+  await client.article.getArticlesPaginated(input);
+  await client.article.getArticlesPaginated({
+    ...input, cursorEnd: new Date("2026-02-01"),
+  });
+  await client.article.getArticlesPaginated({
+    type: "last", limit: 3, cursorEnd: new Date("2026-02-01"),
+  });
+  assert.deepEqual(requests, [
+    { type: "last", limit: 3 },
+    { type: "last", limit: 3 },
+    { type: "last", limit: 3 },
+  ]);
+  assert.deepEqual(input, { type: "last", limit: 3, autoPaginate: false, maxPages: 2 });
+});
