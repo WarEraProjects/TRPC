@@ -164,6 +164,22 @@ async function getAllianceId(): Promise<string> {
 	return cachedAllianceId;
 }
 
+let cachedEmployeeSample: Promise<{ companyId: string; employeeId: string }> | undefined;
+/** An employee and its company: WARERA_EMPLOYEE_ID, or else the first employee of the API key's own account. */
+function getEmployeeSample() {
+	return cachedEmployeeSample ??= (async () => {
+		const employeeId = process.env.WARERA_EMPLOYEE_ID;
+		if (employeeId) {
+			const employee = await client.employee.getById({ employeeId });
+			assert(employee, `WARERA_EMPLOYEE_ID ${employeeId} matches no employee.`);
+			return { companyId: employee.company, employeeId };
+		}
+		const [employee] = await client.employee.getMyEmployees();
+		assert(employee, "The API key's account has no employees. Hire one or set WARERA_EMPLOYEE_ID.");
+		return { companyId: employee.company, employeeId: employee._id };
+	})();
+}
+
 
 export function integrationTest(name: string, run: () => Promise<void>, requiredIds: (keyof typeof ids)[] = []) {
   test(name, { timeout: 60000 }, async () => {
@@ -173,4 +189,4 @@ export function integrationTest(name: string, run: () => Promise<void>, required
   });
 }
 
-export { assert, isObject, client, countryId, testIds, getPartyId, getTournamentId, getTournamentTeamId, getAllianceId };
+export { assert, isObject, client, countryId, testIds, getPartyId, getTournamentId, getTournamentTeamId, getAllianceId, getEmployeeSample };

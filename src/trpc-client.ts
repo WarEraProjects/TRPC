@@ -25,6 +25,7 @@ export interface TrpcLikeClientOptions {
 export const VOID_INPUT_PROCEDURES: ReadonlySet<string> = new Set([
   "gameStat.getWorldDevelopment",
   "gameStat.getPpMoneyValue",
+  "gameStat.getPpMoneyValueByItem",
 ]);
 
 type BatchLogInfo = {

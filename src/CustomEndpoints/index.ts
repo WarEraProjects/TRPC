@@ -6,10 +6,14 @@ export type * from "./Country";
 export type * from "./CountryDiplomacy";
 export type * from "./Donation";
 export type * from "./Election";
+export type * from "./Employee";
+export type * from "./EmployeeEvent";
 export type * from "./GameConfig";
 export type * from "./GameStat";
 export type * from "./Giveaway";
 export type * from "./ItemTrading";
+export type * from "./Manager";
+export type * from "./ManagerOffer";
 export type * from "./MuMember";
 export type * from "./Party";
 export type * from "./Region";
@@ -31,10 +35,14 @@ import type { CountryCustomEndpoints } from "./Country";
 import type { CountryDiplomacyCustomEndpoints } from "./CountryDiplomacy";
 import type { DonationCustomEndpoints } from "./Donation";
 import type { ElectionCustomEndpoints } from "./Election";
+import type { EmployeeCustomEndpoints } from "./Employee";
+import type { EmployeeEventCustomEndpoints } from "./EmployeeEvent";
 import type { GameConfigCustomEndpoints } from "./GameConfig";
 import type { GameStatCustomEndpoints } from "./GameStat";
 import type { GiveawayCustomEndpoints } from "./Giveaway";
 import type { ItemTradingCustomEndpoints } from "./ItemTrading";
+import type { ManagerCustomEndpoints } from "./Manager";
+import type { ManagerOfferCustomEndpoints } from "./ManagerOffer";
 import type { MuMemberCustomEndpoints } from "./MuMember";
 import type { PartyCustomEndpoints } from "./Party";
 import type { RegionCustomEndpoints } from "./Region";
@@ -57,10 +65,14 @@ export type WarEraCustomEndpoints =
 	& CountryDiplomacyCustomEndpoints
 	& DonationCustomEndpoints
 	& ElectionCustomEndpoints
+	& EmployeeCustomEndpoints
+	& EmployeeEventCustomEndpoints
 	& GameConfigCustomEndpoints
 	& GameStatCustomEndpoints
 	& GiveawayCustomEndpoints
 	& ItemTradingCustomEndpoints
+	& ManagerCustomEndpoints
+	& ManagerOfferCustomEndpoints
 	& MuMemberCustomEndpoints
 	& PartyCustomEndpoints
 	& RegionCustomEndpoints

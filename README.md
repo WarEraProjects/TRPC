@@ -78,6 +78,22 @@ main().catch((err) => {
   for a code without a trading record, such as `toolbox`.
 - `gameStat.getPpMoneyValue` takes no input, and the server rejects `{}`. It is
   in `VOID_INPUT_PROCEDURES`, so the client sends no input for it.
+- `employee.*` and `employeeEvent.*` need an API key; without one they answer 401
+  `API token required`. `employee.getMyEmployees`, `getMyWorkforceSummary`,
+  `employeeEvent.getMine` and `getPendingCount` read the key owner's workforce.
+  `employeeEvent.getHistory` is for the key owner's employees; another owner's
+  employee returned an empty list in one check. The company procedures and
+  `employee.getById` accept any company or employee, and `getById` answers `null`
+  for an unknown id.
+- In `estimate` and the `hourly` totals, `production` is production points per hour,
+  not money; wages and costs are money per hour.
+- `gameStat.getPpMoneyValueByItem` takes no input and the server rejects `{}`, so it
+  is in `VOID_INPUT_PROCEDURES` too.
+- `manager.getByCompanyId` and `managerOffer.getByCompanyId` answer `null` when the
+  company has no manager or no open offer. `managerOffer.getManyPaginated` takes a
+  `limit` from 1 to 50 (20 without it) and an optional `countryId`, and lists the
+  highest `maxHourlyWage` first. `managerOffer.getWageStats` takes an optional
+  `profile: { management, citizenship? }`; without one, `topEligibleOffer` is `null`.
 
 ## Auto-Pagination
 

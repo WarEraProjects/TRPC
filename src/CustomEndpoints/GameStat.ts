@@ -10,4 +10,6 @@ export type GameStatCustomEndpoints = {
 	};
 	/** Money value of one production point. */
 	"gameStat.getPpMoneyValue": { output: number };
+	/** Money value of one production point, keyed by item code. */
+	"gameStat.getPpMoneyValueByItem": { output: Record<string, number> };
 };
