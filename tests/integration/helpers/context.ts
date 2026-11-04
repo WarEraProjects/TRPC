@@ -99,11 +99,13 @@ async function getPartyId(): Promise<string> {
 }
 
 let cachedTournamentId: string | undefined;
+/** A tournament that has started; the last one may still be in registration, without rounds or teams. */
 async function getTournamentId(): Promise<string> {
   if (cachedTournamentId) return cachedTournamentId;
-  const tournament = await client.tournament.getLastTournament();
-  assert(tournament?._id, "expected a tournament to test tournament endpoints");
-  cachedTournamentId = tournament._id;
+  const { items } = await client.tournament.getManyPaginated({ limit: 10 });
+  const started = items.find((tournament) => tournament.rounds && Object.keys(tournament.rounds).length > 0);
+  assert(started?._id, "expected a started tournament among the last 10 to test tournament endpoints");
+  cachedTournamentId = started._id;
   return cachedTournamentId;
 }
 

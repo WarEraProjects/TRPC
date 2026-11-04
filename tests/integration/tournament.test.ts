@@ -8,7 +8,8 @@ integrationTest("tournament.getLastTournament", async () => {
   assert(typeof value.name === "string", "expected string name");
   assert(typeof value.status === "string", "expected string status");
   assert(isObject(value.registered), "expected registered object");
-  assert(isObject(value.rounds), "expected rounds object");
+  // A tournament in registration has no rounds yet.
+  assert(value.rounds === undefined || isObject(value.rounds), "expected rounds object when present");
 });
 
 integrationTest("tournament.getById", async () => {
@@ -42,12 +43,11 @@ integrationTest("tournamentTeam.getByTournamentId", async () => {
   const value = await client.tournamentTeam.getByTournamentId({ tournamentId: await getTournamentId() });
 
   assert(Array.isArray(value), "expected array response");
-  if (value.length > 0) {
-    assert(typeof value[0]._id === "string", "expected string _id on first team");
-    assert(typeof value[0].tournament === "string", "expected string tournament on first team");
-    assert(typeof value[0].totalDamage === "number", "expected numeric totalDamage on first team");
-    assert(isObject(value[0].damageByEntity), "expected damageByEntity object on first team");
-  }
+  assert(value.length > 0, "expected teams for a started tournament");
+  assert(typeof value[0]._id === "string", "expected string _id on first team");
+  assert(typeof value[0].tournament === "string", "expected string tournament on first team");
+  assert(typeof value[0].totalDamage === "number", "expected numeric totalDamage on first team");
+  assert(isObject(value[0].damageByEntity), "expected damageByEntity object on first team");
 });
 
 integrationTest("tournamentTeam.getById", async () => {

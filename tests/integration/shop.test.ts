@@ -25,7 +25,7 @@ integrationTest("shop.getTopGiftGivers", async () => {
 
   assert(Array.isArray(value), "expected array response");
   if (value.length > 0) {
-    assert(typeof value[0].username === "string", "expected string username");
+    assert(typeof value[0]._id === "string", "expected string _id");
     assert(typeof value[0].giftCount === "number", "expected numeric giftCount");
   }
 });
