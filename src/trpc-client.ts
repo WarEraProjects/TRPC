@@ -661,7 +661,8 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
           });
         }
         
-        // Regular query
+        // Regular query. The client-only pagination options are removed from plain-object inputs;
+        // anything else (class instances, objects with toJSON) goes to tRPC unchanged.
         if (
           input !== null && typeof input === "object" && !Array.isArray(input) &&
           (Object.getPrototypeOf(input) === Object.prototype || Object.getPrototypeOf(input) === null) &&

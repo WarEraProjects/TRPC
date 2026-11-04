@@ -69,7 +69,7 @@ for await (const page of client.article.getArticlesPaginated({
 
 ### Options
 
-`autoPaginate`, `maxPages`, and `cursorEnd` are client-side options and are never sent to the server.
+`autoPaginate`, `maxPages`, and `cursorEnd` are client-side options: the client removes them before it sends a plain-object input (`{ ... }`) to the server. Inputs of other kinds, such as class instances, go to tRPC unchanged.
 
 #### `autoPaginate: boolean`
 
