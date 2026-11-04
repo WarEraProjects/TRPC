@@ -91,6 +91,11 @@ main().catch((err) => {
   `limit` from 1 to 50 (20 without it) and an optional `countryId`, and lists the
   highest `maxHourlyWage` first. `managerOffer.getWageStats` takes an optional
   `profile: { management, citizenship? }`; without one, `topEligibleOffer` is `null`.
+- `company.getProductionBonus` and `company.getRecommendedRegionIdsByItemCode` are legacy:
+  the v0.27 game update (26 Oct 2026) removed deposits and the strategic-resource production
+  bonus for companies. Both still answer. On 2026-11-04 the first returned `depositBonus` and
+  `total` of 0 for all 24 companies of 15 owners checked, and the second an empty list for all
+  13 item codes tried. Their types are marked `@deprecated`.
 
 ## Auto-Pagination
 
