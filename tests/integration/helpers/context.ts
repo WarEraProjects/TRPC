@@ -10,25 +10,25 @@ type JsonRecord = Record<string, any>;
 
 
 function readJson(relativePath: string): JsonRecord | string | unknown[] | undefined {
-	const fullPath = path.join(root, relativePath);
-	if (!fs.existsSync(fullPath)) return undefined;
-	return JSON.parse(fs.readFileSync(fullPath, "utf8"));
+  const fullPath = path.join(root, relativePath);
+  if (!fs.existsSync(fullPath)) return undefined;
+  return JSON.parse(fs.readFileSync(fullPath, "utf8"));
 }
 
 function idFromOutput(relativePath: string): string | undefined {
-	const value = readJson(relativePath);
-	if (!value) return undefined;
-	if (typeof value === "string") return value;
-	if (Array.isArray(value)) return (value[0] as JsonRecord | undefined)?._id;
-	if (value._id) return value._id;
-	if (value.items?.[0]?._id) return value.items[0]._id;
-	return undefined;
+  const value = readJson(relativePath);
+  if (!value) return undefined;
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return (value[0] as JsonRecord | undefined)?._id;
+  if (value._id) return value._id;
+  if (value.items?.[0]?._id) return value.items[0]._id;
+  return undefined;
 }
 
 const ids = {
-	companyId: process.env.WARERA_COMPANY_ID ?? idFromOutput("Responses/outputs/company/getById.json"),
-	muId: process.env.WARERA_MU_ID ?? idFromOutput("Responses/outputs/mu/getById.json"),
-	userId: process.env.WARERA_USER_ID ?? idFromOutput("Responses/outputs/user/getUserLite.json"),
+  companyId: process.env.WARERA_COMPANY_ID ?? idFromOutput("Responses/outputs/company/getById.json"),
+  muId: process.env.WARERA_MU_ID ?? idFromOutput("Responses/outputs/mu/getById.json"),
+  userId: process.env.WARERA_USER_ID ?? idFromOutput("Responses/outputs/user/getUserLite.json"),
 };
 
 // Resolve only the IDs needed by the selected test.
@@ -45,7 +45,7 @@ const testIds = {
 };
 
 const client = createAPIClient({
-	apiKey: process.env.WARERA_API_KEY,
+  apiKey: process.env.WARERA_API_KEY,
   url: process.env.WARERA_API_URL ?? "https://api2.warera.io/trpc",
 });
 
@@ -81,66 +81,66 @@ async function resolveTestId(key: keyof typeof ids) {
 }
 
 function assert(condition: unknown, message: string): asserts condition {
-	if (!condition) throw new Error(message);
+  if (!condition) throw new Error(message);
 }
 
 function isObject(value: unknown): value is JsonRecord {
-	return value !== null && typeof value === "object" && !Array.isArray(value);
+  return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
 let cachedPartyId: string | undefined;
 async function getPartyId(): Promise<string> {
-	if (cachedPartyId) return cachedPartyId;
-	const parties = await client.party.getManyPaginated({ limit: 100, countryId, direction: "forward" });
-	const partyId = parties.items?.[0]?._id;
-	assert(partyId, "expected at least one party to test party.getById");
-	cachedPartyId = partyId;
-	return cachedPartyId;
+  if (cachedPartyId) return cachedPartyId;
+  const parties = await client.party.getManyPaginated({ limit: 100, countryId, direction: "forward" });
+  const partyId = parties.items?.[0]?._id;
+  assert(partyId, "expected at least one party to test party.getById");
+  cachedPartyId = partyId;
+  return cachedPartyId;
 }
 
 let cachedTournamentId: string | undefined;
 async function getTournamentId(): Promise<string> {
-	if (cachedTournamentId) return cachedTournamentId;
-	const tournament = await client.tournament.getLastTournament();
-	assert(tournament?._id, "expected a tournament to test tournament endpoints");
-	cachedTournamentId = tournament._id;
-	return cachedTournamentId;
+  if (cachedTournamentId) return cachedTournamentId;
+  const tournament = await client.tournament.getLastTournament();
+  assert(tournament?._id, "expected a tournament to test tournament endpoints");
+  cachedTournamentId = tournament._id;
+  return cachedTournamentId;
 }
 
 let cachedTournamentTeamId: string | undefined;
 async function getTournamentTeamId(): Promise<string> {
-	if (cachedTournamentTeamId) return cachedTournamentTeamId;
-	const teams = await client.tournamentTeam.getByTournamentId({ tournamentId: await getTournamentId() });
-	const teamId = teams?.[0]?._id;
-	assert(teamId, "expected at least one team for the tournament");
-	cachedTournamentTeamId = teamId;
-	return cachedTournamentTeamId;
+  if (cachedTournamentTeamId) return cachedTournamentTeamId;
+  const teams = await client.tournamentTeam.getByTournamentId({ tournamentId: await getTournamentId() });
+  const teamId = teams?.[0]?._id;
+  assert(teamId, "expected at least one team for the tournament");
+  cachedTournamentTeamId = teamId;
+  return cachedTournamentTeamId;
 }
 
 let cachedAllianceId: string | undefined;
 async function getAllianceId(): Promise<string> {
-	if (cachedAllianceId) return cachedAllianceId;
-	const alliances = await client.alliance.getManyPaginated({ limit: 100 });
-	const allianceId = alliances.items?.[0]?._id;
-	assert(allianceId, "expected at least one alliance to test alliance endpoints");
-	cachedAllianceId = allianceId;
-	return cachedAllianceId;
+  if (cachedAllianceId) return cachedAllianceId;
+  const alliances = await client.alliance.getManyPaginated({ limit: 100 });
+  const allianceId = alliances.items?.[0]?._id;
+  assert(allianceId, "expected at least one alliance to test alliance endpoints");
+  cachedAllianceId = allianceId;
+  return cachedAllianceId;
 }
 
 let cachedEmployeeSample: Promise<{ companyId: string; employeeId: string }> | undefined;
 /** An employee and its company: WARERA_EMPLOYEE_ID, or else the first employee of the API key's own account. */
 function getEmployeeSample() {
-	return cachedEmployeeSample ??= (async () => {
-		const employeeId = process.env.WARERA_EMPLOYEE_ID;
-		if (employeeId) {
-			const employee = await client.employee.getById({ employeeId });
-			assert(employee, `WARERA_EMPLOYEE_ID ${employeeId} matches no employee.`);
-			return { companyId: employee.company, employeeId };
-		}
-		const [employee] = await client.employee.getMyEmployees();
-		assert(employee, "The API key's account has no employees. Hire one or set WARERA_EMPLOYEE_ID.");
-		return { companyId: employee.company, employeeId: employee._id };
-	})();
+  return cachedEmployeeSample ??= (async () => {
+    const employeeId = process.env.WARERA_EMPLOYEE_ID;
+    if (employeeId) {
+      const employee = await client.employee.getById({ employeeId });
+      assert(employee, `WARERA_EMPLOYEE_ID ${employeeId} matches no employee.`);
+      return { companyId: employee.company, employeeId };
+    }
+    const [employee] = await client.employee.getMyEmployees();
+    assert(employee, "The API key's account has no employees. Hire one or set WARERA_EMPLOYEE_ID.");
+    return { companyId: employee.company, employeeId: employee._id };
+  })();
 }
 
 
