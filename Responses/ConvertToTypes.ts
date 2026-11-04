@@ -521,6 +521,15 @@ type FileEntry = {
 	name: string;
 };
 
+/** Procedures the API no longer serves; cached samples of them are skipped so their types stay gone. */
+const retiredOperations = new Set([
+	"worker.getWorkers",
+	"worker.getTotalWorkersCount",
+	"workOffer.getById",
+	"workOffer.getWorkOfferByCompanyId",
+	"workOffer.getWorkOffersPaginated",
+]);
+
 function toFileEntry(filePath: string): FileEntry | undefined {
 	const relative = path.relative(outputsRoot, filePath).replace(/\\/g, "/");
 	const parts = relative.split("/");
@@ -545,7 +554,7 @@ async function buildEntries(files: string[], ctx: GenerationContext): Promise<Ou
 	const entries: OutputEntry[] = [];
 	const fileEntries = files
 		.map(toFileEntry)
-		.filter((entry): entry is FileEntry => Boolean(entry))
+		.filter((entry): entry is FileEntry => entry !== undefined && !retiredOperations.has(entry.operationKey))
 		.sort((a, b) => a.operationKey.localeCompare(b.operationKey));
 
 	for (const fileEntry of fileEntries) {

@@ -25,24 +25,10 @@ function idFromOutput(relativePath: string): string | undefined {
 	return undefined;
 }
 
-function workerIdFromOutput(): string | undefined {
-	const value = readJson("Responses/outputs/worker/getWorkers.json");
-	if (!value || typeof value === "string") return undefined;
-	const companyId = process.env.WARERA_COMPANY_ID ?? idFromOutput("Responses/outputs/company/getById.json");
-  const group = !Array.isArray(value) && companyId
-    ? value.workersPerCompany?.find((entry: JsonRecord) =>
-        (typeof entry.company === "string" ? entry.company : entry.company?._id) === companyId)
-    : undefined;
-  const worker = Array.isArray(value) ? value[0] : group?.workers?.[0] ?? value.workers?.[0] ?? value.items?.[0];
-  // work.* procedures key workers by their user id, not by the worker document `_id`.
-	return worker?.user ?? worker?.workerId ?? worker?._id;
-}
-
 const ids = {
 	companyId: process.env.WARERA_COMPANY_ID ?? idFromOutput("Responses/outputs/company/getById.json"),
 	muId: process.env.WARERA_MU_ID ?? idFromOutput("Responses/outputs/mu/getById.json"),
 	userId: process.env.WARERA_USER_ID ?? idFromOutput("Responses/outputs/user/getUserLite.json"),
-	workerId: process.env.WARERA_WORKER_ID ?? workerIdFromOutput(),
 };
 
 // Resolve only the IDs needed by the selected test.
@@ -56,7 +42,6 @@ const testIds = {
   get companyId() { return requireId("companyId"); },
   get muId() { return requireId("muId"); },
   get userId() { return requireId("userId"); },
-  get workerId() { return requireId("workerId"); },
 };
 
 const client = createAPIClient({
@@ -77,7 +62,7 @@ function getTestUser() {
   })();
 }
 
-let discoveredWorkers: Promise<void> | undefined;
+let discoveredCompany: Promise<void> | undefined;
 async function resolveTestId(key: keyof typeof ids) {
   if (ids[key]) return;
   const user = await getTestUser();
@@ -87,31 +72,9 @@ async function resolveTestId(key: keyof typeof ids) {
     assert(user.mu, `User ${user.username} has no MU. Set WARERA_MU_ID.`);
     ids.muId = user.mu;
   } else {
-    // Resolve the company and worker together so worker-and-company stats use a
-    // worker employed at the selected company. Preserve explicitly supplied IDs.
-    await (discoveredWorkers ??= (async () => {
-      const response = await client.worker.getWorkers({ userId: ids.userId ?? user._id });
-      assert(response.type === "user", "expected user-scoped workers response");
-      const groups = response.workersPerCompany;
-      const candidates = ids.companyId
-        ? groups.filter(group => group.company._id === ids.companyId)
-        : groups;
-      const group = candidates.find(group => group.workers.some(worker => {
-        const entry = worker as JsonRecord;
-        return typeof entry.user === "string" && (!ids.workerId || entry.user === ids.workerId);
-      }));
-      if (group) {
-        const worker = group.workers.find(worker => {
-          const entry = worker as JsonRecord;
-          return typeof entry.user === "string" && (!ids.workerId || entry.user === ids.workerId);
-        }) as JsonRecord;
-        ids.companyId ??= group.company._id;
-        ids.workerId ??= worker.user;
-      }
-      if (!ids.companyId && !ids.workerId) {
-        const companies = await client.company.getCompanies({ userId: ids.userId ?? user._id, perPage: 1 });
-        ids.companyId = companies.items[0];
-      }
+    await (discoveredCompany ??= (async () => {
+      const companies = await client.company.getCompanies({ userId: ids.userId ?? user._id, perPage: 1 });
+      ids.companyId = companies.items[0];
     })());
   }
   requireId(key);

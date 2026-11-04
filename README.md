@@ -58,9 +58,6 @@ main().catch((err) => {
 
 ## Custom endpoint constraints
 
-- `worker.getWorkers` requires `companyId`, `userId`, or both. The company selector
-  takes precedence and returns `{ type: "company", workers }`; user-only selection
-  returns `{ type: "user", workersPerCompany }`. Narrow by `type` before reading rows.
 - `election.getElections` requires `countryId`, `partyId`, or both.
 - `upgradeConstruction.listConstructions` requires `regionId`, `countryId`, or both.
 - `contribution.getCountryUnrestContributions` and `getRegionContributions` use
@@ -152,14 +149,12 @@ Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
 Missing test IDs are discovered through `search.searchAnything`: the default
 username is `Dog`, or set `WARERA_TEST_USERNAME` to another exact, case-sensitive
 username. The setup fetches search results' user profiles and requires exactly
-one matching username. It uses that user's MU and selects a company with a worker
-from `worker.getWorkers`, keeping the company and worker paired. Company-only
-checks can fall back to `company.getCompanies` if no worker is available.
-`WARERA_COMPANY_ID`, `WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`
+one matching username. It uses that user's MU and selects the first company from
+`company.getCompanies`. `WARERA_COMPANY_ID`, `WARERA_MU_ID`, and `WARERA_USER_ID`
 override discovery; existing samples in `Responses/outputs` also take precedence.
 When a user ID is supplied, related IDs are discovered from that user's profile.
 Only IDs required by a selected test are resolved. Discovery depends on the
-account's current MU membership, companies, and workers.
+account's current MU membership and companies.
 
 To pin the live entities found for `Dog` on 2026-10-05, export these variables
 in your shell or put the assignments in `.env` (without `export`):
@@ -168,21 +163,13 @@ in your shell or put the assignments in `.env` (without `export`):
 export WARERA_USER_ID=690d6b03becd7485dbb33b05
 export WARERA_MU_ID=694ce4f14bff8f86caa9e8e2
 export WARERA_COMPANY_ID=690d6b03becd7485dbb33b2c
-export WARERA_WORKER_ID=690efde8fa2a3c7c37ee867d
 ```
 
-The company belongs to `Dog`; the worker ID identifies a user employed at that
-company. Membership and employment can change; remove these overrides to
-rediscover current entities.
+The company belongs to `Dog`. MU membership and company ownership can change;
+remove these overrides to rediscover current entities.
 
-`WARERA_WORKER_ID` is the worker's user id (the `user` field of a
-`worker.getWorkers` entry), which is what the `work.*` procedures key on. The
-`work.getStatsByWorker`, `work.getStatsByUserId`, and `work.getStatsByCompany`
-checks need a WarEra Premium API key; normal keys receive HTTP 403
-`Premium required`. `work.getStatsByWorkerAndCompany` has been reported to
-return HTTP 401 even with an API key, suggesting it requires session authentication.
-The configured key passed all five work checks, including worker-and-company,
-on 2026-10-05, so that session restriction is not universal.
+The `work.getStatsByUserId` and `work.getStatsByCompany` checks need a WarEra
+Premium API key; normal keys receive HTTP 403 `Premium required`.
 The live work suite checks successful responses and will fail when the supplied
 credentials cannot access an endpoint.
 

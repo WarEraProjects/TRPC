@@ -23,27 +23,6 @@ export async function runOffersAndMuWorkflow(
     );
   }
 
-  const workOffers =
-    runner.getResponse("workOffer.getWorkOffersPaginated") ??
-    (await runner.loadOrFetch("workOffer.getWorkOffersPaginated", () =>
-      trpc.workOffer.getWorkOffersPaginated({
-        limit: runner.sampleSize,
-      })
-    ));
-
-  const workOfferId = runner.resolveId(
-    workOffers,
-    ["workOfferId", "_id", "id"],
-    "WARERA_WORK_OFFER_ID"
-  );
-  ids.workOfferId = workOfferId;
-
-  if (workOfferId) {
-    await runner.loadOrFetch("workOffer.getById", () => trpc.workOffer.getById({ workOfferId }));
-  }
-
-  ids.companyFromWorkOffers = runner.findFirstKeyString(workOffers, "company");
-
   const mus =
     runner.getResponse("mu.getManyPaginated") ??
     (await runner.loadOrFetch("mu.getManyPaginated", () =>

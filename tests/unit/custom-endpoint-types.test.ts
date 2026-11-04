@@ -18,8 +18,6 @@ import type {
   TournamentMatch,
   TradingOrderBook,
   WorkStatsItem,
-  InputFor,
-  WorkerGetWorkersInput,
 } from "../../src";
 
 // Compile-time checks: `npm run typecheck:tests` fails if any directive below becomes unused
@@ -77,17 +75,6 @@ export function typeOnly(client: APIClient) {
   // @ts-expect-error unknown sanction filters are rejected by the server
   void client.sanction.getPaginated({ type: "UNKNOWN_ACTION" });
 
-  // OpenAPI input overrides enforce runtime one-of requirements.
-  // @ts-expect-error companyId or userId is required
-  void client.worker.getWorkers();
-  // @ts-expect-error companyId or userId is required
-  void client.worker.getWorkers({});
-  // @ts-expect-error undefined selectors do not satisfy the requirement
-  void client.worker.getWorkers({ companyId: undefined, userId: undefined });
-  void client.worker.getWorkers({ companyId: "c" });
-  void client.worker.getWorkers({ userId: "u" });
-  void client.worker.getWorkers({ companyId: "c", userId: "u" });
-
   // Legitimately optional filters stay optional.
   void client.donation.getManyPaginated({ limit: 1 });
   void client.donation.getTotalDonations({});
@@ -121,8 +108,6 @@ export function typeOnly(client: APIClient) {
   // @ts-expect-error count is not a server parameter
   void client.company.getRecommendedRegionIdsByItemCode({ itemCode: "wood", count: 3 });
 }
-
-type _workerInput = Expect<Equal<InputFor<"worker.getWorkers">, WorkerGetWorkersInput>>;
 
 // Response shapes.
 type _activeBattle = Expect<Equal<Region["activeBattle"], RegionActiveBattle | undefined>>;

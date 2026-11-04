@@ -31,7 +31,6 @@ export async function runWarmup(runner: EndpointRunner): Promise<void> {
       op === "event.getEventsPaginated" ||
       op === "battle.getBattles" ||
       op === "mu.getManyPaginated" ||
-      op === "workOffer.getWorkOffersPaginated" ||
       op === "transaction.getPaginatedTransactions"
     ) {
       await runner.loadOrFetchByOperation(op, { limit: runner.sampleSize });

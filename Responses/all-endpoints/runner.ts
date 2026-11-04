@@ -106,29 +106,6 @@ export class EndpointRunner {
     return id;
   }
 
-  findFirstKeyString(source: JsonValue | undefined, keyName: string): string | undefined {
-    if (!source || typeof source !== "object") return undefined;
-
-    try {
-      const obj = source as { items?: unknown };
-      if (Array.isArray(obj.items) && obj.items.length > 0) {
-        const first = obj.items[0];
-        if (
-          first &&
-          typeof first === "object" &&
-          !Array.isArray(first) &&
-          typeof (first as Record<string, unknown>)[keyName] === "string"
-        ) {
-          return (first as Record<string, unknown>)[keyName] as string;
-        }
-      }
-    } catch {
-      return undefined;
-    }
-
-    return undefined;
-  }
-
   extractTopLevelItemIds(
     source: JsonValue | undefined,
     keys: string[],

@@ -1724,34 +1724,6 @@ export interface UsersByCountryItem {
   createdAt: string;
 }
 
-export interface WorkerCompany {
-  _id: string;
-  itemCode: string;
-  name: string;
-}
-
-export interface WorkersPerCompanyItem {
-  company: WorkerCompany;
-  workers: unknown[];
-}
-
-export interface WorkOfferListItem {
-  __v: number;
-  _id: string;
-  citizenship?: string;
-  company: string;
-  createdAt: string;
-  initialQuantity: number;
-  minEnergy?: number;
-  minProduction?: number;
-  quantity: number;
-  region: string;
-  text?: string;
-  updatedAt: string;
-  user: string;
-  wage: number;
-}
-
 export type ArticleGetArticleByIdResponse = {
   __v: number;
   _id: string;
@@ -2136,50 +2108,6 @@ export type UserGetUsersByCountryResponse = {
   nextCursor?: string;
 };
 
-export type WorkerGetTotalWorkersCountResponse = number;
-
-export type WorkerGetWorkersResponse = {
-  type: string;
-  workersPerCompany: Array<WorkersPerCompanyItem>;
-};
-
-export type WorkOfferGetByIdResponse = {
-  __v: number;
-  _id: string;
-  citizenship: string;
-  company: string;
-  createdAt: string;
-  initialQuantity: number;
-  minEnergy: number;
-  minProduction: number;
-  quantity: number;
-  region: string;
-  updatedAt: string;
-  user: string;
-  wage: number;
-};
-
-export type WorkOfferGetWorkOfferByCompanyIdResponse = {
-  __v: number;
-  _id: string;
-  company: string;
-  createdAt: string;
-  initialQuantity: number;
-  minEnergy: number;
-  minProduction: number;
-  quantity: number;
-  region: string;
-  text: string;
-  updatedAt: string;
-  user: string;
-  wage: number;
-};
-
-export type WorkOfferGetWorkOffersPaginatedResponse = {
-  items: Array<WorkOfferListItem>;
-  nextCursor?: string;
-};
-
 export interface Responses {
   "article.getArticleById": ArticleGetArticleByIdResponse;
   "article.getArticleLiteById": ArticleGetArticleLiteByIdResponse;
@@ -2216,9 +2144,4 @@ export interface Responses {
   "user.getUserById": UserGetUserByIdResponse;
   "user.getUserLite": UserGetUserLiteResponse;
   "user.getUsersByCountry": UserGetUsersByCountryResponse;
-  "worker.getTotalWorkersCount": WorkerGetTotalWorkersCountResponse;
-  "worker.getWorkers": WorkerGetWorkersResponse;
-  "workOffer.getById": WorkOfferGetByIdResponse;
-  "workOffer.getWorkOfferByCompanyId": WorkOfferGetWorkOfferByCompanyIdResponse;
-  "workOffer.getWorkOffersPaginated": WorkOfferGetWorkOffersPaginatedResponse;
 }

@@ -25,7 +25,6 @@ export type * from "./TradingOrder";
 export type * from "./UpgradeConstruction";
 export type * from "./War";
 export type * from "./Work";
-export type * from "./WorkOffer";
 
 import type { AllianceCustomEndpoints } from "./Alliance";
 import type { ArticleCustomEndpoints } from "./Article";
@@ -54,7 +53,6 @@ import type { TradingOrderCustomEndpoints } from "./TradingOrder";
 import type { UpgradeConstructionCustomEndpoints } from "./UpgradeConstruction";
 import type { WarCustomEndpoints } from "./War";
 import type { WorkCustomEndpoints } from "./Work";
-import type { WorkOfferCustomEndpoints } from "./WorkOffer";
 
 export type WarEraCustomEndpoints =
 	AllianceCustomEndpoints
@@ -83,5 +81,4 @@ export type WarEraCustomEndpoints =
 	& TradingOrderCustomEndpoints
 	& UpgradeConstructionCustomEndpoints
 	& WarCustomEndpoints
-	& WorkCustomEndpoints
-	& WorkOfferCustomEndpoints;
+	& WorkCustomEndpoints;

@@ -19,12 +19,5 @@ export async function runCompanyWorkflow(
 
   if (companyId) {
     await runner.loadOrFetch("company.getById", () => trpc.company.getById({ companyId }));
-    await runner.loadOrFetch("worker.getWorkers", () => trpc.worker.getWorkers({ companyId }));
-    return;
-  }
-
-  const userId = ids.userId;
-  if (userId) {
-    await runner.loadOrFetch("worker.getWorkers", () => trpc.worker.getWorkers({ userId }));
   }
 }
