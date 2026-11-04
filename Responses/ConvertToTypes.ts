@@ -38,7 +38,6 @@ const repoRoot = path.resolve(outputsRoot, "..", "..");
 const outputFile = path.join(outputsRoot, "Responses.d.ts");
 const srcOutputFile = path.join(repoRoot, "src", "api", "Responses.d.ts");
 const ignoredFiles = new Set([
-	path.join(outputsRoot, "convert_to_types.ts"),
 	path.join(outputsRoot, "Responses.d.ts")
 ]);
 
