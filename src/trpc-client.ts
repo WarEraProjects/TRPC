@@ -9,7 +9,7 @@ export interface TrpcLikeClientOptions {
   headers?: Record<string, string>;
   maxBatchSize?: number;
   /**
-   * @deprecated Unused: tRPC v10 batches calls made in the same tick and has no interval option.
+   * @deprecated Unused: tRPC's `httpBatchLink` batches the calls made in the same tick and has no interval option.
    */
   batchIntervalMs?: number;
   logBatches?: boolean | ((info: BatchLogInfo) => void);
@@ -596,7 +596,7 @@ function createMaxBatchSizeFetch(origFetch: typeof fetch, maxBatchSize: number):
  * @param options.headers - Additional headers to include on every request
  * @param options.rateLimit - Requests per minute; defaults to 200 with a non-empty API key, otherwise 100
  * @param options.maxBatchSize - Maximum operations per HTTP batch; defaults to and is capped at 50. Set to `1` to disable batching.
- * @param options.batchIntervalMs - Deprecated and unused; tRPC v10 batches calls made in the same tick
+ * @param options.batchIntervalMs - Deprecated and unused; tRPC's `httpBatchLink` batches calls made in the same tick
  * @param options.retry - Retry transient failures; enabled by default with up to 3 retries, or pass `false` to disable
  * @param options.logBatches - Pass `true` to log HTTP batches or provide a callback; disabled by default
  * @param options.voidInputProcedures - Additional procedure paths that must receive no input instead of `{}`
