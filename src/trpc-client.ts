@@ -666,6 +666,7 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
         if (
           input !== null && typeof input === "object" && !Array.isArray(input) &&
           (Object.getPrototypeOf(input) === Object.prototype || Object.getPrototypeOf(input) === null) &&
+          typeof input.toJSON !== "function" &&
           ("autoPaginate" in input || "maxPages" in input || "cursorEnd" in input)
         ) {
           const { autoPaginate: _unused, maxPages: _maxPages, cursorEnd: _cursorEnd, ...cleanedInput } = input;

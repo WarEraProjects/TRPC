@@ -89,3 +89,11 @@ test("regular pagination calls strip client options and preserve server input", 
   ]);
   assert.deepEqual(input, { type: "last", limit: 3, autoPaginate: false, maxPages: 2 });
 });
+
+test("regular calls leave an input with its own toJSON() unchanged", async () => {
+  const { client, requests } = mockClient([{ items: [] }]);
+  const input = { type: "last" as const, autoPaginate: false as const };
+  Object.defineProperty(input, "toJSON", { value: () => ({ type: "last", limit: 1 }) });
+  await client.article.getArticlesPaginated(input);
+  assert.deepEqual(requests, [{ type: "last", limit: 1 }]);
+});
