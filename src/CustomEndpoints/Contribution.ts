@@ -43,10 +43,17 @@ export type ContributionPaginatedResponse = {
 	pages: number;
 	nextPage?: number | null;
 };
+
+export type CountryUnrestContribution = Omit<Contribution, "region">;
+
+export type ContributionGetCountryUnrestContributionsResponse = Omit<ContributionPaginatedResponse, "results"> & {
+	results: CountryUnrestContribution[];
+};
+
 export type ContributionCustomEndpoints = {
 	"contribution.getCountryUnrestContributions": {
 		input: ContributionGetCountryUnrestContributionsInput;
-		output: ContributionPaginatedResponse;
+		output: ContributionGetCountryUnrestContributionsResponse;
 	};
 	"contribution.getRegionContributions": {
 		input: ContributionGetRegionContributionsInput;

@@ -30,6 +30,7 @@ export type EmployeeEventChanceLine = {
 	value: number;
 	input?: number;
 	stat?: string;
+	trait?: string;
 };
 
 export type EmployeeEventOption = {
@@ -46,9 +47,10 @@ export type EmployeeEventOption = {
 export type EmployeeEventAppliedEffect = {
 	type: string;
 	employee: string;
-	delta: number;
+	delta?: number;
 	stat?: string;
 	until?: string;
+	value?: number;
 };
 
 export type EmployeeEventOutcome = {

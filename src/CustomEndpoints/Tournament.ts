@@ -46,8 +46,8 @@ export type TournamentGetLastTournamentResponse = {
 	skillKey: string;
 	autoQualify1stRound: string[];
 	registered: TournamentRegistered;
-	activeRound: number;
-	rounds: Record<string, TournamentRound>;
+	activeRound?: number;
+	rounds?: Record<string, TournamentRound>;
 	createdAt: string;
 	updatedAt: string;
 	__v: number;

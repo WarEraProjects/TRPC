@@ -96,6 +96,13 @@ main().catch((err) => {
   bonus for companies. Both still answer. On 2026-11-04 the first returned `depositBonus` and
   `total` of 0 for all 24 companies of 15 owners checked, and the second an empty list for all
   13 item codes tried. Their types are marked `@deprecated`.
+- A tournament in registration has no `rounds` or `activeRound` yet, and no teams, so
+  `tournament.getLastTournament` may return one without them.
+- `shop.getTopGiftGivers` rows carry `_id` and `giftCount` only; `username` is no longer
+  returned (checked 2026-11-04).
+- The response types were rechecked against live responses on 2026-11-04. Fields the API no
+  longer returns are gone from the types; most belong to mechanics v0.27 removed (player
+  workers and work offers, hiring, party ethics, deposits, production bonuses).
 
 ## Auto-Pagination
 

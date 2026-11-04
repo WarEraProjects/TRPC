@@ -49,12 +49,16 @@ type OutputEntry = {
 
 const operationSeeds: Record<string, JsonValue> = {
 	"battleRanking.getRanking": {
-		rankings: [
+		itemCount: 0,
+		items: [
 			{
-				country: "",
-				value: 0,
+				__v: 0,
+				_id: "",
+				createdAt: "",
 				rank: 0,
-				_id: ""
+				ranking: "",
+				updatedAt: "",
+				value: 0
 			}
 		]
 	}
@@ -62,12 +66,21 @@ const operationSeeds: Record<string, JsonValue> = {
 
 const operationTypeOverrides: Record<string, string> = {
 	"battleRanking.getRanking": `{
-  rankings: Array<{
-    country: string;
-    value: number;
-    rank: number;
+  itemCount: number;
+  items: Array<{
+    __v: number;
     _id: string;
+    badge?: string;
+    country?: string;
+    createdAt: string;
+    mu?: string;
+    rank: number;
+    ranking: string;
+    updatedAt: string;
+    user?: string;
+    value: number;
   }>;
+  nextCursor?: string;
 }`
 };
 

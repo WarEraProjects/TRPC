@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import type {
   APIClient,
+  BattleRankingItem,
+  CompanyGetByIdResponse,
   Employee,
   EmployeeEvent,
   EmployeeEventOutcome,
@@ -88,6 +90,12 @@ export function typeOnly(client: APIClient) {
   void client.upgradeConstruction.listConstructions({ countryId: "c", autoPaginate: true });
   void client.managerOffer.getManyPaginated({ limit: 50, autoPaginate: true, maxPages: 2 });
 
+  const battleRankingPages = client.battleRanking.getRanking({
+    dataType: "damage", type: "user", side: "merged", autoPaginate: true,
+  });
+  type BattleRankingPage = typeof battleRankingPages extends AsyncIterableIterator<infer Page> ? Page : never;
+  type _battleRankingPageItem = Expect<Equal<BattleRankingPage["items"][number], BattleRankingItem>>;
+
   // No-input procedures stay callable without an argument.
   void client.gameStat.getWorldDevelopment();
   void client.gameStat.getPpMoneyValue();
@@ -110,6 +118,8 @@ export function typeOnly(client: APIClient) {
 }
 
 // Response shapes.
+type _companyFreeMoves = Expect<Equal<CompanyGetByIdResponse["freeMoves"], number>>;
+type _companyWorkerCountRemoved = Expect<Equal<"workerCount" extends keyof CompanyGetByIdResponse ? true : false, false>>;
 type _activeBattle = Expect<Equal<Region["activeBattle"], RegionActiveBattle | undefined>>;
 type _population = Expect<Equal<Region["currentPopulation"], number>>;
 type _orderCountry = Expect<Equal<PublicTradingOrder["country"], string | undefined>>;

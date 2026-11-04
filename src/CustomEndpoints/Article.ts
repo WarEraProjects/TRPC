@@ -1,7 +1,7 @@
 import type { ArticleGetArticleByIdResponse } from "../api/Responses";
 
 export type ArticleGetWelcomeArticleByCountryIdInput = { countryId: string };
-export type WelcomeArticle = ArticleGetArticleByIdResponse & {
+export type WelcomeArticle = Omit<ArticleGetArticleByIdResponse, "isPublic" | "slug"> & {
 	welcomeArticleOfCountry?: string;
 	isPublic?: boolean;
 	slug?: string;

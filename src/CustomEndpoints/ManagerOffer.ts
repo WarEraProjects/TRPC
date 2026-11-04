@@ -42,7 +42,7 @@ export type ManagerOffer = {
 	region: string;
 	rateManagement: number;
 	maxHourlyWage: number;
-	minManagement: number;
+	minManagement?: number;
 	citizenship?: string;
 	createdAt: string;
 	updatedAt: string;
