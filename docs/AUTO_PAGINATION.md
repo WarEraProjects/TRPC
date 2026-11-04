@@ -6,15 +6,34 @@ This tRPC client now supports automatic cursor-based pagination for endpoints th
 
 ## Supported Endpoints
 
-The following 7 endpoints support auto-pagination:
+Auto-pagination applies to procedures with a `cursor` input and an `{ items, nextCursor }` response.
+
+From the OpenAPI schema:
 
 - `article.getArticlesPaginated`
 - `battle.getBattles`
+- `battleRanking.getRanking`
 - `company.getCompanies`
 - `event.getEventsPaginated`
+- `mercenaryContractAuction.getPaginatedAuctions`
 - `mu.getManyPaginated`
+- `poll.getPollVoters`
 - `transaction.getPaginatedTransactions`
 - `user.getUsersByCountry`
+
+Packaged custom endpoints:
+
+- `alliance.getManyPaginated`
+- `donation.getManyPaginated`
+- `election.getElections`
+- `giveaway.getManyPaginated`
+- `managerOffer.getManyPaginated`
+- `party.getManyPaginated`
+- `sanction.getPaginated`
+- `tournament.getManyPaginated`
+- `upgradeConstruction.listConstructions`
+
+The page-based `contribution.getCountryUnrestContributions` and `contribution.getRegionContributions` use `page`, not a cursor; see the [README](../README.md#custom-endpoint-constraints).
 
 ## Usage
 
@@ -26,7 +45,6 @@ To enable auto-pagination, add `autoPaginate: true` to your request:
 import { createAPIClient } from "@wareraprojects/api";
 
 const client = createAPIClient({
-  url: "https://api2.warera.net/trpc",
   apiKey: "your-api-key" // optional
 });
 
@@ -34,7 +52,7 @@ const client = createAPIClient({
 for await (const page of client.article.getArticlesPaginated({
   type: "last",
   limit: 20,
-  autoPaginate: true.
+  autoPaginate: true,
   maxPages: 20
 })) {
   console.log(`Received ${page.items.length} articles`);
@@ -44,21 +62,25 @@ for await (const page of client.article.getArticlesPaginated({
     console.log(article.title);
   });
   
-  // page.cursor contains the cursor for this page
+  // page.cursor is the cursor for the next page, or "" on the last page
   console.log(`Cursor: ${page.cursor}`);
 }
 ```
 
 ### Options
 
+`autoPaginate`, `maxPages`, and `cursorEnd` are client-side options and are never sent to the server.
+
 #### `autoPaginate: boolean`
 
 When set to `true`, the client returns an `AsyncIterableIterator` that yields pages until all data is retrieved.
 
 ```typescript
-{
+import type { PaginationOptions } from "@wareraprojects/api";
+
+const options = {
   autoPaginate: true
-}
+} satisfies PaginationOptions;
 ```
 
 #### `maxPages?: number`
@@ -66,23 +88,27 @@ When set to `true`, the client returns an `AsyncIterableIterator` that yields pa
 Limit the maximum number of pages to retrieve. Useful to prevent runaway pagination or for testing.
 
 ```typescript
-{
+import type { PaginationOptions } from "@wareraprojects/api";
+
+const options = {
   autoPaginate: true,
   maxPages: 5  // Stop after 5 pages
-}
+} satisfies PaginationOptions;
 ```
 
 **Default**: `Infinity` (no limit)
 
 #### `cursorEnd?: Date`
 
-Stop pagination when the cursor date becomes older than this date. The cursor format includes a timestamp that is parsed and compared.
+Stop pagination when the next cursor's date becomes older than this date. The cursor format includes a timestamp that is parsed and compared.
 
 ```typescript
-{
+import type { PaginationOptions } from "@wareraprojects/api";
+
+const options = {
   autoPaginate: true,
-  cursorEnd: new Date("2026-02-15")  // Stop when cursor is before this date
-}
+  cursorEnd: new Date("2026-02-15")  // Stop when the next cursor is before this date
+} satisfies PaginationOptions;
 ```
 
 **Default**: `undefined` (no date filtering)
@@ -96,9 +122,11 @@ Stop pagination when the cursor date becomes older than this date. The cursor fo
 When `autoPaginate: true`, the function returns an `AsyncIterableIterator<PageResult<K>>`:
 
 ```typescript
-type PageResult<K> = {
-  items: T[];      // Array of items for this page
-  cursor: string;  // The cursor that was used to fetch the next page
+import type { PageResult } from "@wareraprojects/api";
+
+type ArticlePage = {
+  items: PageResult<"article.getArticlesPaginated">["items"]; // Items for this page
+  cursor: string; // Cursor for the next page, or "" on the last page
 };
 ```
 
@@ -107,10 +135,9 @@ type PageResult<K> = {
 Without `autoPaginate`, the function returns a `Promise` with the regular response:
 
 ```typescript
-{
-  items: T[];
-  nextCursor: string;
-}
+import type { ResponseFor } from "@wareraprojects/api";
+
+type ArticleResponse = ResponseFor<"article.getArticlesPaginated">; // { items, nextCursor }
 ```
 
 ## Examples
@@ -118,9 +145,10 @@ Without `autoPaginate`, the function returns a `Promise` with the regular respon
 ### Example 1: Collect All Items
 
 ```typescript
-const client = createAPIClient({ url: "..." });
+import { createAPIClient, type BattleListItem } from "@wareraprojects/api";
 
-const allBattles: Battle[] = [];
+const client = createAPIClient();
+const allBattles: BattleListItem[] = [];
 
 for await (const page of client.battle.getBattles({
   autoPaginate: true,
@@ -136,6 +164,11 @@ console.log(`Total battles: ${allBattles.length}`);
 ### Example 2: Date-Based Filtering
 
 ```typescript
+import { createAPIClient, type EventListItem } from "@wareraprojects/api";
+
+declare function processEvents(events: EventListItem[]): void;
+
+const client = createAPIClient();
 // Get all events from the last week
 const oneWeekAgo = new Date();
 oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
@@ -151,15 +184,21 @@ for await (const page of client.event.getEventsPaginated({
 
 ### Example 3: Early Termination
 
+`company.getCompanies` returns company ID strings in `items`. Its server inputs are optional `userId`, `perPage` (1–100), and `cursor`.
+
 ```typescript
+import { createAPIClient } from "@wareraprojects/api";
+
+const client = createAPIClient();
+const targetCompanyId = "target-company-id";
 let foundTarget = false;
 
 for await (const page of client.company.getCompanies({
   autoPaginate: true,
   perPage: 50
 })) {
-  for (const company of page.items) {
-    if (company.name === "Target Company") {
+  for (const companyId of page.items) {
+    if (companyId === targetCompanyId) {
       foundTarget = true;
       break;
     }
@@ -174,6 +213,9 @@ for await (const page of client.company.getCompanies({
 ### Example 4: Regular (Non-Paginated) Call
 
 ```typescript
+import { createAPIClient } from "@wareraprojects/api";
+
+const client = createAPIClient();
 // Regular single-page request (backward compatible)
 const result = await client.article.getArticlesPaginated({
   type: "last",
@@ -189,11 +231,14 @@ console.log(`Next cursor: ${result.nextCursor}`);
 
 The implementation is fully type-safe:
 
-- `autoPaginate` parameter is only available on paginated endpoints
+- Pagination options are exposed on procedures with cursor-based inputs; auto-pagination requires the response pattern listed above
 - Return types automatically adjust based on whether `autoPaginate` is used
 - `PageResult<K>` correctly infers item types from the endpoint
 
 ```typescript
+import { createAPIClient } from "@wareraprojects/api";
+
+const client = createAPIClient();
 // TypeScript knows this returns AsyncIterableIterator
 const iterator = client.article.getArticlesPaginated({
   type: "last",
@@ -201,7 +246,7 @@ const iterator = client.article.getArticlesPaginated({
 });
 
 for await (const page of iterator) {
-  // page.items is correctly typed as Article[]
+  // page.items is correctly typed as ArticleListItem[]
   // page.cursor is a string
   page.items.forEach(article => {
     console.log(article.title); // TypeScript knows about 'title'
@@ -223,15 +268,20 @@ Each page request counts toward the rate limit and is automatically queued and d
 
 Auto-pagination stops when any of the following conditions is met:
 
-1. **No more data**: The API returns an empty or null `nextCursor`
-2. **Max pages reached**: The `maxPages` limit is hit
-3. **Cursor date exceeded**: When using `cursorEnd`, pagination stops when the next cursor's date is older than the specified date
+1. **No next cursor**: The API returns an empty, null, or missing `nextCursor`
+2. **Empty page**: The returned `items` array is empty
+3. **Invalid cursor**: The `nextCursor` contains the text `undefined`
+4. **Max pages reached**: The `maxPages` limit is hit
+5. **Cursor date exceeded**: When using `cursorEnd`, the next cursor's date is older than the specified date
 
 ## Error Handling
 
 Errors during pagination will throw and stop the iteration:
 
 ```typescript
+import { createAPIClient } from "@wareraprojects/api";
+
+const client = createAPIClient();
 try {
   for await (const page of client.battle.getBattles({
     autoPaginate: true
@@ -248,6 +298,10 @@ try {
 Existing code continues to work without changes:
 
 ```typescript
+import { createAPIClient } from "@wareraprojects/api";
+
+const client = createAPIClient();
+const someCursor = "2026-02-15T00:00:00Z|article-id";
 // Before (still works)
 const result = await client.article.getArticlesPaginated({
   type: "last",
@@ -269,5 +323,5 @@ for await (const page of client.article.getArticlesPaginated({
 
 - Cursor format: `"{date}|{id}"` where date is a parseable date string
 - Empty cursors, malformed cursors, or unparseable dates are handled gracefully
-- All 7 paginated endpoints follow the same response pattern: `{ items: T[], nextCursor: string }`
+- Supported endpoints follow the same response pattern: `{ items: T[], nextCursor }`; `nextCursor` may be empty or missing on the last page
 - The feature is zero-cost for non-paginated endpoints and backward compatible
