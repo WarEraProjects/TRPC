@@ -1,4 +1,8 @@
-/** The explorer also lists a `count` parameter, but the server ignores it and always returns five regions. */
+/**
+ * The explorer also lists a `count` parameter; the server ignored it and returned five regions.
+ * On 2026-11-04 it returned an empty list for all 13 item codes tried, with and without
+ * `includeDeposit`, so the `RecommendedRegion` fields below could not be rechecked.
+ */
 export type CompanyGetRecommendedRegionIdsByItemCodeInput = {
 	itemCode: string;
 	includeDeposit?: boolean;
@@ -8,11 +12,9 @@ export type CompanyGetProductionBonusInput = {
 	companyId: string;
 };
 
+/** The live API returns only these two fields; the strategic and ethic parts are gone (checked 2026-11-04). */
 export type CompanyProductionBonusResponse = {
-	strategicBonus: number;
 	depositBonus: number;
-	ethicSpecializationBonus: number;
-	ethicDepositBonus: number;
 	total: number;
 };
 
