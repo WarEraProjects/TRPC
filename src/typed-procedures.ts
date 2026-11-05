@@ -19,6 +19,12 @@ export type PaginationOptions = {
   cursorEnd?: Date;
 };
 
+/** Options for a single call, passed as the second argument. */
+export type CallOptions = {
+  /** Aborts the call. With `autoPaginate` it aborts the page that is loading and ends the iteration. */
+  signal?: AbortSignal;
+};
+
 export type CustomEndpointDefinition<Input = never, Output = unknown> = {
   output: Output;
   input?: Input;
@@ -152,25 +158,29 @@ type ProcedureFunctionFromDefinition<
         (
           input: InputForDefinition<Def["input"]> & {
             autoPaginate?: false | undefined;
-          }
+          },
+          options?: CallOptions
         ): Promise<Def["output"]>;
         (
-          input: InputForDefinition<Def["input"]> & { autoPaginate: true }
+          input: InputForDefinition<Def["input"]> & { autoPaginate: true },
+          options?: CallOptions
         ): AsyncIterableIterator<PageResultFromOutput<Def["output"]>>;
       }
-    : (input: InputForDefinition<Def["input"]>) => Promise<Def["output"]>
+    : (input: InputForDefinition<Def["input"]>, options?: CallOptions) => Promise<Def["output"]>
   : IsPaginatedInput<Def["input"]> extends true
   ? {
       (
         input?: InputForDefinition<Def["input"]> & {
           autoPaginate?: false | undefined;
-        }
+        },
+        options?: CallOptions
       ): Promise<Def["output"]>;
       (
-        input?: InputForDefinition<Def["input"]> & { autoPaginate: true }
+        input?: InputForDefinition<Def["input"]> & { autoPaginate: true },
+        options?: CallOptions
       ): AsyncIterableIterator<PageResultFromOutput<Def["output"]>>;
     }
-  : (input?: InputForDefinition<Def["input"]>) => Promise<Def["output"]>;
+  : (input?: InputForDefinition<Def["input"]>, options?: CallOptions) => Promise<Def["output"]>;
 
 type BuildPath<
   Parts extends string[],
