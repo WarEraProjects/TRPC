@@ -119,7 +119,10 @@ type NormalizeCustomEndpointMap<TCustom extends CustomEndpointMap> = {
   }
     ? EndpointDefinition<Input, Output>
     : TCustom[K] extends { output: infer Output }
-    ? EndpointDefinition<never, Output>
+    ? "input" extends keyof TCustom[K]
+      // An optional `input` key, as in `CustomEndpointDefinition`.
+      ? EndpointDefinition<Exclude<TCustom[K]["input"], undefined>, Output>
+      : EndpointDefinition<never, Output>
     : never;
 };
 

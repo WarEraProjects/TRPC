@@ -201,7 +201,13 @@ async function* autoPaginate<K extends ProcedureKey>(
   }
 }
 
-function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100): typeof fetch {
+/**
+ * Space request starts `60000 / rateLimit` ms apart. Requests do not wait for the
+ * previous response, so a slow or stalled request does not hold back the queue.
+ *
+ * @internal
+ */
+export function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100): typeof fetch {
   const f: typeof fetch = origFetch ?? (globalThis as any).fetch;
   const delayMs = Math.max(1, Math.floor(60000 / rateLimit));
 
@@ -212,39 +218,33 @@ function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100): type
   };
 
   const queue: QueueItem[] = [];
-  let running = false;
-  let lastTime = 0;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let lastTime = -Infinity;
 
-  const runNext = async () => {
-    if (queue.length === 0) {
-      running = false;
-      return;
-    }
-    running = true;
-    const now = Date.now();
-    const elapsed = now - lastTime;
-    const wait = Math.max(0, delayMs - elapsed);
-    if (wait > 0) await new Promise((res) => setTimeout(res, wait));
-
-    const item = queue.shift()!;
+  const dispatch = () => {
+    timer = undefined;
+    const item = queue.shift();
+    if (!item) return;
     lastTime = Date.now();
+    // A fetch that throws synchronously rejects this item instead of escaping the queue.
     // cast to any to satisfy overloads on fetch implementations
-    f(item.args[0] as any, item.args[1])
-      .then(item.resolve)
-      .catch(item.reject)
-      .finally(() => {
-        if (queue.length > 0) {
-          setTimeout(runNext, 0);
-        } else {
-          running = false;
-        }
-      });
+    Promise.resolve()
+      .then(() => f(item.args[0] as any, item.args[1]))
+      .then(item.resolve, item.reject);
+    schedule();
+  };
+
+  const schedule = () => {
+    if (timer !== undefined || queue.length === 0) return;
+    const wait = Math.max(0, delayMs - (Date.now() - lastTime));
+    if (wait === 0) dispatch();
+    else timer = setTimeout(dispatch, wait);
   };
 
   return ((input: RequestInfo | URL, init?: RequestInit) =>
     new Promise<Response>((resolve, reject) => {
       queue.push({ args: [input, init], resolve, reject });
-      if (!running) runNext();
+      schedule();
     })) as unknown as typeof fetch;
 }
 
@@ -669,7 +669,8 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
   const makeProxy = (parts: string[]): any =>
     new Proxy(() => {}, {
       get(_t, prop) {
-        if (typeof prop !== "string") return undefined;
+        // `then` makes the client look like a promise to `await` and `Promise.resolve`.
+        if (typeof prop !== "string" || prop === "then") return undefined;
         if (prop === "_ce" && parts.length === 0) {
           // Runtime noop: custom endpoint typing is compile-time only.
           return () => makeProxy([]);

@@ -5,6 +5,7 @@ import type {
   BattleRankingItem,
   CompanyGetByIdResponse,
   CongressSeat,
+  CustomEndpointDefinition,
   Employee,
   EmployeeEvent,
   EmployeeEventOutcome,
@@ -163,6 +164,17 @@ export function typeOnly(client: APIClient) {
   void client.assetSale.getLastSkinGifts();
 
   // Parameters the server ignores are not part of the input types.
+  // Definitions built with the exported helper keep their input.
+  const extended = client._ce<{
+    "custom.withInput": CustomEndpointDefinition<{ id: string }, number>;
+    "custom.withoutInput": CustomEndpointDefinition<never, string>;
+  }>();
+  void extended.custom.withInput({ id: "x" });
+  // @ts-expect-error id is required
+  void extended.custom.withInput();
+  void extended.custom.withoutInput();
+  type _helperOutput = Expect<Equal<Awaited<ReturnType<typeof extended.custom.withInput>>, number>>;
+
   // @ts-expect-error page is not a server parameter
   void client.alliance.getManyPaginated({ page: 2 });
   // @ts-expect-error count is not a server parameter
