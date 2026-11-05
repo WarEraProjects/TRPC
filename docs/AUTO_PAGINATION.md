@@ -275,13 +275,8 @@ for await (const page of iterator) {
 
 ## Rate Limiting
 
-Auto-pagination respects the existing rate limiting:
-
-- Default: 100 requests per minute (without API key)
-- With API key: 200 requests per minute
-- Configurable via `rateLimit` option
-
-Each page request counts toward the rate limit and is automatically queued and delayed as needed.
+Each page request counts toward the rate limit and is queued and delayed as needed. The client
+follows the limit the server reports, see [Rate limit](../README.md#rate-limit) in the README.
 
 ## Termination Conditions
 
@@ -292,6 +287,17 @@ Auto-pagination stops when any of the following conditions is met:
 3. **Invalid cursor**: The `nextCursor` contains the text `undefined`
 4. **Max pages reached**: The `maxPages` limit is hit
 5. **Cursor date exceeded**: When using `cursorEnd`, the next cursor's date is older than the specified date
+6. **Aborted**: The `signal` passed as the second argument aborts; the page that is loading rejects and the loop ends with that error
+
+```typescript
+// Give the whole crawl at most one minute.
+const signal = AbortSignal.timeout(60_000);
+for await (const page of client.battle.getBattles({ autoPaginate: true }, { signal })) {
+  // Process page
+}
+```
+
+Leaving the loop with `break` needs no signal; no further page is requested.
 
 ## Error Handling
 

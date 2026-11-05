@@ -16,10 +16,11 @@ Right here: [https://warera.realmarijn.nl/api-explorer](https://warera.realmarij
 ## What it can do
 - End-to-end TypeScript typing for inputs and responses.
 - Procedure discovery via IntelliSense (no manual endpoint hunting).
-- Automatic request batching to reduce network overhead and improve throughput.
-- Built-in rate limiting aligned to API requirements, so your app degrades gracefully under throttling.
+- Automatic request batching to reduce network overhead and improve throughput. The API counts a batch as one request against the rate limit.
+- Built-in rate limiting that follows the limit and the reset time the server reports, so your app degrades gracefully under throttling.
 - Automatic retries for failed batches on dropped connections and transient HTTP failures.
-- Automatic URL length handling by splitting oversized requests and recombining results.
+- Queries are sent as POST with the input in the body, so long inputs never hit a URL length limit.
+- Cancellation with an `AbortSignal` per call and an optional request timeout.
 - **Automatic cursor-based pagination** with type-safe async iterators. See [Auto-Pagination Guide](./docs/AUTO_PAGINATION.md).
 - Less boilerplate, fewer edge cases, faster iteration. 
 
@@ -62,6 +63,31 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+```
+
+### Rate limit
+The API allows 100 requests per minute without a key and 500 with one (measured in November 2026).
+A batch of calls counts as one request, so calls made together are cheaper than calls made one
+after another. Without the `rateLimit` option the client starts at 200 requests per minute with a
+key, otherwise 100, and then follows the `ratelimit-policy` header. When `ratelimit-remaining`
+reaches 0 or the server answers 429, the client holds further requests until `ratelimit-reset`.
+Setting `rateLimit` fixes the spacing to that value; the pause on an exhausted window still applies.
+
+### Cancellation and timeouts
+Every procedure takes an optional second argument with an `AbortSignal`. An aborted call rejects
+at once; a request still waiting for the rate limiter is never sent.
+
+```ts
+const controller = new AbortController();
+const user = client.user.getUserLite({ userId }, { signal: controller.signal });
+controller.abort();
+```
+
+`timeoutMs` aborts an HTTP request whose response headers have not arrived in time. The timeout
+counts as a transient failure, so it is retried like a dropped connection.
+
+```ts
+const client = createAPIClient({ apiKey, timeoutMs: 15000 });
 ```
 
 ## Custom endpoint constraints
