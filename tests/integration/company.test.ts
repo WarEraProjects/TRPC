@@ -5,7 +5,7 @@ integrationTest("company.getProductionBonus", async () => {
 
 			assert(isObject(value), "expected object response");
 
-			for (const key of ["strategicBonus", "depositBonus", "ethicSpecializationBonus", "ethicDepositBonus", "total"] as const) {
+			for (const key of ["depositBonus", "total"] as const) {
 				assert(typeof value[key] === "number", `expected numeric ${key}`);
 			}
 }, ["companyId"]);

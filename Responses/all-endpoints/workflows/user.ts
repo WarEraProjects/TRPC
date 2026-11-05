@@ -48,11 +48,6 @@ export async function runUserWorkflow(
       true
     );
   }
-
-  await runner.loadOrFetch(
-    "worker.getTotalWorkersCount",
-    () => trpc.worker.getTotalWorkersCount({ userId })
-  );
 }
 
 async function collectUsersForCountries(

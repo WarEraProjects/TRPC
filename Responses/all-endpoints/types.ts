@@ -15,10 +15,8 @@ export type CollectedIds = {
   userId?: string;
   regionId?: string;
   companyId?: string;
-  companyFromWorkOffers?: string;
   battleId?: string;
   roundId?: string;
-  workOfferId?: string;
   articleId?: string;
   muId?: string;
   itemCode?: string;

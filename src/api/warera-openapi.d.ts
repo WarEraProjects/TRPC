@@ -275,7 +275,7 @@ export interface paths {
         put?: never;
         /**
          * Get battle rankings
-         * @description Retrieves damage, ground, or money rankings for users or countries in battles, rounds, or wars
+         * @description Retrieves damage, ground, or money rankings for users, countries, military units or alliances in battles, rounds, or wars
          */
         post: operations["battleRanking.getRanking"];
         delete?: never;
@@ -338,66 +338,6 @@ export interface paths {
          * @description Retrieves detailed information about a specific item offer
          */
         post: operations["itemOffer.getById"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workOffer.getById": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get work offer by ID
-         * @description Retrieves detailed information about a specific work offer
-         */
-        post: operations["workOffer.getById"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workOffer.getWorkOfferByCompanyId": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get work offer by company ID
-         * @description Retrieves work offer for a specific company
-         */
-        post: operations["workOffer.getWorkOfferByCompanyId"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workOffer.getWorkOffersPaginated": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get paginated work offers
-         * @description Retrieves a paginated list of work offers with optional user and region filtering
-         */
-        post: operations["workOffer.getWorkOffersPaginated"];
         delete?: never;
         options?: never;
         head?: never;
@@ -604,6 +544,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/poll.getPoll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get poll by ID
+         * @description Retrieves an article poll with its results and, when logged in, your vote and whether you can vote
+         */
+        post: operations["poll.getPoll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/poll.getPollVoters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get poll voters
+         * @description Retrieves a paginated list of the users who picked an answer
+         */
+        post: operations["poll.getPollVoters"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/mu.getById": {
         parameters: {
             query?: never;
@@ -684,46 +664,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/worker.getWorkers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get workers
-         * @description Get workers for a company or user
-         */
-        post: operations["worker.getWorkers"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/worker.getTotalWorkersCount": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Get total workers count
-         * @description Get total workers count for a user
-         */
-        post: operations["worker.getTotalWorkersCount"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/battleOrder.getByBattle": {
         parameters: {
             query?: never;
@@ -735,7 +675,7 @@ export interface paths {
         put?: never;
         /**
          * Get battle orders
-         * @description Retrieves active battle orders for a specific battle and side. Order text is only included for citizens of the ordering country / members of the ordering MU.
+         * @description Retrieves active battle orders for a specific battle and side. Order text and rank are only included for citizens of the ordering country / members of the ordering MU; everyone else gets an empty text and a rank of 0.
          */
         post: operations["battleOrder.getByBattle"];
         delete?: never;
@@ -1185,10 +1125,10 @@ export interface operations {
                      */
                     dataType: "damage" | "points" | "money";
                     /**
-                     * @description Whether to rank by user or country
+                     * @description Whether to rank by user, country, military unit or alliance
                      * @enum {string}
                      */
-                    type: "user" | "country" | "mu";
+                    type: "user" | "country" | "mu" | "alliance";
                     /**
                      * @description Which side of the battle to rank
                      * @enum {string}
@@ -1286,83 +1226,6 @@ export interface operations {
             };
         };
     };
-    "workOffer.getById": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    workOfferId: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "workOffer.getWorkOfferByCompanyId": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    companyId: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "workOffer.getWorkOffersPaginated": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    userId?: string;
-                    regionId?: string;
-                    cursor?: string;
-                    /** @default 10 */
-                    limit?: number;
-                    energy?: number;
-                    production?: number;
-                    level?: number;
-                    citizenship?: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     "ranking.getRanking": {
         parameters: {
             query?: never;
@@ -1377,7 +1240,7 @@ export interface operations {
                      * @description The type of ranking to retrieve
                      * @enum {string}
                      */
-                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryProductionBonus" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
+                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "userSkinsOwned" | "userMilestoneTiers" | "userMissionsClaimed" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
                 };
             };
         };
@@ -1588,10 +1451,10 @@ export interface operations {
             content: {
                 "application/json": {
                     /**
-                     * @description The type of articles to get
+                     * @description The type of articles to get. `saved` is the caller's private bookmark list (auth required, ignores filters).
                      * @enum {string}
                      */
-                    type: "daily" | "weekly" | "top" | "my" | "subscriptions" | "last";
+                    type: "daily" | "weekly" | "top" | "my" | "subscriptions" | "last" | "saved";
                     /**
                      * @description The limit of articles to get
                      * @default 10
@@ -1606,6 +1469,59 @@ export interface operations {
                     languages?: string[];
                     /** @description Only show articles with a positive score */
                     positiveScoreOnly?: boolean;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "poll.getPoll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** @description The ID of the poll to get */
+                    pollId: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "poll.getPollVoters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** @description The ID of the poll */
+                    pollId: string;
+                    /** @description The answer to list voters for */
+                    optionId: number;
+                    /** @default 20 */
+                    limit?: number;
+                    cursor?: string;
                 };
             };
         };
@@ -1731,53 +1647,6 @@ export interface operations {
                     companyId?: string;
                     /** @description The military unit ID to get upgrade for */
                     muId?: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "worker.getWorkers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    companyId?: string;
-                    userId?: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    "worker.getTotalWorkersCount": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "application/json": {
-                    userId: string;
                 };
             };
         };

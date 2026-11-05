@@ -25,20 +25,3 @@ integrationTest("work.getStatsByCompany without days and timezone", async () => 
 
 			assertStatsRows(value);
 }, ["companyId"]);
-
-integrationTest("work.getStatsByWorker", async () => {
-  const value = await client.work.getStatsByWorker({ workerId: testIds.workerId, days: 14 });
-
-			assertStatsRows(value);
-}, ["workerId"]);
-
-integrationTest("work.getStatsByWorkerAndCompany", async () => {
-  const value = await client.work.getStatsByWorkerAndCompany({
-			workerId: testIds.workerId,
-			companyId: testIds.companyId,
-			days: 14,
-			timezone: "Europe/Amsterdam",
-		});
-
-			assertStatsRows(value);
-}, ["workerId", "companyId"]);

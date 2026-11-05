@@ -34,7 +34,6 @@ export async function runFallbackWorkflow(
       ["roundId", "_id", "id"],
       "WARERA_ROUND_ID"
     );
-  const finalWorkOfferId = ids.workOfferId ?? process.env.WARERA_WORK_OFFER_ID;
   const finalArticleId = ids.articleId ?? process.env.WARERA_ARTICLE_ID;
   const finalItemCode = runner.finalItemCodeFromEnvOrCache(
     ids.itemCode,
@@ -97,23 +96,6 @@ export async function runFallbackWorkflow(
           return undefined;
         }
         return { itemOfferId: finalItemOfferId };
-      case "workOffer.getById":
-        return {
-          workOfferId: runner.requireId(
-            "workOfferId",
-            finalWorkOfferId,
-            "WARERA_WORK_OFFER_ID"
-          ),
-        };
-      case "workOffer.getWorkOfferByCompanyId": {
-        const cid = ids.companyFromWorkOffers ?? finalCompanyIdResolved;
-        if (!cid) {
-          return undefined;
-        }
-        return { companyId: cid };
-      }
-      case "workOffer.getWorkOffersPaginated":
-        return { limit: runner.sampleSize };
       case "ranking.getRanking":
         return { rankingType: "countryDamages" };
       case "search.searchAnything":
@@ -149,12 +131,6 @@ export async function runFallbackWorkflow(
           companyId: finalCompanyIdResolved,
           muId: finalMuId,
         };
-      case "worker.getWorkers":
-        return finalCompanyIdResolved
-          ? { companyId: finalCompanyIdResolved }
-          : { userId: runner.requireId("userId", ids.userId, "WARERA_USER_ID") };
-      case "worker.getTotalWorkersCount":
-        return { userId: ids.userId };
       case "battleOrder.getByBattle":
         return {
           battleId: runner.requireId("battleId", finalBattleId, "WARERA_BATTLE_ID"),

@@ -15,7 +15,6 @@ export const operationOrder: OperationKey[] = [
   "battle.getBattles",
   "mu.getManyPaginated",
   "article.getArticlesPaginated",
-  "workOffer.getWorkOffersPaginated",
   "transaction.getPaginatedTransactions",
 ];
 
@@ -37,9 +36,6 @@ export const allOperations: OperationKey[] = [
   "itemTrading.getPrices",
   "tradingOrder.getTopOrders",
   "itemOffer.getById",
-  "workOffer.getById",
-  "workOffer.getWorkOfferByCompanyId",
-  "workOffer.getWorkOffersPaginated",
   "ranking.getRanking",
   "search.searchAnything",
   "gameConfig.getDates",
@@ -54,8 +50,6 @@ export const allOperations: OperationKey[] = [
   "mu.getManyPaginated",
   "transaction.getPaginatedTransactions",
   "upgrade.getUpgradeByTypeAndEntity",
-  "worker.getWorkers",
-  "worker.getTotalWorkersCount",
   "battleOrder.getByBattle",
   "battleLootSummary.getByBattleAndUser",
   "inventory.fetchCurrentEquipment",

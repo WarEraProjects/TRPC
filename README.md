@@ -58,9 +58,6 @@ main().catch((err) => {
 
 ## Custom endpoint constraints
 
-- `worker.getWorkers` requires `companyId`, `userId`, or both. The company selector
-  takes precedence and returns `{ type: "company", workers }`; user-only selection
-  returns `{ type: "user", workersPerCompany }`. Narrow by `type` before reading rows.
 - `election.getElections` requires `countryId`, `partyId`, or both.
 - `upgradeConstruction.listConstructions` requires `regionId`, `countryId`, or both.
 - `contribution.getCountryUnrestContributions` and `getRegionContributions` use
@@ -78,6 +75,27 @@ main().catch((err) => {
   for a code without a trading record, such as `toolbox`.
 - `gameStat.getPpMoneyValue` takes no input, and the server rejects `{}`. It is
   in `VOID_INPUT_PROCEDURES`, so the client sends no input for it.
+- `employee.*` and `employeeEvent.*` need an API key; without one they answer 401
+  `API token required`. `employee.getMyEmployees`, `getMyWorkforceSummary`,
+  `employeeEvent.getMine` and `getPendingCount` read the key owner's workforce.
+  `employeeEvent.getHistory` is for the key owner's employees; another owner's
+  employee returned an empty list in one check. The company procedures and
+  `employee.getById` accept any company or employee, and `getById` answers `null`
+  for an unknown id.
+- In `estimate` and the `hourly` totals, `production` is production points per hour,
+  not money; wages and costs are money per hour.
+- `gameStat.getPpMoneyValueByItem` takes no input and the server rejects `{}`, so it
+  is in `VOID_INPUT_PROCEDURES` too.
+- `manager.getByCompanyId` and `managerOffer.getByCompanyId` answer `null` when the
+  company has no manager or no open offer. `managerOffer.getManyPaginated` takes a
+  `limit` from 1 to 50 (20 without it) and an optional `countryId`, and lists the
+  highest `maxHourlyWage` first. `managerOffer.getWageStats` takes an optional
+  `profile: { management, citizenship? }`; without one, `topEligibleOffer` is `null`.
+- `company.getProductionBonus` and `company.getRecommendedRegionIdsByItemCode` are legacy:
+  the v0.27 game update (26 Oct 2026) removed deposits and the strategic-resource production
+  bonus for companies. Both still answer. On 2026-11-04 the first returned `depositBonus` and
+  `total` of 0 for all 24 companies of 15 owners checked, and the second an empty list for all
+  13 item codes tried. Their types are marked `@deprecated`.
 
 ## Auto-Pagination
 
@@ -136,14 +154,12 @@ Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
 Missing test IDs are discovered through `search.searchAnything`: the default
 username is `Dog`, or set `WARERA_TEST_USERNAME` to another exact, case-sensitive
 username. The setup fetches search results' user profiles and requires exactly
-one matching username. It uses that user's MU and selects a company with a worker
-from `worker.getWorkers`, keeping the company and worker paired. Company-only
-checks can fall back to `company.getCompanies` if no worker is available.
-`WARERA_COMPANY_ID`, `WARERA_MU_ID`, `WARERA_USER_ID`, and `WARERA_WORKER_ID`
+one matching username. It uses that user's MU and selects the first company from
+`company.getCompanies`. `WARERA_COMPANY_ID`, `WARERA_MU_ID`, and `WARERA_USER_ID`
 override discovery; existing samples in `Responses/outputs` also take precedence.
 When a user ID is supplied, related IDs are discovered from that user's profile.
 Only IDs required by a selected test are resolved. Discovery depends on the
-account's current MU membership, companies, and workers.
+account's current MU membership and companies.
 
 To pin the live entities found for `Dog` on 2026-10-05, export these variables
 in your shell or put the assignments in `.env` (without `export`):
@@ -152,21 +168,13 @@ in your shell or put the assignments in `.env` (without `export`):
 export WARERA_USER_ID=690d6b03becd7485dbb33b05
 export WARERA_MU_ID=694ce4f14bff8f86caa9e8e2
 export WARERA_COMPANY_ID=690d6b03becd7485dbb33b2c
-export WARERA_WORKER_ID=690efde8fa2a3c7c37ee867d
 ```
 
-The company belongs to `Dog`; the worker ID identifies a user employed at that
-company. Membership and employment can change; remove these overrides to
-rediscover current entities.
+The company belongs to `Dog`. MU membership and company ownership can change;
+remove these overrides to rediscover current entities.
 
-`WARERA_WORKER_ID` is the worker's user id (the `user` field of a
-`worker.getWorkers` entry), which is what the `work.*` procedures key on. The
-`work.getStatsByWorker`, `work.getStatsByUserId`, and `work.getStatsByCompany`
-checks need a WarEra Premium API key; normal keys receive HTTP 403
-`Premium required`. `work.getStatsByWorkerAndCompany` has been reported to
-return HTTP 401 even with an API key, suggesting it requires session authentication.
-The configured key passed all five work checks, including worker-and-company,
-on 2026-10-05, so that session restriction is not universal.
+The `work.getStatsByUserId` and `work.getStatsByCompany` checks need a WarEra
+Premium API key; normal keys receive HTTP 403 `Premium required`.
 The live work suite checks successful responses and will fail when the supplied
 credentials cannot access an endpoint.
 

@@ -6,7 +6,7 @@ This tRPC client now supports automatic cursor-based pagination for endpoints th
 
 ## Supported Endpoints
 
-The following 8 endpoints support auto-pagination:
+The following 7 endpoints support auto-pagination:
 
 - `article.getArticlesPaginated`
 - `battle.getBattles`
@@ -15,7 +15,6 @@ The following 8 endpoints support auto-pagination:
 - `mu.getManyPaginated`
 - `transaction.getPaginatedTransactions`
 - `user.getUsersByCountry`
-- `workOffer.getWorkOffersPaginated`
 
 ## Usage
 
@@ -270,5 +269,5 @@ for await (const page of client.article.getArticlesPaginated({
 
 - Cursor format: `"{date}|{id}"` where date is a parseable date string
 - Empty cursors, malformed cursors, or unparseable dates are handled gracefully
-- All 8 paginated endpoints follow the same response pattern: `{ items: T[], nextCursor: string }`
+- All 7 paginated endpoints follow the same response pattern: `{ items: T[], nextCursor: string }`
 - The feature is zero-cost for non-paginated endpoints and backward compatible

@@ -2,8 +2,15 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import type {
   APIClient,
+  Employee,
+  EmployeeEvent,
+  EmployeeEventOutcome,
+  EmployeeGetCompanyRosterResponse,
   ItemTradingGetItemTradingResponse,
   ItemTradingValue,
+  Manager,
+  ManagerOffer,
+  ManagerOfferGetManyPaginatedResponse,
   PublicTradingOrder,
   Region,
   RegionActiveBattle,
@@ -11,8 +18,6 @@ import type {
   TournamentMatch,
   TradingOrderBook,
   WorkStatsItem,
-  InputFor,
-  WorkerGetWorkersInput,
 } from "../../src";
 
 // Compile-time checks: `npm run typecheck:tests` fails if any directive below becomes unused
@@ -33,6 +38,21 @@ export function typeOnly(client: APIClient) {
   void client.itemTrading.getItemTrading();
   // @ts-expect-error itemCodes is required
   void client.tradingOrder.getTopOrdersPerItemCode({ limit: 5 });
+  // @ts-expect-error companyId is required
+  void client.employee.getCompanyRoster();
+  // @ts-expect-error companyId is required
+  void client.employee.getCompanyEstimate({});
+  // @ts-expect-error employeeId is required
+  void client.employee.getById();
+  // @ts-expect-error employeeId is required
+  void client.employeeEvent.getHistory();
+  // @ts-expect-error companyId is required
+  void client.manager.getByCompanyId();
+  // @ts-expect-error companyId is required
+  void client.managerOffer.getByCompanyId({});
+  // @ts-expect-error a profile needs its management level
+  void client.managerOffer.getWageStats({ profile: {} });
+  void client.managerOffer.getWageStats({ profile: { management: 10 } });
 
   // One-of inputs reject the empty filter and accept either side.
   // @ts-expect-error countryId or partyId is required
@@ -55,17 +75,6 @@ export function typeOnly(client: APIClient) {
   // @ts-expect-error unknown sanction filters are rejected by the server
   void client.sanction.getPaginated({ type: "UNKNOWN_ACTION" });
 
-  // OpenAPI input overrides enforce runtime one-of requirements.
-  // @ts-expect-error companyId or userId is required
-  void client.worker.getWorkers();
-  // @ts-expect-error companyId or userId is required
-  void client.worker.getWorkers({});
-  // @ts-expect-error undefined selectors do not satisfy the requirement
-  void client.worker.getWorkers({ companyId: undefined, userId: undefined });
-  void client.worker.getWorkers({ companyId: "c" });
-  void client.worker.getWorkers({ userId: "u" });
-  void client.worker.getWorkers({ companyId: "c", userId: "u" });
-
   // Legitimately optional filters stay optional.
   void client.donation.getManyPaginated({ limit: 1 });
   void client.donation.getTotalDonations({});
@@ -77,6 +86,7 @@ export function typeOnly(client: APIClient) {
   // Pagination overloads survive the one-of union.
   void client.election.getElections({ countryId: "c", autoPaginate: true, maxPages: 1 });
   void client.upgradeConstruction.listConstructions({ countryId: "c", autoPaginate: true });
+  void client.managerOffer.getManyPaginated({ limit: 50, autoPaginate: true, maxPages: 2 });
 
   // No-input procedures stay callable without an argument.
   void client.gameStat.getWorldDevelopment();
@@ -84,6 +94,13 @@ export function typeOnly(client: APIClient) {
   void client.gameConfig.getMaxBountyRate();
   void client.region.getAll();
   void client.shop.getLastGifts();
+  void client.employee.getMyEmployees();
+  void client.employee.getMyWorkforceSummary();
+  void client.employeeEvent.getMine();
+  void client.employeeEvent.getPendingCount();
+  void client.gameStat.getPpMoneyValueByItem();
+  void client.managerOffer.getWageStats();
+  void client.managerOffer.getManyPaginated();
 
   // Parameters the server ignores are not part of the input types.
   // @ts-expect-error page is not a server parameter
@@ -91,8 +108,6 @@ export function typeOnly(client: APIClient) {
   // @ts-expect-error count is not a server parameter
   void client.company.getRecommendedRegionIdsByItemCode({ itemCode: "wood", count: 3 });
 }
-
-type _workerInput = Expect<Equal<InputFor<"worker.getWorkers">, WorkerGetWorkersInput>>;
 
 // Response shapes.
 type _activeBattle = Expect<Equal<Region["activeBattle"], RegionActiveBattle | undefined>>;
@@ -102,6 +117,12 @@ type _bookOrder = Expect<Equal<TradingOrderBook["sellOrders"][number], PublicTra
 type _tradingDay = Expect<Equal<ItemTradingGetItemTradingResponse["values"][number], ItemTradingValue>>;
 type _workWage = Expect<Equal<WorkStatsItem["wage"], number | undefined>>;
 type _wonBy = Expect<Equal<TournamentMatch["wonBy"], "attacker" | "defender" | undefined>>;
+type _rosterRow = Expect<Equal<EmployeeGetCompanyRosterResponse["employees"][number], Employee>>;
+type _employeeById = Expect<Equal<Awaited<ReturnType<APIClient["employee"]["getById"]>>, Employee | null>>;
+type _historyRow = Expect<Equal<Awaited<ReturnType<APIClient["employeeEvent"]["getHistory"]>>[number], EmployeeEvent>>;
+type _eventBand = Expect<Equal<EmployeeEventOutcome["band"], "crit" | "success" | "fail" | "critFail">>;
+type _offerRow = Expect<Equal<ManagerOfferGetManyPaginatedResponse["items"][number], ManagerOffer>>;
+type _manager = Expect<Equal<Awaited<ReturnType<APIClient["manager"]["getByCompanyId"]>>, Manager | null>>;
 
 function describeSanction(data: SanctionData): string {
   switch (data.type) {
