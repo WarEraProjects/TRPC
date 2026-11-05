@@ -3,15 +3,15 @@ import { integrationTest, assert, isObject, client, testIds } from "./helpers/co
 integrationTest("company.getProductionBonus", async () => {
   const value = await client.company.getProductionBonus({ companyId: testIds.companyId });
 
-			assert(isObject(value), "expected object response");
+  assert(isObject(value), "expected object response");
 
-			for (const key of ["depositBonus", "total"] as const) {
-				assert(typeof value[key] === "number", `expected numeric ${key}`);
-			}
+  for (const key of ["depositBonus", "total"] as const) {
+    assert(typeof value[key] === "number", `expected numeric ${key}`);
+  }
 }, ["companyId"]);
 
 integrationTest("company.getRecommendedRegionIdsByItemCode", async () => {
   const value = await client.company.getRecommendedRegionIdsByItemCode({ itemCode: "steel", includeDeposit: true });
 
-			assert(Array.isArray(value), "expected array response");
+  assert(Array.isArray(value), "expected array response");
 });

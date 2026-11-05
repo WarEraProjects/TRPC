@@ -20,8 +20,8 @@ export type ItemTradingValue = {
 export type ItemTradingGetItemTradingResponse = {
 	_id: string;
 	itemCode: string;
-	minPrice: number;
-	maxPrice: number;
+	minPrice?: number;
+	maxPrice?: number;
 	values: ItemTradingValue[];
 	/** The last row's `avgValue`. */
 	currentValue: number;

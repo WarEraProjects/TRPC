@@ -8,9 +8,14 @@ export interface TrpcLikeClientOptions {
   fetch?: typeof fetch;
   headers?: Record<string, string>;
   maxBatchSize?: number;
+  /**
+   * @deprecated Unused: tRPC's `httpBatchLink` batches the calls made in the same tick and has no interval option.
+   */
   batchIntervalMs?: number;
   logBatches?: boolean | ((info: BatchLogInfo) => void);
   retry?: boolean | RetryOptions;
+  /** Requests per minute. Defaults to 200 with a non-empty API key, otherwise 100. */
+  rateLimit?: number;
   /**
    * Extra procedure paths whose input schema is `z.void()`. Merged with
    * {@link VOID_INPUT_PROCEDURES}; use it for custom endpoints registered through `_ce`.
@@ -114,12 +119,8 @@ function parseCursorDate(cursor: string | null | undefined): Date | null {
   
   const dateStr = cursor.substring(0, pipeIndex);
   if (dateStr === 'undefined') return null;
-  try {
-    const date = new Date(dateStr);
-    return isNaN(date.getTime()) ? null : date;
-  } catch {
-    return null;
-  }
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? null : date;
 }
 
 /**
@@ -388,10 +389,7 @@ function createPostQueryFetch(origFetch?: typeof fetch): typeof fetch {
       return f(input as any, init as any);
     }
 
-    const urlString =
-      typeof input === "string" || input instanceof URL
-        ? input.toString()
-        : input.url;
+    const urlString = getFetchUrl(input);
 
     let urlObj: URL;
     try {
@@ -441,10 +439,7 @@ function createBatchLoggingFetch(
         };
 
   return ((input: RequestInfo | URL, init?: RequestInit) => {
-    const urlString =
-      typeof input === "string" || input instanceof URL
-        ? input.toString()
-        : input.url;
+    const urlString = getFetchUrl(input);
 
     try {
       const urlObj = new URL(urlString);
@@ -456,7 +451,7 @@ function createBatchLoggingFetch(
       if (isBatch) {
         const body = typeof init?.body === "string" ? init.body : undefined;
         logFn({
-          method: (init?.method ?? (input as Request).method ?? "GET").toUpperCase(),
+          method: getFetchMethod(input, init),
           url: urlObj.toString(),
           path: lastSegment,
           paths,
@@ -580,32 +575,35 @@ function createMaxBatchSizeFetch(origFetch: typeof fetch, maxBatchSize: number):
 }
 
 /**
- * Create a lightweight TRPC-like client proxy backed by an untyped @trpc/client.
+ * Create a typed API client backed by an untyped @trpc/client.
  *
  * The returned value is a proxy that supports nested property access and function
  * invocation to call remote procedures. For example:
  *
  * ```ts
- * const client = createAPIClient({ url: 'https://api.example' });
- * const result = await client.article.getById({ id: 1 });
+ * const client = createAPIClient();
+ * const result = await client.article.getArticleById({ articleId: "article-id" });
  * ```
  *
  * Internally each invocation builds a dot-joined path from the accessed properties
- * (e.g. `article.getById`) and calls the underlying client's `query(path, input)`.
+ * (e.g. `article.getArticleById`) and calls the underlying client's `query(path, input)`.
  *
- * @param options - Configuration options for the TRPC-like client
- * @param options.url - The base URL used by the HTTP batch link
+ * @param options - Configuration options for the API client
+ * @param options.url - The base URL used by the HTTP batch link; defaults to https://api2.warera.io/trpc
  * @param options.apiKey - Optional API key to include as `x-api-key` header
- * @param options.logger - Pass `false` to disable the `loggerLink`
+ * @param options.logger - Pass `true` to add `loggerLink`; disabled by default
  * @param options.fetch - Optional fetch implementation to use for requests
  * @param options.headers - Additional headers to include on every request
- * @param options.rateLimit - Set the rate limit for requests per minute. Defaults to `200` if API key provided, otherwise default to 100
- * @param options.maxBatchSize - Max number of operations per HTTP batch. Set to `1` to disable batching.
- * @param options.batchIntervalMs - Time window to batch operations before sending.
- * @returns A `TrpcLikeClient` proxy which can be invoked like `client.foo.bar(input)`
+ * @param options.rateLimit - Requests per minute; defaults to 200 with a non-empty API key, otherwise 100
+ * @param options.maxBatchSize - Maximum operations per HTTP batch; defaults to and is capped at 50. Set to `1` to disable batching.
+ * @param options.batchIntervalMs - Deprecated and unused; tRPC's `httpBatchLink` batches calls made in the same tick
+ * @param options.retry - Retry transient failures; enabled by default with up to 3 retries, or pass `false` to disable
+ * @param options.logBatches - Pass `true` to log HTTP batches or provide a callback; disabled by default
+ * @param options.voidInputProcedures - Additional procedure paths that must receive no input instead of `{}`
+ * @returns An `APIClient` proxy with typed nested procedure calls and optional auto-pagination
  */
-export function createAPIClient(options?: TrpcLikeClientOptions & {rateLimit?: number}): APIClient {
-  const appliedRateLimit = options?.rateLimit ?? (options?.apiKey !== undefined ? 200 : 100);
+export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
+  const appliedRateLimit = options?.rateLimit ?? (options?.apiKey ? 200 : 100);
   const baseFetch = options?.fetch ?? (globalThis as any).fetch;
   const loggedFetch = createBatchLoggingFetch(baseFetch, options?.logBatches);
   const postQueryFetch = createPostQueryFetch(loggedFetch);
@@ -663,7 +661,17 @@ export function createAPIClient(options?: TrpcLikeClientOptions & {rateLimit?: n
           });
         }
         
-        // Regular query
+        // Regular query. The client-only pagination options are removed from plain-object inputs;
+        // anything else (class instances, objects with toJSON) goes to tRPC unchanged.
+        if (
+          input !== null && typeof input === "object" && !Array.isArray(input) &&
+          (Object.getPrototypeOf(input) === Object.prototype || Object.getPrototypeOf(input) === null) &&
+          typeof input.toJSON !== "function" &&
+          ("autoPaginate" in input || "maxPages" in input || "cursorEnd" in input)
+        ) {
+          const { autoPaginate: _unused, maxPages: _maxPages, cursorEnd: _cursorEnd, ...cleanedInput } = input;
+          return client.query(path, cleanedInput);
+        }
         return client.query(path, input);
       }
     });

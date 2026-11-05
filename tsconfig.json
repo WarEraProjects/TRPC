@@ -11,14 +11,12 @@
     "declarationMap": true,
     "sourceMap": true,
     "strict": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noImplicitAny": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": [
-      "node"
-    ],
+    "types": [],
     "outDir": "dist"
   },
   "include": [

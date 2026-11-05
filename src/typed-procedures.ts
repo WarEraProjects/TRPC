@@ -197,15 +197,3 @@ export type APIClientWithCustomEndpoints<TCustom extends CustomEndpointMap> =
 export type APIClient = DefaultClientTree & {
   _ce: <TCustom extends CustomEndpointMap>() => APIClientWithCustomEndpoints<TCustom>;
 };
-
-export function procedure<K extends ProcedureKey>(key: K): TrpcProcedure<K> {
-  return { key };
-}
-
-export async function trpcQuery<K extends ProcedureKey>(
-  client: { query: (path: K, input: InputFor<K>) => Promise<ResponseFor<K>> },
-  proc: TrpcProcedure<K>,
-  input?: InputFor<K>
-) {
-  return client.query(proc.key, input ?? ({} as InputFor<K>));
-}

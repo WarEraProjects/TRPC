@@ -28,6 +28,12 @@ Right here: [https://warera.realmarijn.nl/api-explorer](https://warera.realmarij
 npm i @wareraprojects/api
 ```
 
+The client runs on tRPC 11. Installing it also installs `@trpc/client` and `@trpc/server`:
+the tRPC 11 client uses shared utilities from `@trpc/server`, and no server is started.
+`@trpc/client` 11 declares TypeScript 5.7.2 or later as a peer dependency, so depending on the
+project's own TypeScript and the installer's settings, npm adds a compatible TypeScript for it
+or reports a peer conflict.
+
 ## Usage
 ```ts
 import { createAPIClient } from "@wareraprojects/api";
@@ -96,6 +102,13 @@ main().catch((err) => {
   bonus for companies. Both still answer. On 2026-11-04 the first returned `depositBonus` and
   `total` of 0 for all 24 companies of 15 owners checked, and the second an empty list for all
   13 item codes tried. Their types are marked `@deprecated`.
+- A tournament in registration has no `rounds` or `activeRound` yet, and no teams, so
+  `tournament.getLastTournament` may return one without them.
+- `shop.getTopGiftGivers` rows carried only `_id` and `giftCount` on 2026-11-04; `username`
+  stays optional in the type.
+- The response types were rechecked against live responses on 2026-11-04. Fields the API no
+  longer returns are gone from the types; most belong to mechanics v0.27 removed (player
+  workers and work offers, hiring, party ethics, deposits, production bonuses).
 
 ## Auto-Pagination
 
@@ -137,7 +150,9 @@ Open up a ticket here: https://github.com/WarEraProjects/TRPC/issues
 
 `npm test` runs the offline unit suite in `tests/unit` with mocked fetch responses.
 It needs no API key, `.env`, response cache, or live API access. The suite covers
-retry behavior and the client's pagination implementation.
+transport retries, cursor pagination, custom endpoint input handling, and void-input
+procedures. Compile-time checks also verify required inputs, pagination overloads,
+response shapes, and custom endpoint type contracts.
 
 | Command | Purpose |
 |---|---|
@@ -145,7 +160,7 @@ retry behavior and the client's pagination implementation.
 | `npm run test:retry` | Run only offline retry tests. |
 | `npm run test:integration:pagination` | Run bounded live pagination checks. |
 | `npm run test:integration:custom` | Validate custom endpoints against the live API. |
-| `npm run test:integration` | Run both live integration suites. |
+| `npm run test:integration` | Run all live integration tests by API area. |
 | `npm run benchmark:api` | Run the former default test: a live countries/users/companies crawl. |
 
 Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
@@ -159,7 +174,9 @@ one matching username. It uses that user's MU and selects the first company from
 override discovery; existing samples in `Responses/outputs` also take precedence.
 When a user ID is supplied, related IDs are discovered from that user's profile.
 Only IDs required by a selected test are resolved. Discovery depends on the
-account's current MU membership and companies.
+account's current MU membership and companies. `WARERA_EMPLOYEE_ID` selects the
+employee used by employee tests (default: the API key owner's first employee).
+`WARERA_COUNTRY_ID` overrides the default country ID, `6813b6d446e731854c7ac7a0`.
 
 To pin the live entities found for `Dog` on 2026-10-05, export these variables
 in your shell or put the assignments in `.env` (without `export`):

@@ -3,7 +3,7 @@ import { integrationTest, assert, isObject, client, countryId } from "./helpers/
 integrationTest("election.getElections", async () => {
   const value = await client.election.getElections({ limit: 100, countryId, direction: "forward" });
 
-			assert(Array.isArray(value.items), "expected items array");
+  assert(Array.isArray(value.items), "expected items array");
 });
 
 integrationTest("election.getElection", async () => {
@@ -12,8 +12,8 @@ integrationTest("election.getElection", async () => {
   assert(electionId, "expected at least one election to test election.getElection");
   const value = await client.election.getElection({ electionId });
 
-			assert(isObject(value), "expected object response");
-			assert(value._id === electionId, "expected the requested election");
-			assert(Array.isArray(value.candidates), "expected candidates array");
-			assert(isObject(value.votes), "expected votes object");
+  assert(isObject(value), "expected object response");
+  assert(value._id === electionId, "expected the requested election");
+  assert(Array.isArray(value.candidates), "expected candidates array");
+  assert(isObject(value.votes), "expected votes object");
 });

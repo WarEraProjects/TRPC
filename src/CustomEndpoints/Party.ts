@@ -2,16 +2,7 @@ export type PartyGetByIdInput = {
 	partyId: string;
 };
 
-export interface PartyEthics {
-	militarism: number;
-	isolationism: number;
-	imperialism: number;
-	industrialism: number;
-	unethical: boolean;
-}
-
 export type PartyGetByIdResponse = {
-	ethics: PartyEthics;
 	_id: string;
 	name: string;
 	description?: string;
