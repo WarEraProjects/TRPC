@@ -13,6 +13,7 @@
   },
   "include": [
     "Responses/**/*.ts",
+    "scripts/**/*.ts",
     "tsup.config.ts"
   ],
   "exclude": [

@@ -146,11 +146,30 @@ function getEmployeeSample() {
 }
 
 
-export function integrationTest(name: string, run: () => Promise<void>, requiredIds: (keyof typeof ids)[] = []) {
-  test(name, { timeout: 60000 }, async () => {
+function isPremiumRequired(error: unknown) {
+  const { message, data } = (error ?? {}) as { message?: unknown; data?: { code?: unknown } };
+  return message === "Premium required" && data?.code === "FORBIDDEN";
+}
+
+/**
+ * `premium: true` marks a check that needs a WarEra Premium key. With a normal key the
+ * server answers "Premium required" and the check is reported as skipped.
+ */
+export function integrationTest(
+  name: string,
+  run: () => Promise<void>,
+  requiredIds: (keyof typeof ids)[] = [],
+  options: { premium?: boolean } = {}
+) {
+  test(name, { timeout: 60000 }, async (t) => {
     assert(process.env.WARERA_API_KEY, "Set WARERA_API_KEY in .env before running live integration tests.");
     for (const key of requiredIds) await resolveTestId(key);
-    await run();
+    try {
+      await run();
+    } catch (error) {
+      if (options.premium && isPremiumRequired(error)) return t.skip("needs a WarEra Premium API key");
+      throw error;
+    }
   });
 }
 

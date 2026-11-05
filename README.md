@@ -24,6 +24,14 @@ Right here: [https://warera.realmarijn.nl/api-explorer](https://warera.realmarij
 - **Automatic cursor-based pagination** with type-safe async iterators. See [Auto-Pagination Guide](./docs/AUTO_PAGINATION.md).
 - Less boilerplate, fewer edge cases, faster iteration. 
 
+## Terms of use
+The game's Terms of Service, section 9.6 (in force from about 8 November 2026), allow only
+documented API endpoints without the developers' written permission. Most procedures in this
+SDK are not in the API's `openapi.json`. Asked about this, the WarEra developer Dog answered on
+12 October 2026: a procedure that answers to a WarEra API key without a player session may be
+used, and one that needs a player session may not. Every procedure in this SDK works with an
+API key alone; `npm run check:procedures` checks that against the live API.
+
 ## Install
 ```bash
 npm i @wareraprojects/api
@@ -220,6 +228,7 @@ response shapes, and custom endpoint type contracts.
 | `npm run test:integration:custom` | Validate custom endpoints against the live API. |
 | `npm run test:integration` | Run all live integration tests by API area. |
 | `npm run benchmark:api` | Run the former default test: a live countries/users/companies crawl. |
+| `npm run check:procedures` | Check every SDK procedure against the live API: gone, needs a session, or newly documented. Two requests of the rate limit. `-- --also a.b,c.d` probes further names. |
 
 Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
 `WARERA_API_KEY`. Exported environment variables also work; if your key is in
@@ -249,9 +258,9 @@ The company belongs to `Dog`. MU membership and company ownership can change;
 remove these overrides to rediscover current entities.
 
 The `work.getStatsByUserId` and `work.getStatsByCompany` checks need a WarEra
-Premium API key; normal keys receive HTTP 403 `Premium required`.
-The live work suite checks successful responses and will fail when the supplied
-credentials cannot access an endpoint.
+Premium API key; normal keys receive HTTP 403 `Premium required`, and these checks
+are then reported as skipped. Any other error, and `Premium required` on a check that
+is not marked `premium`, still fails the run.
 
 The API benchmark can make many requests and is intended for deliberate manual
 runs. It is separate from both unit and integration testing. Response collection
@@ -282,7 +291,7 @@ only compile types: they emit no files, make no API requests, and need no creden
 |---|---|---|
 | `npm run typecheck:src` | `tsconfig.json` | Library source and declarations. |
 | `npm run typecheck:tests` | `tsconfig.tests.json` | All tests, shared helpers, and benchmarks. |
-| `npm run typecheck:tools` | `tsconfig.tools.json` | Response collection/generation and `tsup.config.ts`. |
+| `npm run typecheck:tools` | `tsconfig.tools.json` | Response collection/generation, `scripts/` and `tsup.config.ts`. |
 
 The test and tool configurations inherit the library's strict compiler settings.
 Node-based tools use ES2022 to support `Object.hasOwn`; the library remains ES2020.
