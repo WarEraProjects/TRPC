@@ -132,6 +132,8 @@ What each list was sorted by on 2026-11-10, newest or highest first:
 
 Not checked: `upgradeConstruction.listConstructions` (no list longer than one page was found) and the `my`, `subscriptions` and `saved` article lists.
 
+The check looks at the next cursor, so the last page can still contain items older than `cursorEnd`; filter them yourself if that matters. A value that is not a valid date throws a `RangeError`.
+
 ## Return Types
 
 ### With Auto-Pagination
