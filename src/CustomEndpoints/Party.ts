@@ -18,6 +18,13 @@ export type PartyGetByIdResponse = {
 	avatarUrl?: string;
 	treasurer?: string;
 	primaryWinner?: string;
+	/** User ids; absent on parties that never set a list, and possibly empty. */
+	congressList?: string[];
+	congressListUpdatedAt?: string;
+	/** A user id. */
+	congressListUpdatedBy?: string;
+	/** A government type such as `federation` or `autocracy`, or `null`. */
+	favoriteGovType?: string | null;
 };
 
 export type PartyGetManyPaginatedInput = {

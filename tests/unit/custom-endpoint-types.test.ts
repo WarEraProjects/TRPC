@@ -13,12 +13,18 @@ import type {
   Manager,
   ManagerOffer,
   ManagerOfferGetManyPaginatedResponse,
+  MuListItem,
+  PartyGetByIdResponse,
+  PollVote,
   PublicTradingOrder,
   Region,
   RegionActiveBattle,
   SanctionData,
   TournamentMatch,
   TradingOrderBook,
+  UserGetUserByIdResponse,
+  UserGetUserLiteResponse,
+  UserSkills,
   WorkStatsItem,
 } from "../../src";
 
@@ -55,6 +61,8 @@ export function typeOnly(client: APIClient) {
   // @ts-expect-error a profile needs its management level
   void client.managerOffer.getWageStats({ profile: {} });
   void client.managerOffer.getWageStats({ profile: { management: 10 } });
+  // @ts-expect-error optionId is required
+  void client.poll.getPollVoters({ pollId: "p" });
 
   // One-of inputs reject the empty filter and accept either side.
   // @ts-expect-error countryId or partyId is required
@@ -96,6 +104,10 @@ export function typeOnly(client: APIClient) {
   type BattleRankingPage = typeof battleRankingPages extends AsyncIterableIterator<infer Page> ? Page : never;
   type _battleRankingPageItem = Expect<Equal<BattleRankingPage["items"][number], BattleRankingItem>>;
 
+  const voterPages = client.poll.getPollVoters({ pollId: "p", optionId: 0, autoPaginate: true });
+  type VoterPage = typeof voterPages extends AsyncIterableIterator<infer Page> ? Page : never;
+  type _voterPageItem = Expect<Equal<VoterPage["items"][number], PollVote>>;
+
   // No-input procedures stay callable without an argument.
   void client.gameStat.getWorldDevelopment();
   void client.gameStat.getPpMoneyValue();
@@ -133,6 +145,11 @@ type _historyRow = Expect<Equal<Awaited<ReturnType<APIClient["employeeEvent"]["g
 type _eventBand = Expect<Equal<EmployeeEventOutcome["band"], "crit" | "success" | "fail" | "critFail">>;
 type _offerRow = Expect<Equal<ManagerOfferGetManyPaginatedResponse["items"][number], ManagerOffer>>;
 type _manager = Expect<Equal<Awaited<ReturnType<APIClient["manager"]["getByCompanyId"]>>, Manager | null>>;
+type _liteSkillsMoved = Expect<Equal<"skills" extends keyof UserGetUserLiteResponse ? true : false, false>>;
+type _byIdSkills = Expect<Equal<UserGetUserByIdResponse["skills"], UserSkills>>;
+type _muById = Expect<Equal<Awaited<ReturnType<APIClient["mu"]["getById"]>>, MuListItem>>;
+type _myVote = Expect<Equal<Awaited<ReturnType<APIClient["poll"]["getPoll"]>>["myVote"], number[] | null>>;
+type _favoriteGovType = Expect<Equal<PartyGetByIdResponse["favoriteGovType"], string | null | undefined>>;
 
 function describeSanction(data: SanctionData): string {
   switch (data.type) {
