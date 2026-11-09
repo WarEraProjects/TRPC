@@ -28,6 +28,7 @@ Packaged custom endpoints:
 - `election.getElections`
 - `giveaway.getManyPaginated`
 - `managerOffer.getManyPaginated`
+- `mercenaryContractAuction.getActiveAuctions`
 - `party.getManyPaginated`
 - `sanction.getPaginated`
 - `tournament.getManyPaginated`

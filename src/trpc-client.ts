@@ -31,6 +31,8 @@ export const VOID_INPUT_PROCEDURES: ReadonlySet<string> = new Set([
   "gameStat.getWorldDevelopment",
   "gameStat.getPpMoneyValue",
   "gameStat.getPpMoneyValueByItem",
+  "gameStat.getBadgeStats",
+  "gameStat.getMilestoneStats",
 ]);
 
 type BatchLogInfo = {

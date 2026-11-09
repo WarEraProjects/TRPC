@@ -26,3 +26,19 @@ integrationTest("gameStat.getPpMoneyValueByItem", async () => {
   assert(isObject(value), "expected values keyed by item code");
   assert(typeof value.steel === "number" && value.steel > 0, "expected a positive value for steel");
 });
+
+integrationTest("gameStat.getBadgeStats", async () => {
+  const value = await client.gameStat.getBadgeStats();
+
+  assert(isObject(value.alphaTester), "expected a row for alphaTester");
+  for (const row of Object.values(value)) {
+    assert(typeof row.count === "number" && typeof row.percent === "number", "expected count and percent");
+  }
+});
+
+integrationTest("gameStat.getMilestoneStats", async () => {
+  const value = await client.gameStat.getMilestoneStats();
+
+  assert(isObject(value.reachXp) && isObject(value.reachXp["1"]), "expected tier 1 of reachXp");
+  assert(typeof value.reachXp["1"].count === "number", "expected a numeric count");
+});

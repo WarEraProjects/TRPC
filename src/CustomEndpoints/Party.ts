@@ -27,6 +27,10 @@ export type PartyGetByIdResponse = {
 	favoriteGovType?: string | null;
 };
 
+export type PartyGetInactiveMemberIdsInput = {
+	partyId: string;
+};
+
 export type PartyGetManyPaginatedInput = {
 	countryId?: string;
 	limit?: number;
@@ -47,5 +51,13 @@ export type PartyCustomEndpoints = {
 	"party.getManyPaginated": {
 		input: PartyGetManyPaginatedInput;
 		output: PartyGetManyPaginatedResponse;
+	};
+	/**
+	 * Ids from `members` whose profile has `isActive: false`; usually an empty list. Answers
+	 * without an API key.
+	 */
+	"party.getInactiveMemberIds": {
+		input: PartyGetInactiveMemberIdsInput;
+		output: string[];
 	};
 };
