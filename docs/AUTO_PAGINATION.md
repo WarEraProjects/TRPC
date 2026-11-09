@@ -113,7 +113,7 @@ const options = {
 
 **Default**: `undefined` (no date filtering)
 
-**Note**: Cursors have the format `"{date}|{id}"`. The date portion is extracted and parsed for comparison.
+**Note**: The client compares the date a cursor starts with. A cursor is either `"{date}|{id}"` or `"v2."` followed by base64url JSON of the sort keys (every cursor checked on 2026-11-09 was `v2`). A cursor whose first sort key is not a date never stops pagination by date: `article.getArticlesPaginated` sorts `top` and `weekly` by a number, `managerOffer.getManyPaginated` by `maxHourlyWage`.
 
 ## Return Types
 
@@ -321,7 +321,7 @@ for await (const page of client.article.getArticlesPaginated({
 
 ## Implementation Notes
 
-- Cursor format: `"{date}|{id}"` where date is a parseable date string
+- Cursor formats: `"{date}|{id}"`, and `"v2."` plus base64url JSON such as `[{"t":"date","v":"2026-11-09T16:48:25.632Z"},{"t":"str","v":"<id>"}]`
 - Empty cursors, malformed cursors, or unparseable dates are handled gracefully
 - Supported endpoints follow the same response pattern: `{ items: T[], nextCursor }`; `nextCursor` may be empty or missing on the last page
 - The feature is zero-cost for non-paginated endpoints and backward compatible

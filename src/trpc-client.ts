@@ -108,12 +108,15 @@ type NormalizedRetryOptions = Required<
 };
 
 /**
- * Parse the date from a cursor string in the format "{date}|{id}".
- * Returns null if the cursor is invalid, empty, or the date cannot be parsed.
+ * Parse the date a cursor starts with. Two formats are known: "{date}|{id}", and "v2." followed by
+ * base64url JSON of the sort keys, such as [{"t":"date","v":"2026-11-09T16:48:25.632Z"},{"t":"str","v":"<id>"}].
+ * Returns null if the cursor is invalid or empty, if the date cannot be parsed, or if the first sort
+ * key is not a date (`article.getArticlesPaginated` sorts `top` and `weekly` by a number).
  */
 function parseCursorDate(cursor: string | null | undefined): Date | null {
   if (!cursor || typeof cursor !== "string") return null;
-  
+  if (cursor.startsWith("v2.")) return parseV2CursorDate(cursor.slice(3));
+
   const pipeIndex = cursor.indexOf("|");
   if (pipeIndex === -1) return null;
   
@@ -121,6 +124,21 @@ function parseCursorDate(cursor: string | null | undefined): Date | null {
   if (dateStr === 'undefined') return null;
   const date = new Date(dateStr);
   return isNaN(date.getTime()) ? null : date;
+}
+
+function parseV2CursorDate(payload: string): Date | null {
+  try {
+    const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const keys: unknown = JSON.parse(atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, "=")));
+    const first: unknown = Array.isArray(keys) ? keys[0] : undefined;
+    if (!first || typeof first !== "object") return null;
+    const { t, v } = first as { t?: unknown; v?: unknown };
+    if (t !== "date" || typeof v !== "string") return null;
+    const date = new Date(v);
+    return isNaN(date.getTime()) ? null : date;
+  } catch {
+    return null;
+  }
 }
 
 /**
