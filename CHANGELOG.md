@@ -14,6 +14,10 @@ that used the removed procedures or types has to change, hence the minor version
   `CountryResourceBonuses`, `GameConfigWorker`, `PartyEthics`, `RegionDeposit` and
   `RegionResourceBonusByTier` no longer exist; `company.getProductionBonus` returns only
   `depositBonus` and `total`.
+- Response types follow the drift since v0.27 (#51): `user.getUserLite` no longer has
+  `skills` or `skillsExpiration` (use `user.getUserSkills`), `MuGetByIdResponse` is now
+  `MuListItem`, and `gameConfig` lost `government.memberWagePercent`, the resistance
+  cooldowns and the `region` resistance fields.
 - The client runs on tRPC 11. `@trpc/client` and `@trpc/server` are pinned to 11.24.0, and
   `@trpc/client` 11 expects TypeScript 5.7.2 or later.
 - Without the `rateLimit` option the client now follows the limit the server reports. With
@@ -26,7 +30,16 @@ that used the removed procedures or types has to change, hence the minor version
   `manager.getByCompanyId`, `managerOffer.getByCompanyId`, `managerOffer.getManyPaginated`,
   `managerOffer.getWageStats`, `itemTrading.getItemTrading`,
   `tradingOrder.getTopOrdersPerItemCode`, `gameConfig.getMaxBountyRate`,
-  `gameStat.getPpMoneyValue`, `gameStat.getPpMoneyValueByItem` and `article.getPinnedArticles`.
+  `gameStat.getPpMoneyValue` and `gameStat.getPpMoneyValueByItem`.
+- Twenty public procedures from #51: `articleInteraction.getArticleLikers`,
+  `getArticleDislikers`, `getArticleTippers` and `getArticleGemTippers`,
+  `battle.getActiveBattlesByCountry`, `battle.getViewersCount`, `gameStat.getBadgeStats`,
+  `gameStat.getMilestoneStats`, `map.getMapData`, `mercenaryContractAuction.getActiveAuctions`,
+  `mu.getReputationBuyStatus`, `party.getInactiveMemberIds`, `upgrade.getMapUpgrades`,
+  `user.getUserSkills`, `user.getTodayClaimCount`, `article.getPinnedArticles`,
+  `assetSale.getLastSkinGifts`, `alliance.getStrategicResourceBonuses`,
+  `country.getStrategicResourceBonuses` and `government.getCongressSeats`.
+- Response types for `poll.getPoll` and `poll.getPollVoters`.
 - Every procedure takes an optional second argument `{ signal }` to abort the call.
 - `timeoutMs` aborts and retries a request whose response headers do not arrive in time.
 - The rate limiter holds further requests until `ratelimit-reset` when the window is used up
@@ -37,7 +50,8 @@ that used the removed procedures or types has to change, hence the minor version
 - `await` on a client, for example one returned from an async function, no longer hangs.
 - The rate limiter no longer waits for each response before it starts the next request, and
   a fetch that throws synchronously no longer stops the queue.
-- `cursorEnd` works with the API's current `v2.` cursors; before, it never stopped a crawl.
+- `cursorEnd` works with the API's current `v2.` cursors, including date keys sent as strings
+  and leading `null` keys (#51); before, it never stopped a crawl.
 - Retries follow `Retry-After`, give up at once when the caller aborts, and return a 429
   whose reset is longer than `maxDelayMs` instead of spending the remaining attempts.
 - A batch answered with an HTML error page fails only its own calls, with the HTTP status
@@ -50,3 +64,4 @@ that used the removed procedures or types has to change, hence the minor version
   `methodOverride`. The hand-built batch splitter and GET-to-POST conversion are gone.
 - The publish workflow runs the type checks and unit tests before it publishes, and a
   pre-release goes out under the `next` dist-tag.
+- Pull requests run the type checks, unit tests and build (#52).
