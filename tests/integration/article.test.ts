@@ -10,3 +10,13 @@ integrationTest("article.getWelcomeArticleByCountryId", async () => {
     assert(typeof value.welcomeArticleOfCountry === "string", "expected welcomeArticleOfCountry");
   }
 });
+
+integrationTest("article.getPinnedArticles", async () => {
+  const value = await client.article.getPinnedArticles();
+
+  assert(Array.isArray(value), "expected an array");
+  for (const article of value) {
+    assert(typeof article._id === "string" && typeof article.title === "string", "expected article fields");
+    assert(typeof article.pinnedUntil === "string", "expected pinnedUntil");
+  }
+});

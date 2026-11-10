@@ -1,5 +1,38 @@
+import type { CountryStrategicResources } from "../api/Responses";
+
 export type AllianceGetByIdInput = {
 	allianceId: string;
+};
+
+export type AllianceGetStrategicResourceBonusesInput = {
+	allianceId: string;
+};
+
+/**
+ * The strategic resources a group of countries holds together and the bonuses they give: an
+ * alliance's members, or one country outside every alliance.
+ */
+export type StrategicResourceBonuses = {
+	/** Absent for a country outside every alliance. */
+	allianceId?: string;
+	/**
+	 * The countries that share the bonuses. For each of the 15 alliances on 2026-11-10 it was the
+	 * member list; none had a suspended member that day.
+	 */
+	countryIds: string[];
+	/** Region ids by strategic resource; a resource the group does not hold has no key. */
+	regionIds: CountryStrategicResources;
+	bonuses: {
+		/**
+		 * The bonus by skill code, for the skills that get one. On 2026-11-10 the codes were
+		 * `energy`, `health`, `lootChance`, `management`, `precision` and `production`.
+		 */
+		skills: Record<string, number>;
+		/** 0 for all 15 alliances and every country checked on 2026-11-10. */
+		productionPercent: number;
+		/** 0 for all 15 alliances and every country checked on 2026-11-10. */
+		developmentPercent: number;
+	};
 };
 
 export type AllianceGetByIdsInput = {
@@ -68,5 +101,10 @@ export type AllianceCustomEndpoints = {
 	"alliance.getManyPaginated": {
 		input: AllianceGetManyPaginatedInput;
 		output: AllianceGetManyPaginatedResponse;
+	};
+	/** `null` for an unknown alliance id. Answers without an API key. */
+	"alliance.getStrategicResourceBonuses": {
+		input: AllianceGetStrategicResourceBonusesInput;
+		output: (StrategicResourceBonuses & { allianceId: string }) | null;
 	};
 };

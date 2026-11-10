@@ -4,6 +4,7 @@ import type {
   APIClient,
   BattleRankingItem,
   CompanyGetByIdResponse,
+  CongressSeat,
   Employee,
   EmployeeEvent,
   EmployeeEventOutcome,
@@ -20,11 +21,14 @@ import type {
   MercenaryContractAuctionListItem,
   MuListItem,
   PartyGetByIdResponse,
+  PinnedArticle,
   PollVote,
   PublicTradingOrder,
   Region,
   RegionActiveBattle,
   SanctionData,
+  SkinGift,
+  StrategicResourceBonuses,
   TournamentMatch,
   TradingOrderBook,
   UserGetUserByIdResponse,
@@ -81,6 +85,12 @@ export function typeOnly(client: APIClient) {
   void client.user.getUserSkills({});
   // @ts-expect-error optionId is required
   void client.poll.getPollVoters({ pollId: "p" });
+  // @ts-expect-error allianceId is required
+  void client.alliance.getStrategicResourceBonuses();
+  // @ts-expect-error countryId is required
+  void client.country.getStrategicResourceBonuses({});
+  // @ts-expect-error countryId is required
+  void client.government.getCongressSeats();
 
   // One-of inputs reject the empty filter and accept either side.
   // @ts-expect-error countryId or partyId is required
@@ -149,6 +159,8 @@ export function typeOnly(client: APIClient) {
   void client.upgrade.getMapUpgrades();
   void client.map.getMapData();
   void client.mercenaryContractAuction.getActiveAuctions();
+  void client.article.getPinnedArticles();
+  void client.assetSale.getLastSkinGifts();
 
   // Parameters the server ignores are not part of the input types.
   // @ts-expect-error page is not a server parameter
@@ -191,6 +203,13 @@ type _noInputRegions = Expect<Equal<ReturnType<APIClient["region"]["getAll"]>, P
 // The OpenAPI file types a missing input as Record<string, never>, not never.
 type _noInputOpenApi = Expect<Equal<ReturnType<APIClient["country"]["getAllCountries"]> extends Promise<unknown> ? true : false, true>>;
 type _noInputFor = Expect<Equal<InputFor<"country.getAllCountries">, Record<string, never>>>;
+type _pinned = Expect<Equal<Awaited<ReturnType<APIClient["article"]["getPinnedArticles"]>>, PinnedArticle[]>>;
+type _pinnedUntil = Expect<Equal<PinnedArticle["pinnedUntil"], string>>;
+type _skinGifts = Expect<Equal<Awaited<ReturnType<APIClient["assetSale"]["getLastSkinGifts"]>>, SkinGift[]>>;
+type _countryBonuses = Expect<Equal<Awaited<ReturnType<APIClient["country"]["getStrategicResourceBonuses"]>>, StrategicResourceBonuses | null>>;
+type _allianceBonusesId = Expect<Equal<NonNullable<Awaited<ReturnType<APIClient["alliance"]["getStrategicResourceBonuses"]>>>["allianceId"], string>>;
+type _seats = Expect<Equal<Awaited<ReturnType<APIClient["government"]["getCongressSeats"]>>, CongressSeat[]>>;
+type _seatParty = Expect<Equal<CongressSeat["party"], string | undefined>>;
 
 function describeSanction(data: SanctionData): string {
   switch (data.type) {

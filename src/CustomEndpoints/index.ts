@@ -1,6 +1,7 @@
 export type * from "./Alliance";
 export type * from "./Article";
 export type * from "./ArticleInteraction";
+export type * from "./AssetSale";
 export type * from "./Battle";
 export type * from "./Company";
 export type * from "./Contribution";
@@ -13,6 +14,7 @@ export type * from "./EmployeeEvent";
 export type * from "./GameConfig";
 export type * from "./GameStat";
 export type * from "./Giveaway";
+export type * from "./Government";
 export type * from "./ItemTrading";
 export type * from "./Manager";
 export type * from "./ManagerOffer";
@@ -36,6 +38,7 @@ export type * from "./Work";
 import type { AllianceCustomEndpoints } from "./Alliance";
 import type { ArticleCustomEndpoints } from "./Article";
 import type { ArticleInteractionCustomEndpoints } from "./ArticleInteraction";
+import type { AssetSaleCustomEndpoints } from "./AssetSale";
 import type { BattleCustomEndpoints } from "./Battle";
 import type { CompanyCustomEndpoints } from "./Company";
 import type { ContributionCustomEndpoints } from "./Contribution";
@@ -48,6 +51,7 @@ import type { EmployeeEventCustomEndpoints } from "./EmployeeEvent";
 import type { GameConfigCustomEndpoints } from "./GameConfig";
 import type { GameStatCustomEndpoints } from "./GameStat";
 import type { GiveawayCustomEndpoints } from "./Giveaway";
+import type { GovernmentCustomEndpoints } from "./Government";
 import type { ItemTradingCustomEndpoints } from "./ItemTrading";
 import type { ManagerCustomEndpoints } from "./Manager";
 import type { ManagerOfferCustomEndpoints } from "./ManagerOffer";
@@ -72,6 +76,7 @@ export type WarEraCustomEndpoints =
 	AllianceCustomEndpoints
 	& ArticleCustomEndpoints
 	& ArticleInteractionCustomEndpoints
+	& AssetSaleCustomEndpoints
 	& BattleCustomEndpoints
 	& CompanyCustomEndpoints
 	& ContributionCustomEndpoints
@@ -84,6 +89,7 @@ export type WarEraCustomEndpoints =
 	& GameConfigCustomEndpoints
 	& GameStatCustomEndpoints
 	& GiveawayCustomEndpoints
+	& GovernmentCustomEndpoints
 	& ItemTradingCustomEndpoints
 	& ManagerCustomEndpoints
 	& ManagerOfferCustomEndpoints

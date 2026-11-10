@@ -9,3 +9,14 @@ integrationTest("country.getUnrestData", async () => {
   assert(typeof value.isFull === "boolean", "expected boolean isFull");
   assert(typeof value.isOnRevolutionCooldown === "boolean", "expected boolean isOnRevolutionCooldown");
 });
+
+integrationTest("country.getStrategicResourceBonuses", async () => {
+  const value = await client.country.getStrategicResourceBonuses({ countryId });
+
+  assert(value === null || isObject(value), "expected null or a bonuses object");
+  if (value) {
+    assert(value.allianceId === undefined || typeof value.allianceId === "string", "expected an optional alliance id");
+    assert(Array.isArray(value.countryIds) && value.countryIds.length > 0, "expected country ids");
+    assert(isObject(value.regionIds) && isObject(value.bonuses.skills), "expected regionIds and bonus skills");
+  }
+});

@@ -130,6 +130,15 @@ main().catch((err) => {
   `mu.getReputationBuyStatus`, `party.getInactiveMemberIds`, `upgrade.getMapUpgrades`,
   `user.getUserSkills`, `user.getTodayClaimCount`, and the two `gameStat` stats) all answer
   without an API key.
+- Five more were added on 2026-11-10, found by comparing the queries the web client calls with
+  this package: `article.getPinnedArticles`, `assetSale.getLastSkinGifts`,
+  `alliance.getStrategicResourceBonuses`, `country.getStrategicResourceBonuses` and
+  `government.getCongressSeats`. They answer without an API key. Of the other 71 untyped
+  queries tried without credentials that day, every one answered `UNAUTHORIZED`, and the four
+  tried with an API key answered "API tokens cannot access this endpoint".
+- `country.getStrategicResourceBonuses` returns the alliance's bonuses for a member of an
+  alliance. A country outside every alliance gets its own, or `null` when it holds no strategic
+  resource.
 
 ## Auto-Pagination
 
