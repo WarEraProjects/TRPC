@@ -9,6 +9,7 @@ import type {
   EmployeeEventOutcome,
   EmployeeGetCompanyRosterResponse,
   GameStatHolderCount,
+  InputFor,
   ItemTradingGetItemTradingResponse,
   ItemTradingValue,
   Manager,
@@ -184,6 +185,12 @@ type _myVote = Expect<Equal<Awaited<ReturnType<APIClient["poll"]["getPoll"]>>["m
 type _badgeRow = Expect<Equal<WarEraCustomEndpoints["gameStat.getBadgeStats"]["output"][string], GameStatHolderCount>>;
 type _regionProperties = Expect<Equal<MapGetMapDataResponse["map"]["objects"]["regions"]["geometries"][number]["properties"], MapRegionProperties>>;
 type _favoriteGovType = Expect<Equal<PartyGetByIdResponse["favoriteGovType"], string | null | undefined>>;
+// A procedure without input returns a promise, not the auto-pagination iterator.
+type _noInputCustom = Expect<Equal<ReturnType<APIClient["gameStat"]["getWorldDevelopment"]>, Promise<number>>>;
+type _noInputRegions = Expect<Equal<ReturnType<APIClient["region"]["getAll"]>, Promise<Region[]>>>;
+// The OpenAPI file types a missing input as Record<string, never>, not never.
+type _noInputOpenApi = Expect<Equal<ReturnType<APIClient["country"]["getAllCountries"]> extends Promise<unknown> ? true : false, true>>;
+type _noInputFor = Expect<Equal<InputFor<"country.getAllCountries">, Record<string, never>>>;
 
 function describeSanction(data: SanctionData): string {
   switch (data.type) {

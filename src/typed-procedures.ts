@@ -34,10 +34,15 @@ type BaseInputFor<K extends ProcedureKey> = K extends keyof ApiInputOverrides
   ? JsonContent<RB>
   : never;
 
+// No input at all: `never` for a custom endpoint without `input`, `Record<string, never>` for an
+// OpenAPI operation without a request body. Both are assignable to `{ cursor?: any }`, so the
+// pagination checks below have to rule them out first.
+type IsNoInput<T> = [T] extends [Record<string, never>] ? true : false;
+
 // Auto-detect if endpoint supports pagination: check if input has "cursor" property
-type IsPaginatedResponse<K extends ProcedureKey> = BaseInputFor<K> extends { cursor?: any }
-  ? true
-  : false;
+type IsPaginatedResponse<K extends ProcedureKey> = IsNoInput<BaseInputFor<K>> extends true
+  ? false
+  : BaseInputFor<K> extends { cursor?: any } ? true : false;
 
 type ExtractItems<T> = T extends { items: infer I }
   ? I extends Array<infer Item>
@@ -118,7 +123,13 @@ type NormalizeCustomEndpointMap<TCustom extends CustomEndpointMap> = {
     : never;
 };
 
-type IsPaginatedInput<RawInput> = RawInput extends { cursor?: any } ? true : false;
+// A procedure without input is not paginated. Without the guard a `never` input makes the
+// distributive conditional yield `never`, which the `extends true` checks below read as true, and
+// `Record<string, never>` matches `{ cursor?: any }` outright. Every no-input procedure then got
+// the auto-pagination overload too, and `ReturnType` picked that one.
+type IsPaginatedInput<RawInput> = IsNoInput<RawInput> extends true
+  ? false
+  : RawInput extends { cursor?: any } ? true : false;
 
 type InputForDefinition<RawInput> = IsPaginatedInput<RawInput> extends true
   ? RawInput & Partial<PaginationOptions>
