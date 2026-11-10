@@ -62,7 +62,7 @@ test("pagination stops at cursorEnd and omits it from requests", async () => {
   assert.deepEqual(requests, [{ type: "last" }]);
 });
 
-function v2Cursor(keys: { t: string; v: unknown }[]): string {
+function v2Cursor(keys: { t: string; v?: unknown }[]): string {
   return `v2.${Buffer.from(JSON.stringify(keys)).toString("base64url")}`;
 }
 
@@ -87,6 +87,42 @@ test("pagination goes on past a newer v2 date and a v2 cursor that does not star
     type: "top", autoPaginate: true, cursorEnd: new Date("2026-02-01"),
   })) { /* consume */ }
   assert.deepEqual(requests, [{ type: "top" }, { type: "top", cursor: newer }, { type: "top", cursor: byScore }]);
+});
+
+test("pagination reads a v2 date sent as a string key, as giveaways send endAt", async () => {
+  const older = v2Cursor([{ t: "str", v: "2026-01-01T00:00:01.158Z" }, { t: "str", v: "6ade9801e10098309a55fca7" }]);
+  const { client, requests } = mockClient([{ items: [{ _id: "first" }], nextCursor: older }]);
+  for await (const _page of client.giveaway.getManyPaginated({
+    autoPaginate: true, cursorEnd: new Date("2026-02-01"),
+  })) { /* consume */ }
+  assert.deepEqual(requests, [{}]);
+});
+
+test("pagination skips null v2 keys and reads the date after them", async () => {
+  const neverMovedNewer = v2Cursor([{ t: "null" }, { t: "date", v: "2026-03-01T00:00:00.000Z" }, { t: "str", v: "a" }]);
+  const neverMovedOlder = v2Cursor([{ t: "null" }, { t: "date", v: "2026-01-01T00:00:00.000Z" }, { t: "str", v: "b" }]);
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: neverMovedNewer },
+    { items: [{ _id: "second" }], nextCursor: neverMovedOlder },
+  ]);
+  for await (const _page of client.company.getCompanies({
+    autoPaginate: true, cursorEnd: new Date("2026-02-01"),
+  })) { /* consume */ }
+  assert.deepEqual(requests, [{}, { cursor: neverMovedNewer }]);
+});
+
+test("pagination goes on past v2 string keys that are not timestamps", async () => {
+  const byName = v2Cursor([{ t: "str", v: "2026" }, { t: "str", v: "a" }]);
+  const idOnly = v2Cursor([{ t: "null" }, { t: "str", v: "6ade9801e10098309a55fca7" }]);
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: byName },
+    { items: [{ _id: "second" }], nextCursor: idOnly },
+    { items: [{ _id: "third" }] },
+  ]);
+  for await (const _page of client.giveaway.getManyPaginated({
+    autoPaginate: true, cursorEnd: new Date("2026-02-01"),
+  })) { /* consume */ }
+  assert.deepEqual(requests, [{}, { cursor: byName }, { cursor: idOnly }]);
 });
 
 test("pagination stops on an empty page even when a cursor exists", async () => {

@@ -12,6 +12,10 @@ type JsonContent<T> = T extends { content: { "application/json": infer C } }
 export type PaginationOptions = {
   autoPaginate?: boolean;
   maxPages?: number;
+  /**
+   * Stop auto-pagination once the next cursor's date is older than this. It only takes effect on
+   * lists sorted by a date; docs/AUTO_PAGINATION.md says which date each list uses.
+   */
   cursorEnd?: Date;
 };
 

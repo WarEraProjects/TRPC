@@ -109,11 +109,20 @@ type NormalizedRetryOptions = Required<
   onRetry?: (info: RetryInfo) => void;
 };
 
+/** An ISO 8601 timestamp such as "2026-10-27T00:00:01.158Z". */
+const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
+
 /**
  * Parse the date a cursor starts with. Two formats are known: "{date}|{id}", and "v2." followed by
  * base64url JSON of the sort keys, such as [{"t":"date","v":"2026-11-09T16:48:25.632Z"},{"t":"str","v":"<id>"}].
- * Returns null if the cursor is invalid or empty, if the date cannot be parsed, or if the first sort
- * key is not a date (`article.getArticlesPaginated` sorts `top` and `weekly` by a number).
+ *
+ * In a v2 cursor the date is the first sort key that has a value:
+ * - a `date` key, or a `str` key holding an ISO timestamp (`giveaway.getManyPaginated` sends `endAt` that way);
+ * - `null` keys are skipped: `company.getCompanies` sorts by `movedUpAt` and then `createdAt`, and a
+ *   company that never moved has [{"t":"null"},{"t":"date","v":"<createdAt>"},{"t":"str","v":"<id>"}].
+ *
+ * Returns null if the cursor is invalid or empty, if the date cannot be parsed, or if that key is not
+ * a date (`article.getArticlesPaginated` sorts `daily`, `weekly` and `top` by a number).
  */
 function parseCursorDate(cursor: string | null | undefined): Date | null {
   if (!cursor || typeof cursor !== "string") return null;
@@ -132,10 +141,12 @@ function parseV2CursorDate(payload: string): Date | null {
   try {
     const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
     const keys: unknown = JSON.parse(atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, "=")));
-    const first: unknown = Array.isArray(keys) ? keys[0] : undefined;
+    if (!Array.isArray(keys)) return null;
+    const first: unknown = keys.find((key) => (key as { t?: unknown } | null)?.t !== "null");
     if (!first || typeof first !== "object") return null;
     const { t, v } = first as { t?: unknown; v?: unknown };
-    if (t !== "date" || typeof v !== "string") return null;
+    if (typeof v !== "string") return null;
+    if (t !== "date" && !(t === "str" && ISO_TIMESTAMP.test(v))) return null;
     const date = new Date(v);
     return isNaN(date.getTime()) ? null : date;
   } catch {

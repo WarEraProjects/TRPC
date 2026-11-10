@@ -101,7 +101,7 @@ const options = {
 
 #### `cursorEnd?: Date`
 
-Stop pagination when the next cursor's date becomes older than this date. The cursor format includes a timestamp that is parsed and compared.
+Stop pagination when the next cursor's date becomes older than this date. That date is the value the list is sorted by, which is not always `createdAt`; the table below lists it per procedure. The page that crosses the cutoff is still yielded whole.
 
 ```typescript
 import type { PaginationOptions } from "@wareraprojects/api";
@@ -114,7 +114,23 @@ const options = {
 
 **Default**: `undefined` (no date filtering)
 
-**Note**: The client compares the date a cursor starts with. A cursor is either `"{date}|{id}"` or `"v2."` followed by base64url JSON of the sort keys (every cursor checked on 2026-11-09 was `v2`). A cursor whose first sort key is not a date never stops pagination by date: `article.getArticlesPaginated` sorts `top` and `weekly` by a number, `managerOffer.getManyPaginated` by `maxHourlyWage`.
+**Note**: The client compares the date a cursor starts with. A cursor is either `"{date}|{id}"` or `"v2."` followed by base64url JSON of the sort keys (every cursor the server returned on 2026-11-09 and 2026-11-10 was `v2`). In a `v2` cursor the client reads the first sort key that has a value: a `date` key, or a `str` key that holds an ISO timestamp. A list sorted by a number never stops by date.
+
+What each list was sorted by on 2026-11-10, newest or highest first:
+
+| Procedure | The cursor starts with | `cursorEnd` |
+|---|---|---|
+| `article.getArticlesPaginated` with `type: "last"` | `publishedAt` | stops |
+| `article.getArticlesPaginated` with `type: "daily"`, `"weekly"` or `"top"` | `stats.score`, a number | never stops |
+| `alliance.getManyPaginated`, `battle.getBattles`, `election.getElections`, `event.getEventsPaginated`, `mercenaryContractAuction.getActiveAuctions`, `mercenaryContractAuction.getPaginatedAuctions`, `mu.getManyPaginated`, `party.getManyPaginated`, `poll.getPollVoters`, `sanction.getPaginated`, `transaction.getPaginatedTransactions`, `user.getUsersByCountry` | `createdAt` | stops |
+| `company.getCompanies` | `movedUpAt`, then `createdAt`. A company that never moved comes after the ones that did, with a `null` first key, and the client reads its `createdAt`. A cutoff newer than the oldest `movedUpAt` stops among the moved companies, before any that never moved. | stops |
+| `giveaway.getManyPaginated` | `endAt`, sent as a string | stops |
+| `tournament.getManyPaginated` | `startAt` | stops |
+| `battleRanking.getRanking` | `rank`, a number | never stops |
+| `donation.getManyPaginated` | `amount`, a number | never stops |
+| `managerOffer.getManyPaginated` | `maxHourlyWage`, a number | never stops |
+
+Not checked: `upgradeConstruction.listConstructions` (no list longer than one page was found) and the `my`, `subscriptions` and `saved` article lists.
 
 ## Return Types
 
@@ -322,7 +338,7 @@ for await (const page of client.article.getArticlesPaginated({
 
 ## Implementation Notes
 
-- Cursor formats: `"{date}|{id}"`, and `"v2."` plus base64url JSON such as `[{"t":"date","v":"2026-11-09T16:48:25.632Z"},{"t":"str","v":"<id>"}]`
+- Cursor formats: `"{date}|{id}"`, and `"v2."` plus base64url JSON such as `[{"t":"date","v":"2026-11-09T16:48:25.632Z"},{"t":"str","v":"<id>"}]`. Key types seen: `date`, `str`, `num` and `null` (no value)
 - Empty cursors, malformed cursors, or unparseable dates are handled gracefully
 - Supported endpoints follow the same response pattern: `{ items: T[], nextCursor }`; `nextCursor` may be empty or missing on the last page
 - The feature is zero-cost for non-paginated endpoints and backward compatible
