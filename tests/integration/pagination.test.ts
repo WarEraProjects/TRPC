@@ -26,6 +26,31 @@ integrationTest("article pagination accepts a date cutoff", async () => {
   assert.ok(count > 0 && count <= 2);
 });
 
+integrationTest("article pagination stops at a cutoff newer than the first page", async () => {
+  let count = 0;
+  for await (const page of client.article.getArticlesPaginated({
+    type: "last", limit: 5, maxPages: 3, autoPaginate: true,
+    cursorEnd: new Date(Date.now() + 60 * 1000),
+  })) {
+    assert.ok(Array.isArray(page.items));
+    count++;
+  }
+  assert.equal(count, 1);
+});
+
+integrationTest("giveaway pagination stops at a cutoff newer than the first page", async () => {
+  // The cursor carries `endAt` as a string key, and a running giveaway ends in the future.
+  let count = 0;
+  for await (const page of client.giveaway.getManyPaginated({
+    limit: 3, maxPages: 3, autoPaginate: true,
+    cursorEnd: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+  })) {
+    assert.ok(Array.isArray(page.items));
+    count++;
+  }
+  assert.equal(count, 1);
+});
+
 integrationTest("article query returns a single page", async () => {
   const result = await client.article.getArticlesPaginated({ type: "last", limit: 3 });
   assert.ok(Array.isArray(result.items));

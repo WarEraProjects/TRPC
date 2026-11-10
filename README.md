@@ -109,6 +109,36 @@ main().catch((err) => {
 - The response types were rechecked against live responses on 2026-11-04. Fields the API no
   longer returns are gone from the types; most belong to mechanics v0.27 removed (player
   workers and work offers, hiring, party ethics, deposits, production bonuses).
+- `user.getUserLite` no longer returns `skills` or `skillsExpiration`: read them from
+  `user.getUserSkills`, which also returns `leveling`. `user.getUserById` still carries the
+  same `skills`.
+- `gameStat.getBadgeStats` and `gameStat.getMilestoneStats` take no input and the server
+  rejects `{}`, so they are in `VOID_INPUT_PROCEDURES` as well.
+- The `articleInteraction.*` procedures return the whole list, newest first; the server
+  ignores `limit` and `cursor`.
+- `mercenaryContractAuction.getActiveAuctions` lists open auctions only, newest first, 20 per
+  page without a `limit`. It filters by `countryId` and `battleId` and ignores `status`.
+- `upgrade.getMapUpgrades` (every building on the map) was about 175 KB and `map.getMapData`
+  (the world map as TopoJSON) about 2.7 MB on 2026-11-09.
+- `user.getTodayClaimCount` returned the same number with and without an API key, so it is not
+  the key owner's count. `poll.getPoll` returns the API key owner's vote in `myVote`; without a
+  key it is `null`.
+- In `map.getMapData`, decode arcs with the topology's `transform`, but read `Point` coordinates
+  (region and country labels) as they are: they are already longitude and latitude.
+- The procedures added on 2026-11-09 (`articleInteraction.*`, `battle.getActiveBattlesByCountry`,
+  `battle.getViewersCount`, `map.getMapData`, `mercenaryContractAuction.getActiveAuctions`,
+  `mu.getReputationBuyStatus`, `party.getInactiveMemberIds`, `upgrade.getMapUpgrades`,
+  `user.getUserSkills`, `user.getTodayClaimCount`, and the two `gameStat` stats) all answer
+  without an API key.
+- Five more were added on 2026-11-10, found by comparing the queries the web client calls with
+  this package: `article.getPinnedArticles`, `assetSale.getLastSkinGifts`,
+  `alliance.getStrategicResourceBonuses`, `country.getStrategicResourceBonuses` and
+  `government.getCongressSeats`. They answer without an API key. Of the other 71 untyped
+  queries tried without credentials that day, every one answered `UNAUTHORIZED`, and the four
+  tried with an API key answered "API tokens cannot access this endpoint".
+- `country.getStrategicResourceBonuses` returns the alliance's bonuses for a member of an
+  alliance. A country outside every alliance gets its own, or `null` when it holds no strategic
+  resource.
 
 ## Auto-Pagination
 

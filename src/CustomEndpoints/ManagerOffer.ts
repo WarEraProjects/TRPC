@@ -42,7 +42,13 @@ export type ManagerOffer = {
 	region: string;
 	rateManagement: number;
 	maxHourlyWage: number;
+	/**
+	 * The lowest management level an applicant needs. An offer can set this, `citizenship`, both
+	 * or neither: of 50 open offers on 2026-11-09, 46 set it, 4 set `citizenship`, 1 set both and
+	 * 1 set neither.
+	 */
 	minManagement?: number;
+	/** A country id: the citizenship an applicant needs. */
 	citizenship?: string;
 	createdAt: string;
 	updatedAt: string;

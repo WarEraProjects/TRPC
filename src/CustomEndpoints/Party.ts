@@ -18,6 +18,17 @@ export type PartyGetByIdResponse = {
 	avatarUrl?: string;
 	treasurer?: string;
 	primaryWinner?: string;
+	/** User ids; absent on parties that never set a list, and possibly empty. */
+	congressList?: string[];
+	congressListUpdatedAt?: string;
+	/** A user id. */
+	congressListUpdatedBy?: string;
+	/** A government type such as `federation` or `autocracy`, or `null`. */
+	favoriteGovType?: string | null;
+};
+
+export type PartyGetInactiveMemberIdsInput = {
+	partyId: string;
 };
 
 export type PartyGetManyPaginatedInput = {
@@ -40,5 +51,13 @@ export type PartyCustomEndpoints = {
 	"party.getManyPaginated": {
 		input: PartyGetManyPaginatedInput;
 		output: PartyGetManyPaginatedResponse;
+	};
+	/**
+	 * Ids from `members` whose profile has `isActive: false`; usually an empty list. Answers
+	 * without an API key.
+	 */
+	"party.getInactiveMemberIds": {
+		input: PartyGetInactiveMemberIdsInput;
+		output: string[];
 	};
 };

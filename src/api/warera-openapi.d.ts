@@ -435,7 +435,7 @@ export interface paths {
         put?: never;
         /**
          * Get user profile (lite)
-         * @description Retrieves basic public information about a user including username, skills, and rankings
+         * @description Retrieves basic public information about a user including username and rankings. Skills are served by getUserSkills.
          */
         post: operations["user.getUserLite"];
         delete?: never;

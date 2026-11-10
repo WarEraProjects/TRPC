@@ -4,21 +4,37 @@ import type {
   APIClient,
   BattleRankingItem,
   CompanyGetByIdResponse,
+  CongressSeat,
   Employee,
   EmployeeEvent,
   EmployeeEventOutcome,
   EmployeeGetCompanyRosterResponse,
+  GameStatHolderCount,
+  InputFor,
   ItemTradingGetItemTradingResponse,
   ItemTradingValue,
   Manager,
   ManagerOffer,
   ManagerOfferGetManyPaginatedResponse,
+  MapGetMapDataResponse,
+  MapRegionProperties,
+  MercenaryContractAuctionListItem,
+  MuListItem,
+  PartyGetByIdResponse,
+  PinnedArticle,
+  PollVote,
   PublicTradingOrder,
   Region,
   RegionActiveBattle,
   SanctionData,
+  SkinGift,
+  StrategicResourceBonuses,
   TournamentMatch,
   TradingOrderBook,
+  UserGetUserByIdResponse,
+  UserGetUserLiteResponse,
+  UserSkills,
+  WarEraCustomEndpoints,
   WorkStatsItem,
 } from "../../src";
 
@@ -55,6 +71,26 @@ export function typeOnly(client: APIClient) {
   // @ts-expect-error a profile needs its management level
   void client.managerOffer.getWageStats({ profile: {} });
   void client.managerOffer.getWageStats({ profile: { management: 10 } });
+  // @ts-expect-error articleId is required
+  void client.articleInteraction.getArticleLikers();
+  // @ts-expect-error countryId is required
+  void client.battle.getActiveBattlesByCountry({});
+  // @ts-expect-error battleId is required
+  void client.battle.getViewersCount();
+  // @ts-expect-error muId is required
+  void client.mu.getReputationBuyStatus();
+  // @ts-expect-error partyId is required
+  void client.party.getInactiveMemberIds();
+  // @ts-expect-error userId is required
+  void client.user.getUserSkills({});
+  // @ts-expect-error optionId is required
+  void client.poll.getPollVoters({ pollId: "p" });
+  // @ts-expect-error allianceId is required
+  void client.alliance.getStrategicResourceBonuses();
+  // @ts-expect-error countryId is required
+  void client.country.getStrategicResourceBonuses({});
+  // @ts-expect-error countryId is required
+  void client.government.getCongressSeats();
 
   // One-of inputs reject the empty filter and accept either side.
   // @ts-expect-error countryId or partyId is required
@@ -96,6 +132,14 @@ export function typeOnly(client: APIClient) {
   type BattleRankingPage = typeof battleRankingPages extends AsyncIterableIterator<infer Page> ? Page : never;
   type _battleRankingPageItem = Expect<Equal<BattleRankingPage["items"][number], BattleRankingItem>>;
 
+  const voterPages = client.poll.getPollVoters({ pollId: "p", optionId: 0, autoPaginate: true });
+  type VoterPage = typeof voterPages extends AsyncIterableIterator<infer Page> ? Page : never;
+  type _voterPageItem = Expect<Equal<VoterPage["items"][number], PollVote>>;
+
+  const auctionPages = client.mercenaryContractAuction.getActiveAuctions({ battleId: "b", autoPaginate: true, maxPages: 2 });
+  type AuctionPage = typeof auctionPages extends AsyncIterableIterator<infer Page> ? Page : never;
+  type _auctionPageItem = Expect<Equal<AuctionPage["items"][number], MercenaryContractAuctionListItem>>;
+
   // No-input procedures stay callable without an argument.
   void client.gameStat.getWorldDevelopment();
   void client.gameStat.getPpMoneyValue();
@@ -109,12 +153,24 @@ export function typeOnly(client: APIClient) {
   void client.gameStat.getPpMoneyValueByItem();
   void client.managerOffer.getWageStats();
   void client.managerOffer.getManyPaginated();
+  void client.gameStat.getBadgeStats();
+  void client.gameStat.getMilestoneStats();
+  void client.user.getTodayClaimCount();
+  void client.upgrade.getMapUpgrades();
+  void client.map.getMapData();
+  void client.mercenaryContractAuction.getActiveAuctions();
+  void client.article.getPinnedArticles();
+  void client.assetSale.getLastSkinGifts();
 
   // Parameters the server ignores are not part of the input types.
   // @ts-expect-error page is not a server parameter
   void client.alliance.getManyPaginated({ page: 2 });
   // @ts-expect-error count is not a server parameter
   void client.company.getRecommendedRegionIdsByItemCode({ itemCode: "wood", count: 3 });
+  // @ts-expect-error limit is not a server parameter
+  void client.articleInteraction.getArticleTippers({ articleId: "a", limit: 2 });
+  // @ts-expect-error status is not a getActiveAuctions filter
+  void client.mercenaryContractAuction.getActiveAuctions({ status: "won" });
 }
 
 // Response shapes.
@@ -133,6 +189,27 @@ type _historyRow = Expect<Equal<Awaited<ReturnType<APIClient["employeeEvent"]["g
 type _eventBand = Expect<Equal<EmployeeEventOutcome["band"], "crit" | "success" | "fail" | "critFail">>;
 type _offerRow = Expect<Equal<ManagerOfferGetManyPaginatedResponse["items"][number], ManagerOffer>>;
 type _manager = Expect<Equal<Awaited<ReturnType<APIClient["manager"]["getByCompanyId"]>>, Manager | null>>;
+type _liteSkillsMoved = Expect<Equal<"skills" extends keyof UserGetUserLiteResponse ? true : false, false>>;
+type _byIdSkills = Expect<Equal<UserGetUserByIdResponse["skills"], UserSkills>>;
+type _userSkills = Expect<Equal<Awaited<ReturnType<APIClient["user"]["getUserSkills"]>>["skills"], UserSkills>>;
+type _muById = Expect<Equal<Awaited<ReturnType<APIClient["mu"]["getById"]>>, MuListItem>>;
+type _myVote = Expect<Equal<Awaited<ReturnType<APIClient["poll"]["getPoll"]>>["myVote"], number[] | null>>;
+type _badgeRow = Expect<Equal<WarEraCustomEndpoints["gameStat.getBadgeStats"]["output"][string], GameStatHolderCount>>;
+type _regionProperties = Expect<Equal<MapGetMapDataResponse["map"]["objects"]["regions"]["geometries"][number]["properties"], MapRegionProperties>>;
+type _favoriteGovType = Expect<Equal<PartyGetByIdResponse["favoriteGovType"], string | null | undefined>>;
+// A procedure without input returns a promise, not the auto-pagination iterator.
+type _noInputCustom = Expect<Equal<ReturnType<APIClient["gameStat"]["getWorldDevelopment"]>, Promise<number>>>;
+type _noInputRegions = Expect<Equal<ReturnType<APIClient["region"]["getAll"]>, Promise<Region[]>>>;
+// The OpenAPI file types a missing input as Record<string, never>, not never.
+type _noInputOpenApi = Expect<Equal<ReturnType<APIClient["country"]["getAllCountries"]> extends Promise<unknown> ? true : false, true>>;
+type _noInputFor = Expect<Equal<InputFor<"country.getAllCountries">, Record<string, never>>>;
+type _pinned = Expect<Equal<Awaited<ReturnType<APIClient["article"]["getPinnedArticles"]>>, PinnedArticle[]>>;
+type _pinnedUntil = Expect<Equal<PinnedArticle["pinnedUntil"], string>>;
+type _skinGifts = Expect<Equal<Awaited<ReturnType<APIClient["assetSale"]["getLastSkinGifts"]>>, SkinGift[]>>;
+type _countryBonuses = Expect<Equal<Awaited<ReturnType<APIClient["country"]["getStrategicResourceBonuses"]>>, StrategicResourceBonuses | null>>;
+type _allianceBonusesId = Expect<Equal<NonNullable<Awaited<ReturnType<APIClient["alliance"]["getStrategicResourceBonuses"]>>>["allianceId"], string>>;
+type _seats = Expect<Equal<Awaited<ReturnType<APIClient["government"]["getCongressSeats"]>>, CongressSeat[]>>;
+type _seatParty = Expect<Equal<CongressSeat["party"], string | undefined>>;
 
 function describeSanction(data: SanctionData): string {
   switch (data.type) {
