@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      # Installs the dependencies and, through the "prepare" script, builds once.
+      - run: npm ci
+      - run: npm run typecheck
+      # Offline unit tests only. The integration tests call the live API and need a key.
+      - run: npm test
+      # "npm ci" has already built; this keeps the build checked if "prepare" changes.
+      - run: npm run build
