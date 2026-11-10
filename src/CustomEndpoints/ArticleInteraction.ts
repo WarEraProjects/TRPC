@@ -11,7 +11,8 @@ export type ArticleInteraction = {
 /**
  * Each procedure answers without an API key with the whole list, newest first. The server ignores
  * `limit` and `cursor`: on 2026-11-09 an article with 62 likes returned all 62 with both set.
- * Every dislikers list checked that day was empty, so its rows are assumed to match the others.
+ * The four lists have the same rows: on 2026-11-10 three articles with 37, 24 and 15 dislikes
+ * returned that many dislikers.
  */
 export type ArticleInteractionCustomEndpoints = {
 	"articleInteraction.getArticleLikers": {
