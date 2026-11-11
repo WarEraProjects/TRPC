@@ -100,15 +100,26 @@ test("an aborted call rejects at once and its queued request is never sent", asy
 
 test("an aborted call rejects at once while another call still needs its batch", async () => {
   const sent: string[] = [];
+  const transport: { signal: AbortSignal | null | undefined } = { signal: undefined };
   const client = createAPIClient({
     url: "https://api.example.test/trpc",
     retry: false,
     rateLimit: 60000,
-    fetch: (async (url, init) => {
+    fetch: ((url: RequestInfo | URL, init?: RequestInit) => {
       sent.push(String(url));
-      await sleep(150);
+      transport.signal = init?.signal;
       const body = JSON.parse(String(init?.body));
-      return jsonResponse(Object.values(body).map((input: any) => ({ result: { data: input.userId } })));
+      // Like a real fetch: the request fails as soon as its own signal aborts.
+      return new Promise<Response>((resolve, reject) => {
+        const timer = setTimeout(
+          () => resolve(jsonResponse(Object.values(body).map((input: any) => ({ result: { data: input.userId } })))),
+          150
+        );
+        init?.signal?.addEventListener("abort", () => {
+          clearTimeout(timer);
+          reject(init.signal!.reason);
+        });
+      });
     }) as typeof fetch,
   });
 
@@ -123,6 +134,7 @@ test("an aborted call rejects at once while another call still needs its batch",
   await assert.rejects(aborted, (error: any) => error?.cause?.name === "AbortError");
   assert.ok(Date.now() - abortedAt < 100, "the abort waited for the batch");
   assert.equal(await kept, "kept");
+  assert.equal(transport.signal?.aborted, false, "the shared request was cancelled");
   assert.equal(sent.length, 1);
 
   // A signal that is already aborted never reaches the network.
@@ -146,6 +158,90 @@ test("a relative url keeps the readable error for a response that is not JSON", 
   await assert.rejects(client.user.getUserLite({ userId: "a" }), (error: any) =>
     /HTTP 502 Bad Gateway/.test(String(error?.message)) && error?.data?.httpStatus === 502
   );
+});
+
+test("an error response labelled as JSON that is not JSON still gives the HTTP status", async () => {
+  let body = "<html>502 Bad Gateway</html>";
+  let status = 502;
+  const client = createAPIClient({
+    url: "https://api.example.test/trpc",
+    retry: false,
+    rateLimit: 60000,
+    fetch: (async () =>
+      new Response(body, {
+        status,
+        statusText: status === 502 ? "Bad Gateway" : "Not Found",
+        headers: { "content-type": "application/json" },
+      })) as typeof fetch,
+  });
+
+  await assert.rejects(client.user.getUserLite({ userId: "a" }), (error: any) =>
+    /HTTP 502 Bad Gateway/.test(String(error?.message)) && error?.data?.httpStatus === 502
+  );
+
+  // A real tRPC error with an error status is passed on as the server sent it.
+  body = JSON.stringify([{ error: { message: "User not found", code: -32004, data: { code: "NOT_FOUND", httpStatus: 404 } } }]);
+  status = 404;
+  await assert.rejects(client.user.getUserLite({ userId: "b" }), (error: any) =>
+    error?.message === "User not found" && error?.data?.code === "NOT_FOUND"
+  );
+});
+
+test("rateLimit 0 means no spacing, not a queue that never moves", async () => {
+  let sent = 0;
+  const limited = createRateLimitedFetch((async () => {
+    sent++;
+    return new Response("ok");
+  }) as typeof fetch, 0);
+
+  // The signal only lets a failing run empty the queue again.
+  const controller = new AbortController();
+  const request = () => limited("https://api.example.test/trpc/a", { signal: controller.signal });
+  try {
+    const answered = await Promise.race([
+      Promise.all([request(), request()]).then(() => true, () => false),
+      sleep(300).then(() => false),
+    ]);
+    assert.equal(answered, true, "the second request never started");
+    assert.equal(sent, 2);
+  } finally {
+    controller.abort();
+  }
+});
+
+test("with timeoutMs an abort while the body is read still cancels the request", async () => {
+  const transport: { signal: AbortSignal | null | undefined } = { signal: undefined };
+  let markRequested = () => {};
+  const requested = new Promise<void>((resolve) => {
+    markRequested = resolve;
+  });
+  const client = createAPIClient({
+    url: "https://api.example.test/trpc",
+    retry: false,
+    rateLimit: 60000,
+    timeoutMs: 1000,
+    fetch: ((_url: RequestInfo | URL, init?: RequestInit) => {
+      transport.signal = init?.signal;
+      markRequested();
+      // The headers arrive at once; the body ends only when the request is aborted.
+      const body = new ReadableStream<Uint8Array>({
+        start(stream) {
+          init?.signal?.addEventListener("abort", () => stream.error(init.signal!.reason));
+        },
+      });
+      return Promise.resolve(new Response(body, { headers: { "content-type": "application/json" } }));
+    }) as typeof fetch,
+  });
+
+  const controller = new AbortController();
+  const call = client.user.getUserLite({ userId: "a" }, { signal: controller.signal });
+  // Once the request is out, give the response a moment to reach the body read.
+  await requested;
+  await sleep(30);
+  controller.abort();
+
+  await assert.rejects(call, (error: any) => error?.cause?.name === "AbortError");
+  assert.equal(transport.signal?.aborted, true, "the request kept running after the abort");
 });
 
 test("timeoutMs aborts a request without response headers and the retry succeeds", async () => {
