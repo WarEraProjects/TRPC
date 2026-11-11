@@ -1,4 +1,4 @@
-import { createTRPCUntypedClient, httpBatchLink, loggerLink } from "@trpc/client";
+import { createTRPCUntypedClient, httpBatchLink, loggerLink, TRPCClientError } from "@trpc/client";
 import type { APIClient, PageResult, ProcedureKey } from "./typed-procedures";
 
 export interface TrpcLikeClientOptions {
@@ -63,7 +63,8 @@ export type RetryOptions = {
   initialDelayMs?: number;
   /**
    * Maximum retry delay in milliseconds. Defaults to 5000ms. A 429 or 503 whose
-   * `Retry-After` or `ratelimit-reset` asks for a longer wait is returned without retrying.
+   * `Retry-After`, or a 429 whose `ratelimit-reset`, asks for a longer wait is returned
+   * without retrying.
    */
   maxDelayMs?: number;
   /**
@@ -319,6 +320,11 @@ export function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100
           const index = queue.indexOf(item);
           if (index === -1) return;
           queue.splice(index, 1);
+          // Nothing is left to start, so the timer must not keep a Node process alive.
+          if (queue.length === 0 && timer !== undefined) {
+            clearTimeout(timer);
+            timer = undefined;
+          }
           reject(signal.reason);
         };
         signal.addEventListener("abort", item.onAbort, { once: true });
@@ -631,7 +637,8 @@ function createJsonErrorFetch(origFetch: typeof fetch): typeof fetch {
       JSON.parse(text);
       return new Response(text, response);
     } catch {
-      const url = new URL(getFetchUrl(input));
+      // The base is only used for a relative `url` option, which a browser resolves itself.
+      const url = new URL(getFetchUrl(input), "http://localhost");
       const paths = (url.pathname.split("/").pop() ?? "").split(",").filter(Boolean);
       const item = createBatchErrorItem(response, paths);
       const body = url.searchParams.get("batch") === "1" ? paths.map(() => item) : item;
@@ -642,6 +649,28 @@ function createJsonErrorFetch(origFetch: typeof fetch): typeof fetch {
       });
     }
   }) as unknown as typeof fetch;
+}
+
+/**
+ * Make a call reject as soon as its own signal aborts. tRPC cancels a batch's HTTP
+ * request only once every call in the batch has been aborted; until then a call that
+ * was aborted on its own would still resolve with its result. A call whose signal is
+ * already aborted is not handed to tRPC at all.
+ */
+function createAbortableQuery(query: UntypedClient["query"]): UntypedClient["query"] {
+  return (path, input, opts) => {
+    const signal = opts?.signal;
+    if (!signal) return query(path, input, opts);
+    if (signal.aborted) return Promise.reject(TRPCClientError.from(signal.reason));
+
+    return new Promise((resolve, reject) => {
+      const onAbort = () => reject(TRPCClientError.from(signal.reason));
+      signal.addEventListener("abort", onAbort, { once: true });
+      query(path, input, opts)
+        .then(resolve, reject)
+        .finally(() => signal.removeEventListener("abort", onAbort));
+    });
+  };
 }
 
 /**
@@ -688,7 +717,7 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
     ...(options?.voidInputProcedures ?? []),
   ]);
   
-  const client = createTRPCUntypedClient({
+  const trpc = createTRPCUntypedClient({
     links: [
       ...(options?.logger === true ? [loggerLink()] : []),
       httpBatchLink({
@@ -707,6 +736,9 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
       })
     ]
   }) as unknown as UntypedClient;
+  const client: UntypedClient = {
+    query: createAbortableQuery((path, input, opts) => trpc.query(path, input, opts)),
+  };
 
   const makeProxy = (parts: string[]): any =>
     new Proxy(() => {}, {

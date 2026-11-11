@@ -98,6 +98,56 @@ test("an aborted call rejects at once and its queued request is never sent", asy
   assert.equal(sent.length, 1);
 });
 
+test("an aborted call rejects at once while another call still needs its batch", async () => {
+  const sent: string[] = [];
+  const client = createAPIClient({
+    url: "https://api.example.test/trpc",
+    retry: false,
+    rateLimit: 60000,
+    fetch: (async (url, init) => {
+      sent.push(String(url));
+      await sleep(150);
+      const body = JSON.parse(String(init?.body));
+      return jsonResponse(Object.values(body).map((input: any) => ({ result: { data: input.userId } })));
+    }) as typeof fetch,
+  });
+
+  // Made in the same tick, so both calls share one HTTP request.
+  const controller = new AbortController();
+  const kept = client.user.getUserLite({ userId: "kept" });
+  const aborted = client.user.getUserLite({ userId: "aborted" }, { signal: controller.signal });
+  await sleep(20);
+  const abortedAt = Date.now();
+  controller.abort();
+
+  await assert.rejects(aborted, (error: any) => error?.cause?.name === "AbortError");
+  assert.ok(Date.now() - abortedAt < 100, "the abort waited for the batch");
+  assert.equal(await kept, "kept");
+  assert.equal(sent.length, 1);
+
+  // A signal that is already aborted never reaches the network.
+  await assert.rejects(
+    client.user.getUserLite({ userId: "late" }, { signal: controller.signal }),
+    (error: any) => error?.cause?.name === "AbortError"
+  );
+  await sleep(20);
+  assert.equal(sent.length, 1);
+});
+
+test("a relative url keeps the readable error for a response that is not JSON", async () => {
+  const client = createAPIClient({
+    url: "/trpc",
+    retry: false,
+    rateLimit: 60000,
+    fetch: (async () =>
+      new Response("<html>502 Bad Gateway</html>", { status: 502, statusText: "Bad Gateway" })) as typeof fetch,
+  });
+
+  await assert.rejects(client.user.getUserLite({ userId: "a" }), (error: any) =>
+    /HTTP 502 Bad Gateway/.test(String(error?.message)) && error?.data?.httpStatus === 502
+  );
+});
+
 test("timeoutMs aborts a request without response headers and the retry succeeds", async () => {
   let calls = 0;
   const client = createAPIClient({
