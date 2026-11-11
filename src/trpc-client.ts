@@ -226,7 +226,7 @@ async function* autoPaginate<K extends ProcedureKey>(
 function rateLimitDelayMs(rateLimit: number) {
   const delayMs = Math.floor(60000 / rateLimit);
   // A rate of 0 gives an infinite delay, which no timer can wait for: the queue would
-  // never move. As before, a rate that gives no usable delay means no spacing.
+  // never move. As before, a rate that gives no usable delay gets the shortest one, 1 ms.
   return Number.isFinite(delayMs) ? Math.max(1, delayMs) : 1;
 }
 
@@ -620,6 +620,9 @@ function createBatchLoggingFetch(
   }) as unknown as typeof fetch;
 }
 
+// Statuses whose response has no body by definition.
+const NULL_BODY_STATUS_CODES = new Set([101, 103, 204, 205, 304]);
+
 /** A tRPC error item for a batch whose response was not JSON. */
 function createBatchErrorItem(response: Response, paths: string[]) {
   const tooManyRequests = response.status === 429;
@@ -647,15 +650,20 @@ function createJsonErrorFetch(origFetch: typeof fetch): typeof fetch {
     // whatever its content type says: a gateway can label an HTML page as JSON.
     if (response.ok && response.headers.get("content-type")?.includes("json")) return response;
 
-    const text = await response.text();
+    // A copy is read, so a response that is JSON after all goes on as the server sent it,
+    // with its `url` and the other fields a rebuilt response would lose.
+    const text = await response.clone().text();
     try {
       JSON.parse(text);
-      return new Response(text, response);
+      return response;
     } catch {
+      await response.body?.cancel().catch(() => undefined);
       // The base is only used for a relative `url` option, which a browser resolves itself.
       const url = new URL(getFetchUrl(input), "http://localhost");
       const paths = (url.pathname.split("/").pop() ?? "").split(",").filter(Boolean);
       const item = createBatchErrorItem(response, paths);
+      // A 204, 205 or 304 cannot carry a body, so its error cannot travel in a response.
+      if (NULL_BODY_STATUS_CODES.has(response.status)) throw TRPCClientError.from(item, { meta: { response } });
       const body = url.searchParams.get("batch") === "1" ? paths.map(() => item) : item;
       return new Response(JSON.stringify(body), {
         status: response.status,
