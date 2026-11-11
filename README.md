@@ -83,7 +83,8 @@ Setting `rateLimit` fixes the spacing to that value; the pause on an exhausted w
 
 ### Cancellation and timeouts
 Every procedure takes an optional second argument with an `AbortSignal`. An aborted call rejects
-at once; a request still waiting for the rate limiter is never sent.
+at once. Calls made in the same tick share one HTTP request; that request is cancelled, or never
+sent while it still waits for the rate limiter, once every call in it has been aborted.
 
 ```ts
 const controller = new AbortController();
