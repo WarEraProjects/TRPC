@@ -224,7 +224,10 @@ async function* autoPaginate<K extends ProcedureKey>(
 }
 
 function rateLimitDelayMs(rateLimit: number) {
-  return Math.max(1, Math.floor(60000 / rateLimit));
+  const delayMs = Math.floor(60000 / rateLimit);
+  // A rate of 0 gives an infinite delay, which no timer can wait for: the queue would
+  // never move. As before, a rate that gives no usable delay means no spacing.
+  return Number.isFinite(delayMs) ? Math.max(1, delayMs) : 1;
 }
 
 /**
@@ -354,10 +357,20 @@ function createTimeoutFetch(origFetch: typeof fetch, timeoutMs: number | undefin
     );
     return Promise.resolve()
       .then(() => origFetch(input as any, { ...init, signal: controller.signal } as any))
-      .finally(() => {
-        clearTimeout(timer);
-        outer?.removeEventListener("abort", onAbort);
-      });
+      .then(
+        (response) => {
+          // Only the timeout ends with the headers. The caller's signal stays linked, so an
+          // abort while the body is read still cancels the request. That signal is tRPC's
+          // own, made for this batch, so the listener goes away with it.
+          clearTimeout(timer);
+          return response;
+        },
+        (error) => {
+          clearTimeout(timer);
+          outer?.removeEventListener("abort", onAbort);
+          throw error;
+        }
+      );
   }) as unknown as typeof fetch;
 }
 
@@ -630,7 +643,9 @@ function createBatchErrorItem(response: Response, paths: string[]) {
 function createJsonErrorFetch(origFetch: typeof fetch): typeof fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) => {
     const response = await origFetch(input as any, init as any);
-    if (response.headers.get("content-type")?.includes("json")) return response;
+    // A successful JSON response is passed on unread. An error response is checked
+    // whatever its content type says: a gateway can label an HTML page as JSON.
+    if (response.ok && response.headers.get("content-type")?.includes("json")) return response;
 
     const text = await response.text();
     try {
