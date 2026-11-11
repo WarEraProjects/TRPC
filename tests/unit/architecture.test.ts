@@ -100,7 +100,7 @@ test("an aborted call rejects at once and its queued request is never sent", asy
 
 test("an aborted call rejects at once while another call still needs its batch", async () => {
   const sent: string[] = [];
-  const transport: { signal: AbortSignal | null | undefined } = { signal: undefined };
+  const transport: { signal: AbortSignal | null | undefined; responded: boolean } = { signal: undefined, responded: false };
   const client = createAPIClient({
     url: "https://api.example.test/trpc",
     retry: false,
@@ -111,10 +111,10 @@ test("an aborted call rejects at once while another call still needs its batch",
       const body = JSON.parse(String(init?.body));
       // Like a real fetch: the request fails as soon as its own signal aborts.
       return new Promise<Response>((resolve, reject) => {
-        const timer = setTimeout(
-          () => resolve(jsonResponse(Object.values(body).map((input: any) => ({ result: { data: input.userId } })))),
-          150
-        );
+        const timer = setTimeout(() => {
+          transport.responded = true;
+          resolve(jsonResponse(Object.values(body).map((input: any) => ({ result: { data: input.userId } }))));
+        }, 150);
         init?.signal?.addEventListener("abort", () => {
           clearTimeout(timer);
           reject(init.signal!.reason);
@@ -128,11 +128,10 @@ test("an aborted call rejects at once while another call still needs its batch",
   const kept = client.user.getUserLite({ userId: "kept" });
   const aborted = client.user.getUserLite({ userId: "aborted" }, { signal: controller.signal });
   await sleep(20);
-  const abortedAt = Date.now();
   controller.abort();
 
   await assert.rejects(aborted, (error: any) => error?.cause?.name === "AbortError");
-  assert.ok(Date.now() - abortedAt < 100, "the abort waited for the batch");
+  assert.equal(transport.responded, false, "the abort waited for the batch");
   assert.equal(await kept, "kept");
   assert.equal(transport.signal?.aborted, false, "the shared request was cancelled");
   assert.equal(sent.length, 1);
@@ -161,33 +160,40 @@ test("a relative url keeps the readable error for a response that is not JSON", 
 });
 
 test("an error response labelled as JSON that is not JSON still gives the HTTP status", async () => {
-  let body = "<html>502 Bad Gateway</html>";
-  let status = 502;
+  const json = { "content-type": "application/json" };
+  let respond = () => new Response("<html>502 Bad Gateway</html>", { status: 502, statusText: "Bad Gateway", headers: json });
+  const sent: Response[] = [];
   const client = createAPIClient({
     url: "https://api.example.test/trpc",
     retry: false,
     rateLimit: 60000,
-    fetch: (async () =>
-      new Response(body, {
-        status,
-        statusText: status === 502 ? "Bad Gateway" : "Not Found",
-        headers: { "content-type": "application/json" },
-      })) as typeof fetch,
+    fetch: (async () => {
+      const response = respond();
+      sent.push(response);
+      return response;
+    }) as typeof fetch,
   });
 
   await assert.rejects(client.user.getUserLite({ userId: "a" }), (error: any) =>
     /HTTP 502 Bad Gateway/.test(String(error?.message)) && error?.data?.httpStatus === 502
   );
 
-  // A real tRPC error with an error status is passed on as the server sent it.
-  body = JSON.stringify([{ error: { message: "User not found", code: -32004, data: { code: "NOT_FOUND", httpStatus: 404 } } }]);
-  status = 404;
-  await assert.rejects(client.user.getUserLite({ userId: "b" }), (error: any) =>
-    error?.message === "User not found" && error?.data?.code === "NOT_FOUND"
-  );
+  // A status that cannot carry a body still fails with that status.
+  respond = () => new Response(null, { status: 304, headers: json });
+  await assert.rejects(client.user.getUserLite({ userId: "b" }), (error: any) => error?.data?.httpStatus === 304);
+
+  // A real tRPC error goes on as the server sent it: the same response object, not a rebuilt one.
+  const notFound = { message: "User not found", code: -32004, data: { code: "NOT_FOUND", httpStatus: 404 } };
+  respond = () => new Response(JSON.stringify([{ error: notFound }]), { status: 404, statusText: "Not Found", headers: json });
+  await assert.rejects(client.user.getUserLite({ userId: "c" }), (error: any) => {
+    assert.equal(error?.message, "User not found");
+    assert.deepEqual(error?.data, notFound.data);
+    assert.equal(error?.meta?.response, sent[sent.length - 1]);
+    return true;
+  });
 });
 
-test("rateLimit 0 means no spacing, not a queue that never moves", async () => {
+test("rateLimit 0 keeps the queue moving", async () => {
   let sent = 0;
   const limited = createRateLimitedFetch((async () => {
     sent++;
