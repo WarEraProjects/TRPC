@@ -4,7 +4,10 @@
  *   npm run check:procedures
  *
  * Each procedure is called once with `{}` (or no input for void-input procedures);
- * the calls go out as batches of 50, so a full run costs two requests of the rate limit.
+ * the calls go out as batches of 50, so a full run costs one request of the rate limit
+ * per 50 procedures. The batches are GET requests: the API also accepts POST for queries,
+ * so a POST to a name given with `--also` could run a mutation, and tRPC refuses a
+ * mutation over GET.
  * The answer tells whether the procedure still exists and whether an API key is
  * enough to use it. A procedure that now wants a player session is no longer usable
  * under the WarEra Terms (section 9.6), see "Terms of use" in the README.
@@ -64,16 +67,16 @@ async function probe(procedures: string[]) {
   const results = new Map<string, { status: Status; detail: string }>();
   for (let start = 0; start < procedures.length; start += BATCH) {
     const chunk = procedures.slice(start, start + BATCH);
-    const body = Object.fromEntries(
+    const input = Object.fromEntries(
       chunk.map((name, index) => [index, VOID_INPUT_PROCEDURES.has(name) ? undefined : {}])
     );
-    const response = await fetch(`${apiUrl}/${chunk.join(",")}?batch=1`, {
-      method: "POST",
-      headers: { "content-type": "application/json", ...(apiKey ? { "x-api-key": apiKey } : {}) },
-      body: JSON.stringify(body),
-    });
+    const url = `${apiUrl}/${chunk.join(",")}?batch=1&input=${encodeURIComponent(JSON.stringify(input))}`;
+    const headers: Record<string, string> = apiKey ? { "x-api-key": apiKey } : {};
+    const response = await fetch(url, { headers });
     const items = await response.json();
-    if (!Array.isArray(items)) throw new Error(`Unexpected answer (HTTP ${response.status}): ${JSON.stringify(items).slice(0, 200)}`);
+    if (!Array.isArray(items) || items.length !== chunk.length) {
+      throw new Error(`Unexpected answer (HTTP ${response.status}): ${JSON.stringify(items).slice(0, 200)}`);
+    }
     chunk.forEach((name, index) => results.set(name, classify(items[index])));
   }
   return results;

@@ -229,7 +229,7 @@ response shapes, and custom endpoint type contracts.
 | `npm run test:integration:custom` | Validate custom endpoints against the live API. |
 | `npm run test:integration` | Run all live integration tests by API area. |
 | `npm run benchmark:api` | Run the former default test: a live countries/users/companies crawl. |
-| `npm run check:procedures` | Check every SDK procedure against the live API: gone, needs a session, or newly documented. Two requests of the rate limit. `-- --also a.b,c.d` probes further names. |
+| `npm run check:procedures` | Check every SDK procedure against the live API: gone, needs a session, or newly documented. One request of the rate limit per 50 procedures. `-- --also a.b,c.d` probes further names. |
 
 Live commands load `.env` using dotenv. Copy `.env-example` to `.env` and set
 `WARERA_API_KEY`. Exported environment variables also work; if your key is in
