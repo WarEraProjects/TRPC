@@ -25,7 +25,7 @@ Right here: [https://warera.realmarijn.nl/api-explorer](https://warera.realmarij
 - Less boilerplate, fewer edge cases, faster iteration. 
 
 ## Terms of use
-The game's Terms of Service, section 9.6 (in force from about 8 November 2026), allow only
+The game's Terms of Service, section 9.6 (effective 28 September 2026), allow only
 documented API endpoints without the developers' written permission. Most procedures in this
 SDK are not in the API's `openapi.json`. Asked about this, the WarEra developer Dog answered on
 12 October 2026: a procedure that answers to a WarEra API key without a player session may be
