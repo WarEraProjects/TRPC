@@ -1,7 +1,3 @@
-[![Buy Dog a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/we_dog)
-
----
-
 # WarEra tRPC Client
 This package provides a frontend + backend compatible tRPC communication layer for the WarEra.io API.
 
