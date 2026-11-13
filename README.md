@@ -30,6 +30,8 @@ npm i @wareraprojects/api
 
 The client runs on tRPC 11. Installing it also installs `@trpc/client` and `@trpc/server`:
 the tRPC 11 client uses shared utilities from `@trpc/server`, and no server is started.
+Both are pinned to the same exact version, because `@trpc/client` requires a `@trpc/server`
+of its own version.
 `@trpc/client` 11 declares TypeScript 5.7.2 or later as a peer dependency, so depending on the
 project's own TypeScript and the installer's settings, npm adds a compatible TypeScript for it
 or reports a peer conflict.

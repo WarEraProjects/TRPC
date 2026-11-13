@@ -54,7 +54,8 @@ export type RetryOptions = {
    */
   initialDelayMs?: number;
   /**
-   * Maximum retry delay in milliseconds. Defaults to 5000ms.
+   * Maximum retry delay in milliseconds. Defaults to 5000ms. A 429 or 503 whose
+   * `Retry-After` or `ratelimit-reset` asks for a longer wait is returned without retrying.
    */
   maxDelayMs?: number;
   /**
@@ -91,10 +92,17 @@ type UntypedClient = {
 };
 
 const MAX_MAX_BATCH_SIZE = 50;
-const DEFAULT_RETRYABLE_STATUS_CODES = [408, 409, 425, 429, 500, 502, 503, 504];
+// 409 (tRPC CONFLICT) is not transient, so it is not retried.
+const DEFAULT_RETRYABLE_STATUS_CODES = [408, 425, 429, 500, 502, 503, 504];
+// Statuses whose wait the server may announce, see getServerRetryDelayMs.
+const RATE_LIMIT_STATUS_CODES = new Set([429, 503]);
+
+// The `rt` header value as sent since 0.3. It keeps the list it was built from, so
+// changing the retry defaults does not change the header.
+const RT_STATUS_CODES = [408, 409, 425, 429, 500, 502, 503, 504];
 
 function getResponseStatusCodes() {
-  return DEFAULT_RETRYABLE_STATUS_CODES
+  return RT_STATUS_CODES
     .map((status, index) => {
       const mixed = status * (index + 3) + index;
       return mixed.toString(36);
@@ -167,6 +175,11 @@ async function* autoPaginate<K extends ProcedureKey>(
   let currentCursor: string | undefined = input.cursor as string | undefined;
   let pageCount = 0;
   const maxPages = options.maxPages ?? Infinity;
+  // JavaScript callers may pass a string or a timestamp; comparing those with a Date never stops.
+  const cursorEnd = options.cursorEnd === undefined ? undefined : new Date(options.cursorEnd);
+  if (cursorEnd && Number.isNaN(cursorEnd.getTime())) {
+    throw new RangeError(`cursorEnd is not a valid date: ${String(options.cursorEnd)}`);
+  }
 
   while (pageCount < maxPages) {
     // Make the request with the current cursor
@@ -190,9 +203,9 @@ async function* autoPaginate<K extends ProcedureKey>(
     }
 
     // Check cursorEnd condition
-    if (options.cursorEnd) {
+    if (cursorEnd) {
       const cursorDate = parseCursorDate(response.nextCursor);
-      if (cursorDate && cursorDate < options.cursorEnd) {
+      if (cursorDate && cursorDate < cursorEnd) {
         break; // Next cursor is older than cutoff date
       }
     }
@@ -248,8 +261,43 @@ export function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100
     })) as unknown as typeof fetch;
 }
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+function sleep(ms: number, signal?: AbortSignal | null) {
+  return new Promise<void>((resolve, reject) => {
+    if (signal?.aborted) return reject(signal.reason);
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(signal!.reason);
+    };
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, ms);
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
+}
+
+/**
+ * Milliseconds the server asks to wait, from `Retry-After` (seconds or an HTTP date)
+ * or, for a 429, `ratelimit-reset` (seconds). The API sends `ratelimit-reset` with
+ * every response, so it only says something about the wait on a 429. `null` when
+ * neither is usable.
+ */
+function getServerRetryDelayMs(response: Response): number | null {
+  const retryAfter = response.headers.get("retry-after");
+  if (retryAfter) {
+    const seconds = Number(retryAfter);
+    if (Number.isFinite(seconds)) return Math.max(0, seconds * 1000);
+    const date = Date.parse(retryAfter);
+    if (!Number.isNaN(date)) return Math.max(0, date - Date.now());
+  }
+  const reset = response.headers.get("ratelimit-reset");
+  if (response.status !== 429 || reset === null || !Number.isFinite(Number(reset))) return null;
+  return Math.max(0, Number(reset) * 1000);
+}
+
+function isAbortError(error: unknown, signal?: AbortSignal | null) {
+  return Boolean(signal?.aborted) ||
+    (typeof error === "object" && error !== null && (error as { name?: unknown }).name === "AbortError");
 }
 
 function normalizeNonNegativeInteger(value: number | undefined, fallback: number) {
@@ -356,37 +404,15 @@ export function createRetryFetch(origFetch: typeof fetch, retry?: TrpcLikeClient
     const canRetry = isReplayableRequest(input, init);
     const method = getFetchMethod(input, init);
     const url = getFetchUrl(input);
+    const signal = init?.signal ?? (typeof Request !== "undefined" && input instanceof Request ? input.signal : undefined);
     let attempt = 0;
 
     while (true) {
+      let response: Response;
       try {
-        const response = await origFetch(input as any, init as any);
-
-        if (
-          canRetry &&
-          attempt < options.maxRetries &&
-          options.retryableStatusCodes.has(response.status)
-        ) {
-          const nextAttempt = attempt + 1;
-          const delayMs = getRetryDelayMs(options, nextAttempt);
-          await response.body?.cancel().catch(() => undefined);
-          options.onRetry?.({
-            attempt: nextAttempt,
-            maxRetries: options.maxRetries,
-            delayMs,
-            method,
-            url,
-            reason: `HTTP ${response.status}`,
-            status: response.status,
-          });
-          await sleep(delayMs);
-          attempt = nextAttempt;
-          continue;
-        }
-
-        return response;
+        response = await origFetch(input as any, init as any);
       } catch (error) {
-        if (!canRetry || attempt >= options.maxRetries) {
+        if (!canRetry || attempt >= options.maxRetries || isAbortError(error, signal)) {
           throw error;
         }
 
@@ -401,9 +427,37 @@ export function createRetryFetch(origFetch: typeof fetch, retry?: TrpcLikeClient
           reason: getErrorReason(error),
           error,
         });
-        await sleep(delayMs);
+        await sleep(delayMs, signal);
         attempt = nextAttempt;
+        continue;
       }
+
+      if (
+        canRetry &&
+        attempt < options.maxRetries &&
+        options.retryableStatusCodes.has(response.status)
+      ) {
+        const nextAttempt = attempt + 1;
+        const serverDelayMs = RATE_LIMIT_STATUS_CODES.has(response.status) ? getServerRetryDelayMs(response) : null;
+        // Retrying before the server's window resets would only spend the remaining attempts.
+        if (serverDelayMs !== null && serverDelayMs > options.maxDelayMs) return response;
+        const delayMs = Math.max(getRetryDelayMs(options, nextAttempt), serverDelayMs ?? 0);
+        await response.body?.cancel().catch(() => undefined);
+        options.onRetry?.({
+          attempt: nextAttempt,
+          maxRetries: options.maxRetries,
+          delayMs,
+          method,
+          url,
+          reason: `HTTP ${response.status}`,
+          status: response.status,
+        });
+        await sleep(delayMs, signal);
+        attempt = nextAttempt;
+        continue;
+      }
+
+      return response;
     }
   }) as unknown as typeof fetch;
 }
@@ -550,6 +604,21 @@ function createBatchChunkInit(init: RequestInit | undefined, bodyInput: Record<s
   };
 }
 
+/** A tRPC error item for a chunk whose response was not JSON. */
+function createBatchErrorItem(response: Response, paths: string[]) {
+  const tooManyRequests = response.status === 429;
+  return {
+    error: {
+      message: `HTTP ${response.status} ${response.statusText}`.trim() + ` for ${paths.join(",")}`,
+      code: tooManyRequests ? -32029 : -32603,
+      data: {
+        code: tooManyRequests ? "TOO_MANY_REQUESTS" : "INTERNAL_SERVER_ERROR",
+        httpStatus: response.status,
+      },
+    },
+  };
+}
+
 function createMaxBatchSizeFetch(origFetch: typeof fetch, maxBatchSize: number): typeof fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) => {
     const urlString = getFetchUrl(input);
@@ -572,28 +641,33 @@ function createMaxBatchSizeFetch(origFetch: typeof fetch, maxBatchSize: number):
     }
 
     const bodyInput = typeof init?.body === "string" ? parseBatchInput(init.body) : null;
-    const combinedJSON: unknown[] = [];
-    let status = 200;
-    let statusText = "OK";
-
+    const chunks: { startIndex: number; paths: string[] }[] = [];
     for (let startIndex = 0; startIndex < paths.length; startIndex += maxBatchSize) {
-      const chunkPaths = paths.slice(startIndex, startIndex + maxBatchSize);
-      const chunkUrl = createBatchChunkUrl(urlObj, startIndex, chunkPaths);
-      const chunkInit = createBatchChunkInit(init, bodyInput, startIndex, chunkPaths.length);
-      const response = await origFetch(chunkUrl.toString(), chunkInit as any);
-
-      if (!response.ok && status === 200) {
-        status = response.status;
-        statusText = response.statusText;
-      }
-
-      const json = await response.json();
-      if (Array.isArray(json)) {
-        combinedJSON.push(...json);
-      } else {
-        combinedJSON.push(...chunkPaths.map(() => json));
-      }
+      chunks.push({ startIndex, paths: paths.slice(startIndex, startIndex + maxBatchSize) });
     }
+
+    // The chunks go out together; the rate limiter below spaces their starts.
+    const results = await Promise.all(
+      chunks.map(async (chunk) => {
+        const chunkUrl = createBatchChunkUrl(urlObj, chunk.startIndex, chunk.paths);
+        const chunkInit = createBatchChunkInit(init, bodyInput, chunk.startIndex, chunk.paths.length);
+        const response = await origFetch(chunkUrl.toString(), chunkInit as any);
+        const text = await response.text();
+        let json: unknown;
+        try {
+          json = JSON.parse(text);
+        } catch {
+          // A proxy error page (Cloudflare 502 and the like) fails only this chunk's calls.
+          json = createBatchErrorItem(response, chunk.paths);
+        }
+        return { response, items: Array.isArray(json) ? json : chunk.paths.map(() => json) };
+      })
+    );
+
+    const combinedJSON = results.flatMap((result) => result.items);
+    const failed = results.find((result) => !result.response.ok);
+    const status = failed?.response.status ?? 200;
+    const statusText = failed?.response.statusText ?? "OK";
 
     return new Response(JSON.stringify(combinedJSON), {
       status,
