@@ -14,8 +14,16 @@ export interface TrpcLikeClientOptions {
   batchIntervalMs?: number;
   logBatches?: boolean | ((info: BatchLogInfo) => void);
   retry?: boolean | RetryOptions;
-  /** Requests per minute. Defaults to 200 with a non-empty API key, otherwise 100. */
+  /**
+   * Requests per minute. Without it the client starts at 200 with a non-empty API key,
+   * otherwise 100, and then follows the limit the server reports. A batch counts as one request.
+   */
   rateLimit?: number;
+  /**
+   * Abort an HTTP request whose response headers have not arrived after this many
+   * milliseconds. The timeout counts as a transient failure and is retried. Off by default.
+   */
+  timeoutMs?: number;
   /**
    * Extra procedure paths whose input schema is `z.void()`. Merged with
    * {@link VOID_INPUT_PROCEDURES}; use it for custom endpoints registered through `_ce`.
@@ -88,7 +96,7 @@ export type RetryInfo = {
 };
 
 type UntypedClient = {
-  query: (path: string, input: unknown) => Promise<unknown>;
+  query: (path: string, input: unknown, opts?: { signal?: AbortSignal }) => Promise<unknown>;
 };
 
 const MAX_MAX_BATCH_SIZE = 50;
@@ -170,7 +178,7 @@ async function* autoPaginate<K extends ProcedureKey>(
   client: UntypedClient,
   path: string,
   input: Record<string, unknown>,
-  options: { maxPages?: number; cursorEnd?: Date }
+  options: { maxPages?: number; cursorEnd?: Date; signal?: AbortSignal }
 ): AsyncIterableIterator<PageResult<K>> {
   let currentCursor: string | undefined = input.cursor as string | undefined;
   let pageCount = 0;
@@ -184,7 +192,7 @@ async function* autoPaginate<K extends ProcedureKey>(
   while (pageCount < maxPages) {
     // Make the request with the current cursor
     const requestInput = currentCursor ? { ...input, cursor: currentCursor } : input;
-    const response = (await client.query(path, requestInput)) as {
+    const response = (await client.query(path, requestInput, options.signal ? { signal: options.signal } : undefined)) as {
       items: unknown[];
       nextCursor: string;
     };
@@ -214,51 +222,137 @@ async function* autoPaginate<K extends ProcedureKey>(
   }
 }
 
+function rateLimitDelayMs(rateLimit: number) {
+  return Math.max(1, Math.floor(60000 / rateLimit));
+}
+
+/**
+ * Requests per minute from the `ratelimit-policy` header (`500;w=60`), or from
+ * `ratelimit-limit` for a 60-second window. `null` when neither is usable.
+ */
+function getServerRateLimit(response: Response): number | null {
+  const policy = response.headers.get("ratelimit-policy")?.match(/^\s*(\d+)\s*;\s*w=(\d+)/);
+  const limit = policy ? Number(policy[1]) : Number(response.headers.get("ratelimit-limit") ?? NaN);
+  const windowSeconds = policy ? Number(policy[2]) : 60;
+  if (!(limit > 0) || !(windowSeconds > 0)) return null;
+  return (limit * 60) / windowSeconds;
+}
+
 /**
  * Space request starts `60000 / rateLimit` ms apart. Requests do not wait for the
  * previous response, so a slow or stalled request does not hold back the queue.
  *
+ * Every response's rate limit headers are read. When `ratelimit-remaining` reaches 0,
+ * or the server answers 429, the queue holds until `ratelimit-reset`. With
+ * `followServer` the spacing also follows the server's limit, so a key with a higher
+ * limit than `rateLimit` gets its full rate after the first response.
+ *
+ * A request whose signal aborts while it waits leaves the queue at once.
+ *
  * @internal
  */
-export function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100): typeof fetch {
+export function createRateLimitedFetch(origFetch?: typeof fetch, rateLimit = 100, followServer = false): typeof fetch {
   const f: typeof fetch = origFetch ?? (globalThis as any).fetch;
-  const delayMs = Math.max(1, Math.floor(60000 / rateLimit));
+  let delayMs = rateLimitDelayMs(rateLimit);
 
   type QueueItem = {
     args: [RequestInfo | URL, RequestInit | undefined];
     resolve: (r: Response | PromiseLike<Response>) => void;
     reject: (e: unknown) => void;
+    signal?: AbortSignal | null;
+    onAbort?: () => void;
   };
 
   const queue: QueueItem[] = [];
   let timer: ReturnType<typeof setTimeout> | undefined;
   let lastTime = -Infinity;
+  let pausedUntil = 0;
+
+  const observe = (response: Response) => {
+    if (followServer) {
+      const serverRateLimit = getServerRateLimit(response);
+      if (serverRateLimit !== null) delayMs = rateLimitDelayMs(serverRateLimit);
+    }
+    const remaining = Number(response.headers.get("ratelimit-remaining") ?? NaN);
+    const resetMs = response.status === 429
+      ? getServerRetryDelayMs(response)
+      : Number(response.headers.get("ratelimit-reset") ?? NaN) * 1000;
+    if ((response.status === 429 || remaining <= 0) && resetMs !== null && Number.isFinite(resetMs)) {
+      pausedUntil = Math.max(pausedUntil, Date.now() + resetMs);
+    }
+    return response;
+  };
+
+  const nextWait = () => Math.max(0, delayMs - (Date.now() - lastTime), pausedUntil - Date.now());
 
   const dispatch = () => {
     timer = undefined;
+    // A pause that started after this timer was set moves the start back.
+    if (nextWait() > 0) return schedule();
     const item = queue.shift();
     if (!item) return;
+    if (item.onAbort) item.signal?.removeEventListener("abort", item.onAbort);
     lastTime = Date.now();
     // A fetch that throws synchronously rejects this item instead of escaping the queue.
     // cast to any to satisfy overloads on fetch implementations
     Promise.resolve()
       .then(() => f(item.args[0] as any, item.args[1]))
+      .then(observe)
       .then(item.resolve, item.reject);
     schedule();
   };
 
   const schedule = () => {
     if (timer !== undefined || queue.length === 0) return;
-    const wait = Math.max(0, delayMs - (Date.now() - lastTime));
+    const wait = nextWait();
     if (wait === 0) dispatch();
     else timer = setTimeout(dispatch, wait);
   };
 
   return ((input: RequestInfo | URL, init?: RequestInit) =>
     new Promise<Response>((resolve, reject) => {
-      queue.push({ args: [input, init], resolve, reject });
+      const signal = getFetchSignal(input, init);
+      if (signal?.aborted) return reject(signal.reason);
+      const item: QueueItem = { args: [input, init], resolve, reject, signal };
+      if (signal) {
+        item.onAbort = () => {
+          const index = queue.indexOf(item);
+          if (index === -1) return;
+          queue.splice(index, 1);
+          reject(signal.reason);
+        };
+        signal.addEventListener("abort", item.onAbort, { once: true });
+      }
+      queue.push(item);
       schedule();
     })) as unknown as typeof fetch;
+}
+
+/**
+ * Abort a request whose response headers have not arrived after `timeoutMs`. The
+ * abort reason is a `TimeoutError`, which the retry layer treats as transient; an
+ * abort from the caller's own signal is passed through and not retried.
+ */
+function createTimeoutFetch(origFetch: typeof fetch, timeoutMs: number | undefined): typeof fetch {
+  if (typeof timeoutMs !== "number" || !Number.isFinite(timeoutMs) || timeoutMs <= 0) return origFetch;
+
+  return ((input: RequestInfo | URL, init?: RequestInit) => {
+    const controller = new AbortController();
+    const outer = getFetchSignal(input, init);
+    const onAbort = () => controller.abort(outer!.reason);
+    if (outer?.aborted) onAbort();
+    else outer?.addEventListener("abort", onAbort, { once: true });
+    const timer = setTimeout(
+      () => controller.abort(new DOMException(`Request timed out after ${timeoutMs} ms`, "TimeoutError")),
+      timeoutMs
+    );
+    return Promise.resolve()
+      .then(() => origFetch(input as any, { ...init, signal: controller.signal } as any))
+      .finally(() => {
+        clearTimeout(timer);
+        outer?.removeEventListener("abort", onAbort);
+      });
+  }) as unknown as typeof fetch;
 }
 
 function sleep(ms: number, signal?: AbortSignal | null) {
@@ -345,6 +439,10 @@ function getFetchUrl(input: RequestInfo | URL): string {
   return input.url;
 }
 
+function getFetchSignal(input: RequestInfo | URL, init?: RequestInit): AbortSignal | null | undefined {
+  return init?.signal ?? (typeof Request !== "undefined" && input instanceof Request ? input.signal : undefined);
+}
+
 function getFetchMethod(input: RequestInfo | URL, init?: RequestInit): string {
   const isRequest = typeof Request !== "undefined" && input instanceof Request;
   return (init?.method ?? (isRequest ? input.method : "GET")).toUpperCase();
@@ -404,7 +502,7 @@ export function createRetryFetch(origFetch: typeof fetch, retry?: TrpcLikeClient
     const canRetry = isReplayableRequest(input, init);
     const method = getFetchMethod(input, init);
     const url = getFetchUrl(input);
-    const signal = init?.signal ?? (typeof Request !== "undefined" && input instanceof Request ? input.signal : undefined);
+    const signal = getFetchSignal(input, init);
     let attempt = 0;
 
     while (true) {
@@ -462,55 +560,6 @@ export function createRetryFetch(origFetch: typeof fetch, retry?: TrpcLikeClient
   }) as unknown as typeof fetch;
 }
 
-function createPostQueryFetch(origFetch?: typeof fetch): typeof fetch {
-  const f: typeof fetch = origFetch ?? (globalThis as any).fetch;
-
-  return ((input: RequestInfo | URL, init?: RequestInit) => {
-    const isRequest =
-      typeof Request !== "undefined" && input instanceof Request;
-    const method = getFetchMethod(input, init);
-
-    if (method !== "GET") {
-      return f(input as any, init as any);
-    }
-
-    const urlString = getFetchUrl(input);
-
-    let urlObj: URL;
-    try {
-      urlObj = new URL(urlString);
-    } catch {
-      return f(input as any, init as any);
-    }
-
-    const inputParam = urlObj.searchParams.get("input");
-    if (!inputParam) {
-      return f(input as any, init as any);
-    }
-
-    urlObj.searchParams.delete("input");
-
-    const headers = new Headers(isRequest ? input.headers : undefined);
-    if (init?.headers) {
-      new Headers(init.headers).forEach((value, key) => {
-        headers.set(key, value);
-      });
-    }
-    if (!headers.has("content-type")) {
-      headers.set("content-type", "application/json");
-    }
-
-    const nextInit: RequestInit = {
-      ...init,
-      method: "POST",
-      headers,
-      body: inputParam,
-    };
-
-    return f(urlObj.toString(), nextInit as any);
-  }) as unknown as typeof fetch;
-}
-
 function createBatchLoggingFetch(
   origFetch: typeof fetch,
   logBatches?: boolean | ((info: BatchLogInfo) => void)
@@ -552,59 +601,7 @@ function createBatchLoggingFetch(
   }) as unknown as typeof fetch;
 }
 
-function splitInputByBatch(
-  input: Record<string, unknown> | null,
-  startIndex: number,
-  chunkSize: number
-) {
-  if (!input) return null;
-
-  const chunkInput: Record<number, unknown> = {};
-  for (let index = 0; index < chunkSize; index++) {
-    chunkInput[index] = input[startIndex + index];
-  }
-  return chunkInput;
-}
-
-function parseBatchInput(input: string | null) {
-  if (!input) return null;
-
-  try {
-    const parsed = JSON.parse(input);
-    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
-      ? (parsed as Record<string, unknown>)
-      : null;
-  } catch {
-    return null;
-  }
-}
-
-function createBatchChunkUrl(urlObj: URL, startIndex: number, chunkPaths: string[]) {
-  const chunkUrl = new URL(urlObj.toString());
-  const slashIndex = chunkUrl.pathname.lastIndexOf("/");
-  const prefix = slashIndex === -1 ? "" : chunkUrl.pathname.slice(0, slashIndex + 1);
-  chunkUrl.pathname = `${prefix}${chunkPaths.join(",")}`;
-
-  const queryInput = parseBatchInput(urlObj.searchParams.get("input"));
-  const chunkInput = splitInputByBatch(queryInput, startIndex, chunkPaths.length);
-  if (chunkInput) {
-    chunkUrl.searchParams.set("input", JSON.stringify(chunkInput));
-  }
-
-  return chunkUrl;
-}
-
-function createBatchChunkInit(init: RequestInit | undefined, bodyInput: Record<string, unknown> | null, startIndex: number, chunkSize: number) {
-  const chunkInput = splitInputByBatch(bodyInput, startIndex, chunkSize);
-  if (!chunkInput) return init;
-
-  return {
-    ...init,
-    body: JSON.stringify(chunkInput),
-  };
-}
-
-/** A tRPC error item for a chunk whose response was not JSON. */
+/** A tRPC error item for a batch whose response was not JSON. */
 function createBatchErrorItem(response: Response, paths: string[]) {
   const tooManyRequests = response.status === 429;
   return {
@@ -619,63 +616,31 @@ function createBatchErrorItem(response: Response, paths: string[]) {
   };
 }
 
-function createMaxBatchSizeFetch(origFetch: typeof fetch, maxBatchSize: number): typeof fetch {
+/**
+ * Turn a response that is not JSON, such as a proxy's HTML error page, into tRPC error
+ * items, so the calls fail with the HTTP status instead of a JSON parse error. Each
+ * `maxItems` batch is its own request, so only that batch's calls fail.
+ */
+function createJsonErrorFetch(origFetch: typeof fetch): typeof fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) => {
-    const urlString = getFetchUrl(input);
-    let urlObj: URL;
+    const response = await origFetch(input as any, init as any);
+    if (response.headers.get("content-type")?.includes("json")) return response;
 
+    const text = await response.text();
     try {
-      urlObj = new URL(urlString);
+      JSON.parse(text);
+      return new Response(text, response);
     } catch {
-      return origFetch(input as any, init as any);
+      const url = new URL(getFetchUrl(input));
+      const paths = (url.pathname.split("/").pop() ?? "").split(",").filter(Boolean);
+      const item = createBatchErrorItem(response, paths);
+      const body = url.searchParams.get("batch") === "1" ? paths.map(() => item) : item;
+      return new Response(JSON.stringify(body), {
+        status: response.status,
+        statusText: response.statusText,
+        headers: { "content-type": "application/json" },
+      });
     }
-
-    if (urlObj.searchParams.get("batch") !== "1") {
-      return origFetch(input as any, init as any);
-    }
-
-    const lastSegment = urlObj.pathname.split("/").pop() ?? "";
-    const paths = lastSegment.split(",").filter(Boolean);
-    if (paths.length <= maxBatchSize) {
-      return origFetch(input as any, init as any);
-    }
-
-    const bodyInput = typeof init?.body === "string" ? parseBatchInput(init.body) : null;
-    const chunks: { startIndex: number; paths: string[] }[] = [];
-    for (let startIndex = 0; startIndex < paths.length; startIndex += maxBatchSize) {
-      chunks.push({ startIndex, paths: paths.slice(startIndex, startIndex + maxBatchSize) });
-    }
-
-    // The chunks go out together; the rate limiter below spaces their starts.
-    const results = await Promise.all(
-      chunks.map(async (chunk) => {
-        const chunkUrl = createBatchChunkUrl(urlObj, chunk.startIndex, chunk.paths);
-        const chunkInit = createBatchChunkInit(init, bodyInput, chunk.startIndex, chunk.paths.length);
-        const response = await origFetch(chunkUrl.toString(), chunkInit as any);
-        const text = await response.text();
-        let json: unknown;
-        try {
-          json = JSON.parse(text);
-        } catch {
-          // A proxy error page (Cloudflare 502 and the like) fails only this chunk's calls.
-          json = createBatchErrorItem(response, chunk.paths);
-        }
-        return { response, items: Array.isArray(json) ? json : chunk.paths.map(() => json) };
-      })
-    );
-
-    const combinedJSON = results.flatMap((result) => result.items);
-    const failed = results.find((result) => !result.response.ok);
-    const status = failed?.response.status ?? 200;
-    const statusText = failed?.response.statusText ?? "OK";
-
-    return new Response(JSON.stringify(combinedJSON), {
-      status,
-      statusText,
-      headers: {
-        "content-type": "application/json",
-      },
-    });
   }) as unknown as typeof fetch;
 }
 
@@ -699,7 +664,8 @@ function createMaxBatchSizeFetch(origFetch: typeof fetch, maxBatchSize: number):
  * @param options.logger - Pass `true` to add `loggerLink`; disabled by default
  * @param options.fetch - Optional fetch implementation to use for requests
  * @param options.headers - Additional headers to include on every request
- * @param options.rateLimit - Requests per minute; defaults to 200 with a non-empty API key, otherwise 100
+ * @param options.rateLimit - Requests per minute; without it the client starts at 200 with a non-empty API key, otherwise 100, and follows the server's limit
+ * @param options.timeoutMs - Abort and retry an HTTP request without response headers after this many milliseconds; off by default
  * @param options.maxBatchSize - Maximum operations per HTTP batch; defaults to and is capped at 50. Set to `1` to disable batching.
  * @param options.batchIntervalMs - Deprecated and unused; tRPC's `httpBatchLink` batches calls made in the same tick
  * @param options.retry - Retry transient failures; enabled by default with up to 3 retries, or pass `false` to disable
@@ -711,11 +677,11 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
   const appliedRateLimit = options?.rateLimit ?? (options?.apiKey ? 200 : 100);
   const baseFetch = options?.fetch ?? (globalThis as any).fetch;
   const loggedFetch = createBatchLoggingFetch(baseFetch, options?.logBatches);
-  const postQueryFetch = createPostQueryFetch(loggedFetch);
-  const rateLimitedFetch = createRateLimitedFetch(postQueryFetch, appliedRateLimit);
+  // Inside the rate limiter, so the time a request waits in the queue does not count.
+  const timeoutFetch = createTimeoutFetch(loggedFetch, options?.timeoutMs);
+  const rateLimitedFetch = createRateLimitedFetch(timeoutFetch, appliedRateLimit, options?.rateLimit === undefined);
   const retryFetch = createRetryFetch(rateLimitedFetch, options?.retry);
-  const maxBatchSize = normalizeMaxBatchSize(options?.maxBatchSize);
-  const maxBatchSizeFetch = createMaxBatchSizeFetch(retryFetch, maxBatchSize);
+  const jsonErrorFetch = createJsonErrorFetch(retryFetch);
   const responseTypes = getResponseStatusCodes();
   const voidInputProcedures = new Set([
     ...VOID_INPUT_PROCEDURES,
@@ -727,8 +693,10 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
       ...(options?.logger === true ? [loggerLink()] : []),
       httpBatchLink({
         url: options?.url ?? "https://api2.warera.io/trpc",
-        fetch: maxBatchSizeFetch,
-        maxURLLength: 16000,
+        fetch: jsonErrorFetch,
+        maxItems: normalizeMaxBatchSize(options?.maxBatchSize),
+        // Queries go out as POST with the input in the body, so long inputs never hit a URL limit.
+        methodOverride: "POST",
         headers() {
           return {
             ...(options?.headers ?? {}),
@@ -753,6 +721,8 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
       },
       apply(_t, _thisArg, argArray) {
         const path = parts.join(".");
+        const signal: AbortSignal | undefined = argArray?.[1]?.signal;
+        const requestOptions = signal ? { signal } : undefined;
         // Void-input procedures reject `{}`; everything else gets `{}` as the default input.
         const input = voidInputProcedures.has(path)
           ? argArray?.[0]
@@ -764,6 +734,7 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
           return autoPaginate(client, path, cleanedInput, {
             maxPages,
             cursorEnd,
+            signal,
           });
         }
         
@@ -776,9 +747,9 @@ export function createAPIClient(options?: TrpcLikeClientOptions): APIClient {
           ("autoPaginate" in input || "maxPages" in input || "cursorEnd" in input)
         ) {
           const { autoPaginate: _unused, maxPages: _maxPages, cursorEnd: _cursorEnd, ...cleanedInput } = input;
-          return client.query(path, cleanedInput);
+          return client.query(path, cleanedInput, requestOptions);
         }
-        return client.query(path, input);
+        return client.query(path, input, requestOptions);
       }
     });
 
