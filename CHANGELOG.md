@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.0 (unreleased)
+## 0.5.0
 
 This release follows the game's v0.27 patch, which removed the old work system. Code
 that used the removed procedures or types has to change, hence the minor version bump.
