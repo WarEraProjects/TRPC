@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createAPIClient } from "../../src/index";
+import { createAPIClient, type APIClient, type PageResult } from "../../src/index";
 
 type MockPage = { items: { _id: string }[]; nextCursor?: string };
 
@@ -160,3 +160,92 @@ test("regular calls leave an input with its own toJSON() unchanged", async () =>
   await client.article.getArticlesPaginated(input);
   assert.deepEqual(requests, [{ type: "last", limit: 1 }]);
 });
+
+test("pagination stops when the server repeats the cursor it was just sent", async () => {
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: "same" },
+    { items: [{ _id: "second" }], nextCursor: "same" },
+  ]);
+  const pages = [];
+  for await (const page of client.article.getArticlesPaginated({ type: "last", autoPaginate: true })) pages.push(page);
+  assert.deepEqual(requests, [{ type: "last" }, { type: "last", cursor: "same" }]);
+  assert.equal(pages.length, 2);
+});
+
+test("pagination stops when the cursors run in a cycle", async () => {
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: "a" },
+    { items: [{ _id: "second" }], nextCursor: "b" },
+    { items: [{ _id: "third" }], nextCursor: "a" },
+  ]);
+  for await (const _page of client.article.getArticlesPaginated({ type: "last", autoPaginate: true })) { /* consume */ }
+  assert.deepEqual(requests, [{ type: "last" }, { type: "last", cursor: "a" }, { type: "last", cursor: "b" }]);
+});
+
+test("pagination stops when the server returns the cursor the crawl started from", async () => {
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: "start" },
+  ]);
+  for await (const _page of client.article.getArticlesPaginated({ type: "last", cursor: "start", autoPaginate: true })) { /* consume */ }
+  assert.equal(requests.length, 1);
+});
+
+test("a fractional maxPages is rounded down", async () => {
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: "more" },
+  ]);
+  for await (const _page of client.article.getArticlesPaginated({
+    type: "last", autoPaginate: true, maxPages: 1.5,
+  })) { /* consume */ }
+  assert.equal(requests.length, 1);
+});
+
+test("a legacy cursor that starts with a number is not read as a date", async () => {
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: "2026|id-1" },
+    { items: [{ _id: "second" }] },
+  ]);
+  for await (const _page of client.article.getArticlesPaginated({
+    type: "last", autoPaginate: true, cursorEnd: new Date("2026-02-01"),
+  })) { /* consume */ }
+  assert.deepEqual(requests, [{ type: "last" }, { type: "last", cursor: "2026|id-1" }]);
+});
+
+test("a legacy cursor with a missing part stops the crawl, an id that only contains the word does not", async () => {
+  const withWord = "2026-03-01T00:00:00Z|item-undefined-1";
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: withWord },
+    { items: [{ _id: "second" }], nextCursor: "2026-03-01T00:00:00Z|undefined" },
+  ]);
+  for await (const _page of client.article.getArticlesPaginated({ type: "last", autoPaginate: true })) { /* consume */ }
+  assert.deepEqual(requests, [{ type: "last" }, { type: "last", cursor: withWord }]);
+});
+
+test("autoPaginate on a procedure that is not paginated is a type error and throws", async () => {
+  const requests: unknown[] = [];
+  const client = createAPIClient({
+    url: "https://api.example.test/trpc",
+    retry: false,
+    rateLimit: 60000,
+    fetch: (async (_url, init) => {
+      requests.push(JSON.parse(String(init?.body))["0"]);
+      return new Response(JSON.stringify([{ result: { data: { results: [1, 2], nextPage: 2 } } }]), {
+        headers: { "content-type": "application/json" },
+      });
+    }) as typeof fetch,
+  });
+  const input = { regionId: "r", page: 1, autoPaginate: true };
+  // @ts-expect-error contribution.getRegionContributions pages by `page`, not by cursor
+  const pages = client.contribution.getRegionContributions(input) as unknown as AsyncIterable<unknown>;
+  await assert.rejects(async () => {
+    for await (const _page of pages) { /* consume */ }
+  }, (error: Error) => error instanceof TypeError && /contribution\.getRegionContributions/.test(error.message) && /items/.test(error.message));
+  assert.deepEqual(requests, [{ regionId: "r", page: 1 }]);
+});
+
+type Expect<T extends true> = T;
+type Equal<A, B> = (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2) ? true : false;
+type PageOf<F> = F extends { (input: any, options?: any): AsyncIterableIterator<infer P> } ? P : never;
+// PageResult names the page of a packaged custom procedure too, not only of an OpenAPI one.
+type _customPage = Expect<Equal<PageResult<"giveaway.getManyPaginated">, PageOf<APIClient["giveaway"]["getManyPaginated"]>>>;
+type _documentedPage = Expect<Equal<PageResult<"battle.getBattles">, PageOf<APIClient["battle"]["getBattles"]>>>;

@@ -150,6 +150,8 @@ function parseCursorDate(cursor: string | null | undefined): Date | null {
   
   const dateStr = cursor.substring(0, pipeIndex);
   if (dateStr === 'undefined') return null;
+  // A bare number is a rank or a score; `new Date("2026")` would read it as a year.
+  if (/^\s*-?\d+(?:\.\d+)?\s*$/.test(dateStr)) return null;
   const date = new Date(dateStr);
   return isNaN(date.getTime()) ? null : date;
 }
@@ -171,9 +173,15 @@ function parseV2CursorDate(payload: string): Date | null {
   }
 }
 
+/** A "{date}|{id}" cursor with a part the server could not fill in, such as "undefined|<id>". */
+function hasMissingCursorPart(cursor: string): boolean {
+  return !cursor.startsWith("v2.") && cursor.split("|").includes("undefined");
+}
+
 /**
  * Async generator that auto-paginates through a cursor-based endpoint.
- * Yields pages until nextCursor is null/empty, maxPages is reached, or cursorEnd is exceeded.
+ * Yields pages until nextCursor is null/empty, a cursor comes back a second time, maxPages is
+ * reached, or cursorEnd is exceeded.
  */
 async function* autoPaginate<K extends ProcedureKey>(
   client: UntypedClient,
@@ -183,7 +191,11 @@ async function* autoPaginate<K extends ProcedureKey>(
 ): AsyncIterableIterator<PageResult<K>> {
   let currentCursor: string | undefined = input.cursor as string | undefined;
   let pageCount = 0;
-  const maxPages = options.maxPages ?? Infinity;
+  // A fractional cap is rounded down, so the crawl never fetches more pages than asked for.
+  const maxPages = options.maxPages === undefined ? Infinity : Math.floor(options.maxPages);
+  // Every cursor already sent. A server that hands one back would be asked for the same page forever.
+  const sentCursors = new Set<string>();
+  if (currentCursor) sentCursors.add(currentCursor);
   // JavaScript callers may pass a string or a timestamp; comparing those with a Date never stops.
   const cursorEnd = options.cursorEnd === undefined ? undefined : new Date(options.cursorEnd);
   if (cursorEnd && Number.isNaN(cursorEnd.getTime())) {
@@ -197,6 +209,11 @@ async function* autoPaginate<K extends ProcedureKey>(
       items: unknown[];
       nextCursor: string;
     };
+    if (!Array.isArray(response?.items)) {
+      throw new TypeError(
+        `${path} cannot be auto-paginated: its response has no \`items\` array. Call it without \`autoPaginate\`.`
+      );
+    }
 
     // Yield the current page
     yield {
@@ -207,8 +224,11 @@ async function* autoPaginate<K extends ProcedureKey>(
     pageCount++;
 
     // Check termination conditions
-    if (!response.nextCursor || response.items.length === 0 || response.nextCursor.includes('undefined')) {
-      break; // No more pages, empty page, or invalid cursor
+    if (
+      !response.nextCursor || response.items.length === 0 || typeof response.nextCursor !== "string" ||
+      hasMissingCursorPart(response.nextCursor) || sentCursors.has(response.nextCursor)
+    ) {
+      break; // No more pages, empty page, invalid cursor, or a cursor that was already sent
     }
 
     // Check cursorEnd condition
@@ -220,6 +240,7 @@ async function* autoPaginate<K extends ProcedureKey>(
     }
 
     currentCursor = response.nextCursor;
+    sentCursors.add(currentCursor);
   }
 }
 

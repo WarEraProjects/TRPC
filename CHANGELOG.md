@@ -42,6 +42,20 @@
 - `npm run openapi` works again. The live spec has `$ref`s relative to a request body's own
   schema, which openapi-typescript cannot resolve; `scripts/generate-openapi.ts` inlines them
   before generating.
+- Auto-pagination:
+  - A crawl ends when the server returns a cursor it was already sent. Without `maxPages`, a
+    repeated cursor used to be requested forever.
+  - `autoPaginate`, `maxPages` and `cursorEnd` are type errors on a procedure without a
+    cursor, also when the input is held in a variable. Such a call used to compile as a
+    Promise and return an iterator that yielded a page without items; with `autoPaginate: true`
+    it now throws a `TypeError` that names the procedure.
+  - A fractional `maxPages` is rounded down; `1.5` used to fetch two pages.
+  - `cursorEnd` no longer reads a `"{number}|{id}"` cursor as a year, and an id that merely
+    contains the text `undefined` no longer ends a crawl.
+  - `PageResult` accepts the packaged custom procedures, as the guide said:
+    `PageResult<"giveaway.getManyPaginated">`.
+  - The guide: `page.cursor` is `""` only when the list ended, `ranking.getRankingPage` runs
+    best rank first, and `direction` changed nothing on the four lists that take it.
 
 ## 0.5.0
 
