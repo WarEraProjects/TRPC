@@ -58,7 +58,7 @@ export type CompanyCustomEndpoints = {
 		input: CompanyGetRecommendedRegionIdsByItemCodeInput;
 		output: RecommendedRegions;
 	};
-	/** @deprecated Legacy since v0.27, which removed deposits and the strategic-resource bonus; both fields come back as 0. */
+	/** @deprecated Legacy since v0.27, which removed deposits and the strategic-resource bonus; every field comes back as 0. */
 	"company.getProductionBonus": {
 		input: CompanyGetProductionBonusInput;
 		output: CompanyProductionBonusResponse;
