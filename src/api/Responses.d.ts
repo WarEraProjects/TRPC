@@ -1049,7 +1049,7 @@ export interface GameConfigNewspaper {
   /** 2 on 2026-11-24, with a window of 24 hours and articles costing 15, 30, 60, 120 or 240. */
   publishCostMultiplier: number;
   publishCostWindowHours: number;
-  /** Replaced `publishCost` on 2026-11-24. */
+  /** Sent on 2026-11-24, when `publishCost` no longer was. */
   publishPaperCost: number;
   tipMinLevel: number;
   tipValue: number;
@@ -2298,8 +2298,9 @@ export interface GovernmentMinister {
 }
 
 /**
- * Since 2026-11-24 the ministers are in `ministers`. Of 80 governments read that day, 79 had the
- * list and one still had the three `minOf...` fields instead.
+ * On 2026-11-24, 180 of the 181 governments had the `ministers` list. Four of them also had the
+ * three `minOf...` fields, which did not always name users from the list. One government had
+ * neither the list nor a `vicePresident`.
  */
 export type GovernmentGetByCountryIdResponse = {
   __v: number;
@@ -2310,13 +2311,13 @@ export type GovernmentGetByCountryIdResponse = {
   customTitles?: { president?: string; vicePresident?: string; };
   dates: { announcementCreatedAts: Array<string>; lastAnnouncementAt?: string; };
   ministers?: Array<GovernmentMinister>;
-  /** @deprecated Replaced by `ministers`. */
+  /** On 4 of 181 governments on 2026-11-24; read `ministers` instead. */
   minOfDefense?: string;
-  /** @deprecated Replaced by `ministers`. */
+  /** On 4 of 181 governments on 2026-11-24; read `ministers` instead. */
   minOfEconomy?: string;
-  /** @deprecated Replaced by `ministers`. */
+  /** On 4 of 181 governments on 2026-11-24; read `ministers` instead. */
   minOfForeignAffairs?: string;
-  /** Absent on 1 of the 80 governments, and `vicePresident` on 5. */
+  /** Absent on a few governments on 2026-11-24, as is `vicePresident`. */
   president?: string;
   vicePresident?: string;
 };

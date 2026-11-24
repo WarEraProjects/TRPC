@@ -57,7 +57,7 @@ export type WorkGetStatsByEmployeeInput = {
 	days?: number;
 };
 
-/** One day of an employee's work. `total` equalled `employeeProd` on every row read. */
+/** One day of an employee's work, all 0 on a day without any. `total` equalled `employeeProd` on every row read. */
 export type EmployeeWorkStatsItem = {
 	dailyDate: string;
 	total: number;
@@ -84,9 +84,11 @@ export type WorkCustomEndpoints = {
 		output: EmployeeWork[];
 	};
 	/**
-	 * An employee's work per day over the last `days` days, oldest first, with no row for a day
-	 * without work. Answers for any owner's employee, and with `[]` for an unknown id. Needs an
-	 * API key, under the same caveat as `work.getLastByEmployee`.
+	 * An employee's work per day, oldest first: one row for each day from `days` days ago through
+	 * today, so `days` + 1 rows, with zeros on a day without work. On 2026-11-24 no row was older
+	 * than 2026-10-26, and an employee without work in the span returned `[]`. Answers for any
+	 * owner's employee, and with `[]` for an unknown id. Needs an API key, under the same caveat
+	 * as `work.getLastByEmployee`.
 	 */
 	"work.getStatsByEmployee": {
 		input: WorkGetStatsByEmployeeInput;

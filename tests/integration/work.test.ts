@@ -48,7 +48,8 @@ integrationTest("work.getStatsByEmployee", async () => {
   const { employeeId } = await getEmployeeSample();
   const value = await client.work.getStatsByEmployee({ employeeId, days: 60 });
 
-  assert(Array.isArray(value) && value.length <= 60, "expected at most 60 days");
+  // One row per day from 60 days ago through today.
+  assert(Array.isArray(value) && value.length <= 61, "expected at most 61 days");
   for (const [index, day] of value.entries()) {
     assert(/^\d{4}-\d{2}-\d{2}$/.test(day.dailyDate), "expected dailyDate as YYYY-MM-DD");
     assert(typeof day.total === "number" && typeof day.wage === "number" && typeof day.employeeProd === "number", "expected total, wage and employeeProd");

@@ -12,9 +12,9 @@
   and `count`, `updatedAt` and an optional `zeroRank` are new. `RankingItem` has a `type`.
   On both, `type` is now a `RankingType` (the requested ranking) instead of `string`.
   `ranking.getRanking` returns the top 100 entries; `ranking.getRankingPage` has the rest.
-- `GovernmentGetByCountryIdResponse` follows the server's change of 2026-11-24: the ministers
+- `GovernmentGetByCountryIdResponse` follows the live response of 2026-11-24: the ministers
   are a `ministers` list of the new `GovernmentMinister`. `minOfDefense`, `minOfEconomy` and
-  `minOfForeignAffairs` are now optional and deprecated (1 of 80 governments still had them),
+  `minOfForeignAffairs` are now optional (4 of 181 governments had them, next to the list),
   and `president` and `vicePresident` are optional. `customTitles` is new.
 - `TournamentMatch.attacker`, `defender` and `battle` are optional: a match of a round that
   has not started has none of them.
@@ -32,7 +32,7 @@
 - The OpenAPI types follow the live spec: `battle.getBattles` takes `allianceId`, and
   `rankingType` accepts `userMercenaryEarnings`, `muMercenaryEarnings` and `userWelcomeGifts`.
 - `work.getLastByEmployee` (an employee's latest shifts) and `work.getStatsByEmployee` (its
-  work per day). Both need an API key and answer for any owner's employee. New types:
+  work per day, one row for each day through today). Both need an API key and answer for any owner's employee. New types:
   `EmployeeWork` and `EmployeeWorkStatsItem`.
 - Response fields the server sends that the types lacked, found by comparing live responses
   of 127 procedures with their types on 2026-11-24:

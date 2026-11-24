@@ -6,10 +6,8 @@ integrationTest("government.getByCountryId", async () => {
   assert(value.country === countryId, "expected the requested country");
   assert(Array.isArray(value.congressMembers), "expected congress members");
   assert(value.president === undefined || typeof value.president === "string", "expected an optional president");
-  // Since 2026-11-24 the ministers are a list; a government not yet moved keeps the three fields.
-  assert(Array.isArray(value.ministers) || typeof value.minOfDefense === "string"
-    || typeof value.minOfEconomy === "string" || typeof value.minOfForeignAffairs === "string" || value.president === undefined,
-    "expected a ministers list or the legacy minister fields");
+  // 180 of 181 governments had the list on 2026-11-24; the one without had no vice president either.
+  assert(value.ministers === undefined || Array.isArray(value.ministers), "expected an optional ministers list");
   for (const minister of value.ministers ?? []) {
     assert(typeof minister.user === "string" && typeof minister.title === "string", "expected user and title on every minister");
     assert(Array.isArray(minister.rights) && minister.rights.every((right) => typeof right === "string"), "expected rights on every minister");
