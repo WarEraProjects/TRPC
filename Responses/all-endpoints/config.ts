@@ -37,6 +37,8 @@ export const allOperations: OperationKey[] = [
   "tradingOrder.getTopOrders",
   "itemOffer.getById",
   "ranking.getRanking",
+  "ranking.getRankingPage",
+  "ranking.getRankingAround",
   "search.searchAnything",
   "gameConfig.getDates",
   "gameConfig.getGameConfig",

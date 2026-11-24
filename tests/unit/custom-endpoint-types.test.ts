@@ -14,13 +14,19 @@ import type {
   InputFor,
   ItemTradingGetItemTradingResponse,
   ItemTradingValue,
+  LeagueGetUserLeagueResponse,
+  LeagueReward,
   Manager,
   ManagerOffer,
   ManagerOfferGetManyPaginatedResponse,
   MapGetMapDataResponse,
   MapRegionProperties,
+  MercenaryContractAuctionBidEligibility,
   MercenaryContractAuctionListItem,
+  MuLeagueGetMuLeagueResponse,
+  MuLeagueMove,
   MuListItem,
+  MuSponsorship,
   PartyGetByIdResponse,
   PinnedArticle,
   PollVote,
@@ -29,10 +35,14 @@ import type {
   RankingGetRankingPageResponse,
   RankingGetRankingResponse,
   RankingItem,
+  RankingSnapshotRecentRanks,
+  RankingType,
   Region,
   RegionActiveBattle,
   SkinGift,
+  StateArmyExpenseEntry,
   StrategicResourceBonuses,
+  SubGiftDropEntrant,
   TournamentMatch,
   TradingOrderBook,
   UserGetUserByIdResponse,
@@ -117,6 +127,44 @@ export function typeOnly(client: APIClient) {
   void client.ranking.getRankingPage({ rankingType: "userMercenaryEarnings", muId: "m", limit: 50 });
   // @ts-expect-error rankingType is required
   void client.ranking.getRankingPage({ limit: 50 });
+
+  // The procedures found on 2026-11-24.
+  // @ts-expect-error battleId is required
+  void client.battleRanking.getPrivateMercenaryDamage({ roundId: "r" });
+  void client.battleRanking.getPrivateMercenaryDamage({ battleId: "b", roundId: "r" });
+  // @ts-expect-error userId is required
+  void client.league.getUserLeague();
+  // @ts-expect-error auctionIds is required
+  void client.mercenaryContractAuction.getBidEligibility({ muId: "m" });
+  // @ts-expect-error muId is required
+  void client.muLeague.getMuLeague({});
+  // @ts-expect-error countryId is required
+  void client.muSponsorship.getByCountry({});
+  // @ts-expect-error muId is required
+  void client.muSponsorship.getForMu();
+  // @ts-expect-error range is required
+  void client.rankingSnapshot.getHistory({ entityId: "e", rankingType: "userDamages" });
+  // @ts-expect-error range is 7d, 30d, 90d or 1y
+  void client.rankingSnapshot.getHistory({ entityId: "e", rankingType: "userDamages", range: "14d" });
+  // @ts-expect-error rankingType takes the ranking names
+  void client.rankingSnapshot.getPreviousRanks({ rankingType: "damages", entityIds: ["e"] });
+  // @ts-expect-error unknown expense kinds are rejected by the server
+  void client.stateArmyExpense.getLedger({ countryId: "c", kind: "wage" });
+  // @ts-expect-error dropId is required
+  void client.subGiftDrop.getView({});
+  void client.muLeague.getDivisionCounts();
+  void client.muSponsorship.getSponsorable({ countryId: "c" });
+  void client.stateArmyExpense.getOverview({ countryId: "c" });
+
+  const ledgerPages = client.stateArmyExpense.getLedger({ countryId: "c", kind: "hqOil", autoPaginate: true });
+  type LedgerPage = typeof ledgerPages extends AsyncIterableIterator<infer Page> ? Page : never;
+  type _ledgerPageItem = Expect<Equal<LedgerPage["items"][number], StateArmyExpenseEntry>>;
+  const sponsorshipPages = client.muSponsorship.getActiveByCountryPaginated({ countryId: "c", autoPaginate: true });
+  type SponsorshipPage = typeof sponsorshipPages extends AsyncIterableIterator<infer Page> ? Page : never;
+  type _sponsorshipPageItem = Expect<Equal<SponsorshipPage["items"][number], MuSponsorship>>;
+  const entrantPages = client.subGiftDrop.getEntrants({ dropId: "d", limit: 100, autoPaginate: true });
+  type EntrantPage = typeof entrantPages extends AsyncIterableIterator<infer Page> ? Page : never;
+  type _entrantPageItem = Expect<Equal<EntrantPage["items"][number], SubGiftDropEntrant>>;
 
   // Legitimately optional filters stay optional.
   void client.donation.getManyPaginated({ limit: 1 });
@@ -236,6 +284,14 @@ type _rankingIsGlobalRemoved = Expect<Equal<"isGlobal" extends keyof RankingGetR
 type _rankingItemType = Expect<Equal<RankingItem["type"], string>>;
 type _rankingFirstPage = Expect<Equal<RankingGetRankingPageResponse["ranking"], RankingDetails | undefined>>;
 type _rankingAround = Expect<Equal<Awaited<ReturnType<APIClient["ranking"]["getRankingAround"]>>, RankingItem[]>>;
+type _rankingType = Expect<Equal<RankingType, InputFor<"ranking.getRanking">["rankingType"]>>;
+type _recentRanks = Expect<Equal<RankingSnapshotRecentRanks["ranks"]["userDamages"], (number | null)[] | undefined>>;
+type _previousRanks = Expect<Equal<Awaited<ReturnType<APIClient["rankingSnapshot"]["getPreviousRanks"]>>, Record<string, number>>>;
+type _sponsorshipForMu = Expect<Equal<Awaited<ReturnType<APIClient["muSponsorship"]["getForMu"]>>, MuSponsorship | null>>;
+type _bidEligibility = Expect<Equal<Awaited<ReturnType<APIClient["mercenaryContractAuction"]["getBidEligibility"]>>, Record<string, MercenaryContractAuctionBidEligibility>>>;
+type _leaguePlace = Expect<Equal<LeagueGetUserLeagueResponse["placeRewards"][number], LeagueReward | null>>;
+type _muLeagueMove = Expect<Equal<MuLeagueGetMuLeagueResponse["rows"][number]["move"], MuLeagueMove>>;
+type _muLeagueDivisions = Expect<Equal<Awaited<ReturnType<APIClient["muLeague"]["getDivisionCounts"]>>["mus"], number[]>>;
 
 /** The id a ranking entry is about: a user in player rankings, else the country, MU or alliance. */
 function rankedEntity(entry: RankingItem): string | undefined {

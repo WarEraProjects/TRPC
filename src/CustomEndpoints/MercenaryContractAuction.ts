@@ -12,6 +12,17 @@ export type MercenaryContractAuctionGetActiveAuctionsInput = {
 	battleId?: string;
 };
 
+export type MercenaryContractAuctionGetBidEligibilityInput = {
+	muId: string;
+	/** Up to 50 auction ids. */
+	auctionIds: string[];
+};
+
+export type MercenaryContractAuctionBidEligibility = {
+	/** Why the MU cannot bid, such as `"ally"` or `"pact"` on 2026-11-24; `null` when it can. */
+	blockedReason: string | null;
+};
+
 export type MercenaryContractAuctionCustomEndpoints = {
 	/**
 	 * Open auctions only, newest first. Unlike `getPaginatedAuctions` it has no `status` filter;
@@ -20,5 +31,13 @@ export type MercenaryContractAuctionCustomEndpoints = {
 	"mercenaryContractAuction.getActiveAuctions": {
 		input: MercenaryContractAuctionGetActiveAuctionsInput;
 		output: MercenaryContractAuctionGetPaginatedAuctionsResponse;
+	};
+	/**
+	 * Whether the MU may bid on each auction, keyed by auction id. An unknown auction id is left
+	 * out; an unknown MU fails with `NOT_FOUND`. Answers without an API key.
+	 */
+	"mercenaryContractAuction.getBidEligibility": {
+		input: MercenaryContractAuctionGetBidEligibilityInput;
+		output: Record<string, MercenaryContractAuctionBidEligibility>;
 	};
 };

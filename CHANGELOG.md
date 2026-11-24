@@ -19,6 +19,24 @@
   `RankingGetRankingAroundResponse`.
 - The OpenAPI types follow the live spec: `battle.getBattles` takes `allianceId`, and
   `rankingType` accepts `userMercenaryEarnings` and `muMercenaryEarnings`.
+- Sixteen public procedures, found on 2026-11-24 by comparing the game client's queries with
+  this package. They are typed from live responses and have integration tests, and all of
+  them answer with and without an API key:
+  - `battleRanking.getPrivateMercenaryDamage`
+  - `league.getUserLeague`
+  - `mercenaryContractAuction.getBidEligibility`
+  - `muLeague.getDivisionCounts` and `muLeague.getMuLeague`
+  - the MU sponsorships: `muSponsorship.getByCountry`, `getActiveByCountryPaginated`,
+    `getForMu` and `getSponsorable`
+  - the daily ranking snapshots: `rankingSnapshot.getEntityRecentRanks`, `getHistory` and
+    `getPreviousRanks`
+  - a country's military spending: `stateArmyExpense.getOverview` and `getLedger`
+  - gift drops: `subGiftDrop.getView` and `getEntrants`
+
+  `RankingType` names every ranking. `muSponsorship.getActiveByCountryPaginated`,
+  `stateArmyExpense.getLedger` and `subGiftDrop.getEntrants` support `autoPaginate`.
+- The response crawler (`npm run allEndpoints`) also fetches `ranking.getRankingPage` and
+  `ranking.getRankingAround`.
 
 ### Fixed
 - `npm run openapi` works again. The live spec has `$ref`s relative to a request body's own

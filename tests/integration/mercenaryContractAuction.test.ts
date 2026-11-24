@@ -19,3 +19,22 @@ integrationTest("mercenaryContractAuction.getActiveAuctions by battle", async ()
 
   assert(value.items.every((item) => item.battle === battleId), "expected only that battle's auctions");
 });
+
+integrationTest("mercenaryContractAuction.getBidEligibility", async () => {
+  const [{ items: auctions }, { items: [top] }] = await Promise.all([
+    client.mercenaryContractAuction.getActiveAuctions({ limit: 10 }),
+    client.ranking.getRankingPage({ rankingType: "muDamages", limit: 1 }),
+  ]);
+  assert(top?.mu, "expected an MU");
+  const auctionIds = auctions.map((auction) => auction._id);
+  const value = await client.mercenaryContractAuction.getBidEligibility({
+    muId: top.mu,
+    auctionIds: [...auctionIds, "000000000000000000000000"],
+  });
+
+  // Auctions can close between the two reads, so only known ids are checked.
+  assert(Object.keys(value).every((id) => auctionIds.includes(id)), "expected only the open auctions");
+  for (const eligibility of Object.values(value)) {
+    assert(eligibility.blockedReason === null || typeof eligibility.blockedReason === "string", "expected a reason or null");
+  }
+});

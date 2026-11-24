@@ -167,6 +167,29 @@ const client = createAPIClient({ apiKey, timeoutMs: 15000 });
 - `country.getStrategicResourceBonuses` returns the alliance's bonuses for a member of an
   alliance. A country outside every alliance gets its own, or `null` when it holds no strategic
   resource.
+- Sixteen more were added on 2026-11-24 by the same comparison. They answer with and without
+  an API key:
+  - `battleRanking.getPrivateMercenaryDamage`
+  - `league.getUserLeague`
+  - `mercenaryContractAuction.getBidEligibility`
+  - `muLeague.getDivisionCounts` and `muLeague.getMuLeague`
+  - `muSponsorship.getByCountry`, `getActiveByCountryPaginated`, `getForMu` and `getSponsorable`
+  - `rankingSnapshot.getEntityRecentRanks`, `getHistory` and `getPreviousRanks`
+  - `stateArmyExpense.getOverview` and `getLedger`
+  - `subGiftDrop.getView` and `getEntrants`
+
+  The other 86 untyped queries tried without credentials that day answered `UNAUTHORIZED`.
+- `rankingSnapshot.getHistory` requires `range` (`"7d"`, `"30d"`, `"90d"` or `"1y"`).
+  `getPreviousRanks` takes 1 to 100 `entityIds` and leaves out an id without a rank. The daily
+  snapshots began on 2026-11-16.
+- `mercenaryContractAuction.getBidEligibility` takes up to 50 `auctionIds` and leaves out an
+  unknown one; an unknown `muId` fails with `NOT_FOUND`.
+- `stateArmyExpense.getOverview` without `days` (1 to 365) totals all time and returns an empty
+  `byDay`.
+- `muSponsorship.getActiveByCountryPaginated` lists the oldest `acceptedAt` first, so `cursorEnd`
+  does not fit it.
+- A `subGiftDrop` id appears in the content of the article that announces the drop, as
+  `data-giveaway-id`. An unknown id fails with `NOT_FOUND` ("Giveaway not found.").
 
 ## Auto-Pagination
 
