@@ -98,6 +98,14 @@ export async function runFallbackWorkflow(
         return { itemOfferId: finalItemOfferId };
       case "ranking.getRanking":
         return { rankingType: "countryDamages" };
+      case "ranking.getRankingPage":
+        // A player ranking: its entries also carry country and mu.
+        return { rankingType: "userDamages", limit: runner.sampleSize };
+      case "ranking.getRankingAround":
+        if (!ids.countryId) {
+          return undefined;
+        }
+        return { rankingType: "countryDamages", entityId: ids.countryId };
       case "search.searchAnything":
         return { searchText: process.env.WARERA_SEARCH_TEXT ?? "a" };
       case "gameConfig.getDates":

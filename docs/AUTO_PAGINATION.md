@@ -18,6 +18,7 @@ From the OpenAPI schema:
 - `mercenaryContractAuction.getPaginatedAuctions`
 - `mu.getManyPaginated`
 - `poll.getPollVoters`
+- `ranking.getRankingPage`
 - `transaction.getPaginatedTransactions`
 - `user.getUsersByCountry`
 
@@ -29,8 +30,10 @@ Packaged custom endpoints:
 - `giveaway.getManyPaginated`
 - `managerOffer.getManyPaginated`
 - `mercenaryContractAuction.getActiveAuctions`
+- `muSponsorship.getActiveByCountryPaginated`
 - `party.getManyPaginated`
-- `sanction.getPaginated`
+- `stateArmyExpense.getLedger`
+- `subGiftDrop.getEntrants`
 - `tournament.getManyPaginated`
 - `upgradeConstruction.listConstructions`
 
@@ -116,17 +119,19 @@ const options = {
 
 **Note**: The client compares the date a cursor starts with. A cursor is either `"{date}|{id}"` or `"v2."` followed by base64url JSON of the sort keys (every cursor the server returned on 2026-11-09 and 2026-11-10 was `v2`). In a `v2` cursor the client reads the first sort key that has a value: a `date` key, or a `str` key that holds an ISO timestamp. A list sorted by a number never stops by date.
 
-What each list was sorted by on 2026-11-10, newest or highest first:
+What each list was sorted by on 2026-11-10, or on 2026-11-24 for the procedures added that day, newest or highest first unless the row says otherwise:
 
 | Procedure | The cursor starts with | `cursorEnd` |
 |---|---|---|
 | `article.getArticlesPaginated` with `type: "last"` | `publishedAt` | stops |
 | `article.getArticlesPaginated` with `type: "daily"`, `"weekly"` or `"top"` | `stats.score`, a number | never stops |
-| `alliance.getManyPaginated`, `battle.getBattles`, `election.getElections`, `event.getEventsPaginated`, `mercenaryContractAuction.getActiveAuctions`, `mercenaryContractAuction.getPaginatedAuctions`, `mu.getManyPaginated`, `party.getManyPaginated`, `poll.getPollVoters`, `sanction.getPaginated`, `transaction.getPaginatedTransactions`, `user.getUsersByCountry` | `createdAt` | stops |
+| `alliance.getManyPaginated`, `battle.getBattles`, `election.getElections`, `event.getEventsPaginated`, `mercenaryContractAuction.getActiveAuctions`, `mercenaryContractAuction.getPaginatedAuctions`, `mu.getManyPaginated`, `party.getManyPaginated`, `poll.getPollVoters`, `subGiftDrop.getEntrants`, `transaction.getPaginatedTransactions`, `user.getUsersByCountry` | `createdAt` | stops |
+| `stateArmyExpense.getLedger` | `at` | stops |
+| `muSponsorship.getActiveByCountryPaginated` | `acceptedAt`, **oldest first** | does not fit: depending on the cutoff it ends the crawl after the first page or never stops |
 | `company.getCompanies` | `movedUpAt`, then `createdAt`. A company that never moved comes after the ones that did, with a `null` first key, and the client reads its `createdAt`. A cutoff newer than the oldest `movedUpAt` stops among the moved companies, before any that never moved. | stops |
 | `giveaway.getManyPaginated` | `endAt`, sent as a string | stops |
 | `tournament.getManyPaginated` | `startAt` | stops |
-| `battleRanking.getRanking` | `rank`, a number | never stops |
+| `battleRanking.getRanking`, `ranking.getRankingPage` | `rank`, a number | never stops |
 | `donation.getManyPaginated` | `amount`, a number | never stops |
 | `managerOffer.getManyPaginated` | `maxHourlyWage`, a number | never stops |
 

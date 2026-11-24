@@ -355,9 +355,49 @@ export interface paths {
         put?: never;
         /**
          * Get ranking data
-         * @description Retrieves ranking data for the specified ranking type and optional year-week filter
+         * @description The ranking's tier cutoffs and its top 100 entries (entries at 0 are not listed). Use getRankingPage for the rest.
          */
         post: operations["ranking.getRanking"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ranking.getRankingPage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get a page of a ranking
+         * @description Entries best first, by cursor. The ranking details (tier cutoffs, count) come with the first page only. countryId / muId keep the players of one country or military unit (player rankings). Entries at 0 are not listed.
+         */
+        post: operations["ranking.getRankingPage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ranking.getRankingAround": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get an entry and its neighbours
+         * @description One user, country, MU or alliance in a ranking, with the entries just above and below it, in the same country / MU filter as getRankingPage. Empty when it has no entry there.
+         */
+        post: operations["ranking.getRankingAround"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1043,6 +1083,8 @@ export interface operations {
                     warId?: string;
                     /** @description Filter battles by country ID */
                     countryId?: string;
+                    /** @description Filter battles involving any member country of this alliance */
+                    allianceId?: string;
                 };
             };
         };
@@ -1240,7 +1282,69 @@ export interface operations {
                      * @description The type of ranking to retrieve
                      * @enum {string}
                      */
-                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "userSkinsOwned" | "userMilestoneTiers" | "userMissionsClaimed" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
+                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "userMercenaryEarnings" | "userSkinsOwned" | "userMilestoneTiers" | "userMissionsClaimed" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muMercenaryEarnings" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "ranking.getRankingPage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description The type of ranking to retrieve
+                     * @enum {string}
+                     */
+                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "userMercenaryEarnings" | "userSkinsOwned" | "userMilestoneTiers" | "userMissionsClaimed" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muMercenaryEarnings" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
+                    cursor?: string;
+                    /** @default 20 */
+                    limit?: number;
+                    countryId?: string;
+                    muId?: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "ranking.getRankingAround": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description The type of ranking to retrieve
+                     * @enum {string}
+                     */
+                    rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "userMercenaryEarnings" | "userSkinsOwned" | "userMilestoneTiers" | "userMissionsClaimed" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muMercenaryEarnings" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
+                    entityId: string;
+                    countryId?: string;
+                    muId?: string;
                 };
             };
         };

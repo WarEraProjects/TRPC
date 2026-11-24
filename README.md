@@ -102,11 +102,6 @@ const client = createAPIClient({ apiKey, timeoutMs: 15000 });
 - `contribution.getCountryUnrestContributions` and `getRegionContributions` use
   one-based `page` pagination. The server ignores `limit` and uses 10 rows per page
   (the final page may contain fewer). These endpoints do not use cursor auto-pagination.
-- `sanction.getPaginated.type` accepts uppercase `SanctionType` values such as
-  `BAN`, `MUTE_USER`, and `WARN_USER`; lowercase `ban` is invalid. Its response
-  `data` is a discriminated union: narrow by `data.type` to access action fields
-  such as `durationInHours`, `unMuteAt`, `removeDamages`, `oldUsername`,
-  `newUsername`, and `message`.
 - `tradingOrder.getTopOrdersPerItemCode` returns one `{ buyOrders, sellOrders }`
   book per requested code; a code without orders, or an unknown one, gets two
   empty lists. `limit` counts orders per side; without it the server returns one.
@@ -172,6 +167,29 @@ const client = createAPIClient({ apiKey, timeoutMs: 15000 });
 - `country.getStrategicResourceBonuses` returns the alliance's bonuses for a member of an
   alliance. A country outside every alliance gets its own, or `null` when it holds no strategic
   resource.
+- Sixteen more were added on 2026-11-24 by the same comparison. They answer with and without
+  an API key:
+  - `battleRanking.getPrivateMercenaryDamage`
+  - `league.getUserLeague`
+  - `mercenaryContractAuction.getBidEligibility`
+  - `muLeague.getDivisionCounts` and `muLeague.getMuLeague`
+  - `muSponsorship.getByCountry`, `getActiveByCountryPaginated`, `getForMu` and `getSponsorable`
+  - `rankingSnapshot.getEntityRecentRanks`, `getHistory` and `getPreviousRanks`
+  - `stateArmyExpense.getOverview` and `getLedger`
+  - `subGiftDrop.getView` and `getEntrants`
+
+  The other 86 untyped queries tried without credentials that day answered `UNAUTHORIZED`.
+- `rankingSnapshot.getHistory` requires `range` (`"7d"`, `"30d"`, `"90d"` or `"1y"`).
+  `getPreviousRanks` takes 1 to 100 `entityIds` and leaves out an id without a rank. The daily
+  snapshots began on 2026-11-16.
+- `mercenaryContractAuction.getBidEligibility` takes up to 50 `auctionIds` and leaves out an
+  unknown one; an unknown `muId` fails with `NOT_FOUND`.
+- `stateArmyExpense.getOverview` without `days` (1 to 365) totals all time and returns an empty
+  `byDay`.
+- `muSponsorship.getActiveByCountryPaginated` lists the oldest `acceptedAt` first, so `cursorEnd`
+  does not fit it.
+- A `subGiftDrop` id appears in the content of the article that announces the drop, as
+  `data-giveaway-id`. An unknown id fails with `NOT_FOUND` ("Giveaway not found.").
 
 ## Auto-Pagination
 
