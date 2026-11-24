@@ -14,7 +14,7 @@ import path from "node:path";
 import openapiTS, { astToString, COMMENT_HEADER, type OpenAPI3 } from "openapi-typescript";
 
 const root = path.resolve(import.meta.dirname, "..");
-const specUrl = process.env.WARERA_OPENAPI_URL ?? "https://api2.warera.io/openapi.json";
+const specUrl = "https://api2.warera.io/openapi.json";
 const outputFile = path.join(root, "src/api/warera-openapi.d.ts");
 
 type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
