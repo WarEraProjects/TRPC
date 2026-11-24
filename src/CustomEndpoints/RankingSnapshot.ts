@@ -1,9 +1,4 @@
-import type { operations } from "../api/warera-openapi";
-
-/** Every ranking the ranking procedures accept, as in `ranking.getRanking`. */
-export type RankingType = NonNullable<
-	operations["ranking.getRanking"]["requestBody"]
->["content"]["application/json"]["rankingType"];
+import type { RankingType } from "../api/Responses";
 
 export type RankingSnapshotGetEntityRecentRanksInput = {
 	/** A user, country, MU or alliance id. */

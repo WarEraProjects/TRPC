@@ -10,13 +10,15 @@
   replacement.
 - `RankingGetRankingResponse` follows the live response: `_id`, `__v` and `isGlobal` are gone,
   and `count`, `updatedAt` and an optional `zeroRank` are new. `RankingItem` has a `type`.
+  On both, `type` is now a `RankingType` (the requested ranking) instead of `string`.
   `ranking.getRanking` returns the top 100 entries; `ranking.getRankingPage` has the rest.
 
 ### Added
 - `ranking.getRankingPage` pages through a whole ranking by cursor, also with `autoPaginate`,
-  and can keep the players of one country or MU. `ranking.getRankingAround` returns one entry
-  with its neighbours. New types: `RankingDetails`, `RankingGetRankingPageResponse` and
-  `RankingGetRankingAroundResponse`.
+  and can keep the players of one country or MU. Its `limit` runs from 1 to 50 (20 without
+  it). `ranking.getRankingAround` returns one entry with its neighbours. New types:
+  `RankingType`, which names every ranking, `RankingDetails`, `RankingGetRankingPageResponse`
+  and `RankingGetRankingAroundResponse`.
 - The OpenAPI types follow the live spec: `battle.getBattles` takes `allianceId`, and
   `rankingType` accepts `userMercenaryEarnings` and `muMercenaryEarnings`.
 - Sixteen public procedures, found on 2026-11-24 by comparing the game client's queries with
@@ -33,8 +35,8 @@
   - a country's military spending: `stateArmyExpense.getOverview` and `getLedger`
   - gift drops: `subGiftDrop.getView` and `getEntrants`
 
-  `RankingType` names every ranking. `muSponsorship.getActiveByCountryPaginated`,
-  `stateArmyExpense.getLedger` and `subGiftDrop.getEntrants` support `autoPaginate`.
+  `muSponsorship.getActiveByCountryPaginated`, `stateArmyExpense.getLedger` and
+  `subGiftDrop.getEntrants` support `autoPaginate`.
 - The response crawler (`npm run allEndpoints`) also fetches `ranking.getRankingPage` and
   `ranking.getRankingAround`.
 
