@@ -10,8 +10,13 @@ integrationTest("battleRanking.getPrivateMercenaryDamage", async () => {
   ]) {
     assert(typeof value.attacker === "number" && value.attacker >= 0, "expected attacker damage");
     assert(typeof value.defender === "number" && value.defender >= 0, "expected defender damage");
+    for (const part of [value.ground, value.money]) {
+      assert(typeof part.attacker === "number" && typeof part.defender === "number", "expected ground and money per side");
+    }
   }
 
   const unknown = await client.battleRanking.getPrivateMercenaryDamage({ battleId: "000000000000000000000000" });
   assert(unknown.attacker === 0 && unknown.defender === 0, "expected 0 on both sides for an unknown battle");
+  assert(unknown.ground.attacker === 0 && unknown.ground.defender === 0 && unknown.money.attacker === 0 && unknown.money.defender === 0,
+    "expected 0 ground and money for an unknown battle");
 });

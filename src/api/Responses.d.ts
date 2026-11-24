@@ -27,6 +27,8 @@ export interface ArticleListItem {
   language: string;
   pinnedUntil?: string;
   publishedAt: string;
+  /** Sent on the `last` list (15, 30, 60, 120 or 240 on 2026-11-24), not on the `top` list. */
+  publishPaperCost?: number;
   slug?: string;
   stats: ArticleStats;
   title: string;
@@ -454,6 +456,12 @@ export interface GameConfigBadges {
   govMember: { availabilities: Array<string>; cooldownDays: number; reward: number; };
   hardWorker: BadgeReward;
   leagueWinner: { availabilities: Array<string>; reward: number; uniqueMetadataKey: string; };
+  muLeagueWinner: { availabilities: Array<string>; reward: number; uniqueMetadataKey: string; };
+  muLeagueWinnerBronze: { availabilities: Array<string>; reward: number; uniqueMetadataKey: string; };
+  muLeagueWinnerDiamond: { availabilities: Array<string>; reward: number; uniqueMetadataKey: string; };
+  muLeagueWinnerMaster: { availabilities: Array<string>; reward: number; uniqueMetadataKey: string; };
+  muLeagueWinnerPlatinum: { availabilities: Array<string>; reward: number; uniqueMetadataKey: string; };
+  muLeagueWinnerSilver: { availabilities: Array<string>; reward: number; uniqueMetadataKey: string; };
   muTournamentWinner: BadgeRewardWithPreserve;
   popularArticle: BadgeRewardWithMetadata;
   premium: BadgeRewardWithPreserve;
@@ -467,6 +475,7 @@ export interface GameConfigBadges {
   translator: BadgeRewardWithPreserve;
   vicePresident: BadgeReward;
   voted: BadgeReward;
+  welcomer: BadgeRewardWithPreserve;
 }
 
 export interface BattleTickPoints {
@@ -483,6 +492,7 @@ export interface GameConfigBattle {
   casesPer1kDamagesInPool: number;
   countryOrderBonusPercent: number;
   enemyDamagesBonusPercent: number;
+  govMemberBountyMinPpPer1k: number;
   govMemberBountyRewardPercent: number;
   healthCost: number;
   hitFor1CaseInPool: number;
@@ -1029,13 +1039,18 @@ export interface GameConfigMu {
   helperHealthPerHelp: number;
   maxOwnedMus: number;
   moveCost: number;
+  nationalityChangeConcreteCost: number;
   nationalityChangeCooldownDays: number;
 }
 
 export interface GameConfigNewspaper {
   createArticleMinLevel: number;
   gemTipValue: number;
-  publishCost: number;
+  /** 2 on 2026-11-24, with a window of 24 hours and articles costing 15, 30, 60, 120 or 240. */
+  publishCostMultiplier: number;
+  publishCostWindowHours: number;
+  /** Replaced `publishCost` on 2026-11-24. */
+  publishPaperCost: number;
   tipMinLevel: number;
   tipValue: number;
 }
@@ -1063,9 +1078,9 @@ export interface GameConfigRegion {
   depositsEnabled: boolean;
   developmentIncomeMultiplier: number;
   developmentMultiplier: number;
-  freeTravelHomeCooldownHours: number;
   homeMoveConcreteCost: number;
   liberationDaysCooldown: number;
+  lostResistanceOtherRegionsBarMultiplier: number;
   maxDailyResistance: number;
   maxResistance: number;
   minDailyResistance: number;
@@ -1089,6 +1104,7 @@ export interface GameConfigRegion {
   resistancePassiveGrowthPercent: number;
   strategicResourceIncomeMultiplier: number;
   transferDaysCooldown: number;
+  wonResistanceBarMultiplier: number;
 }
 
 export interface SkillLevelZero {
@@ -1483,6 +1499,7 @@ export interface MuActiveUpgradeLevels {
 export interface MuRankings {
   muBounty?: RankingValueTier;
   muDamages?: RankingValueTier;
+  muMercenaryEarnings?: RankingValueTier;
   muReputation?: RankingValueTier;
   muTerrain?: RankingValueTier;
   muWealth: RankingValueTier;
@@ -1497,6 +1514,7 @@ export interface MuRoles {
 export interface MuRankingsOptional {
   muBounty?: RankingValueTier;
   muDamages?: RankingValueTier;
+  muMercenaryEarnings?: RankingValueTier;
   muReputation?: RankingValueTier;
   muTerrain?: RankingValueTier;
   muWealth: RankingValueTier;
@@ -1515,6 +1533,8 @@ export interface MuListItem {
   lastAnnouncementAt?: string;
   lastCountryChangeAt?: string;
   lastReputationBuyAt?: string;
+  /** From 0 to 15 on 2026-11-24; absent on 15 of the 65 MUs read. */
+  leagueDivision?: number;
   leveling?: MuLeveling;
   members: Array<string>;
   mercenaryReputation: number;
@@ -1522,6 +1542,12 @@ export interface MuListItem {
   rankings: MuRankingsOptional;
   region: string;
   roles: MuRoles;
+  /** A country id. On 18 of 65 MUs from `mu.getById` on 2026-11-24 and on none of 40 list items. */
+  sponsorCountry?: string;
+  /** `"stateArmy"` or `"privateMercenary"` on 2026-11-24; absent on most MUs. */
+  type?: string;
+  /** A date; on 5 of the 65 MUs read on 2026-11-24. */
+  typeLockedUntil?: string;
   updatedAt: string;
   user: string;
 }
@@ -1801,6 +1827,8 @@ export interface TransactionListItem {
   createdAt: string;
   item?: TransactionItem;
   itemCode?: string;
+  /** On some `itemMarket` rows (18 of the last 100 transactions on 2026-11-24). */
+  marketAvgPrice?: number;
   money?: number;
   offerCreatedAt?: string;
   quantity?: number;
@@ -1846,9 +1874,17 @@ export interface UserInfos {
   font?: string;
   isBanned?: boolean;
   isPremium?: boolean;
+  /** The country whose minister the user is; the post is in `ministerTitle`. */
+  ministerOf?: string;
+  /** A post such as `"minOfDefense"` or `"advisor"`: the `title` of `GovernmentMinister`. */
+  ministerTitle?: string;
   minOfEconomyOf?: string;
+  /** A country id. Still on some users on 2026-11-24, though not on the 70 office holders read. */
+  minOfForeignAffairsOf?: string;
   premiumGiftsCount?: number;
   premiumMonthsCount?: number;
+  /** A country id. */
+  presidentOf?: string;
   tournamentWonAt?: string;
   usernameEffect?: string;
   vicePresidentOf?: string;
@@ -1882,6 +1918,7 @@ export interface UserRankings {
   userDamages?: RankingValueTier;
   userGemsPurchased?: RankingValueTier;
   userLevel: RankingValueTier;
+  userMercenaryEarnings?: RankingValueTier;
   userMilestoneTiers?: RankingValueTier;
   userMissionsClaimed?: RankingValueTier;
   userPremiumGifts?: RankingValueTier;
@@ -1891,6 +1928,7 @@ export interface UserRankings {
   userSubscribers?: RankingValueTier;
   userTerrain?: RankingValueTier;
   userWealth: RankingValueTier;
+  userWelcomeGifts?: RankingValueTier;
   weeklyUserDamages?: RankingValueTier;
 }
 
@@ -2001,6 +2039,8 @@ export type ArticleGetArticleByIdResponse = {
   isPublished: boolean;
   language: string;
   publishedAt: string;
+  /** On all 12 recent articles read on 2026-11-24; older articles were not checked. */
+  publishPaperCost?: number;
   slug: string;
   stats: ArticleStats;
   title: string;
@@ -2173,6 +2213,7 @@ export interface GameConfigMercenaryContract {
   bountyMinActiveCitizens: number;
   cancellationPenaltyPercent: number;
   enabled: boolean;
+  govMemberBidMaxPpPer1k: number;
   maxBountyPpMultiplier: number;
   nationalBountyEnabled: boolean;
   nationalBountyMinActiveCitizens: number;
@@ -2206,7 +2247,6 @@ export interface GameConfigMapTravel {
   movementEnabled: boolean;
   positionMarkerEnabled: boolean;
   staminaBarEnabled: boolean;
-  travelHomeEnabled: boolean;
 }
 
 export type GameConfigGetGameConfigResponse = {
@@ -2240,17 +2280,45 @@ export type GameConfigGetGameConfigResponse = {
   user: GameConfigUser;
 };
 
+/** One minister of a government. A country had up to 18 on 2026-11-24. */
+export interface GovernmentMinister {
+  appointedAt: string;
+  badgeGrantedAt?: string;
+  /** The name the country gave the post. */
+  customTitle?: string;
+  /** Such as `"setOrders"`, `"postAnnouncement"` or `"openBattle"`; 13 values on 2026-11-24. */
+  rights: Array<string>;
+  /**
+   * On 2026-11-24: `"minOfDefense"`, `"minOfEconomy"`, `"minOfForeignAffairs"`, `"minOfInterior"`,
+   * `"minOfCommunication"`, `"chiefOfStaff"` or `"advisor"`. A country can have several of one.
+   */
+  title: string;
+  /** A user id. */
+  user: string;
+}
+
+/**
+ * Since 2026-11-24 the ministers are in `ministers`. Of 80 governments read that day, 79 had the
+ * list and one still had the three `minOf...` fields instead.
+ */
 export type GovernmentGetByCountryIdResponse = {
   __v: number;
   _id: string;
   congressMembers: Array<string>;
   country: string;
+  /** The names the country gave the two posts. */
+  customTitles?: { president?: string; vicePresident?: string; };
   dates: { announcementCreatedAts: Array<string>; lastAnnouncementAt?: string; };
-  minOfDefense: string;
-  minOfEconomy: string;
-  minOfForeignAffairs: string;
-  president: string;
-  vicePresident: string;
+  ministers?: Array<GovernmentMinister>;
+  /** @deprecated Replaced by `ministers`. */
+  minOfDefense?: string;
+  /** @deprecated Replaced by `ministers`. */
+  minOfEconomy?: string;
+  /** @deprecated Replaced by `ministers`. */
+  minOfForeignAffairs?: string;
+  /** Absent on 1 of the 80 governments, and `vicePresident` on 5. */
+  president?: string;
+  vicePresident?: string;
 };
 
 export type ItemTradingGetPricesResponse = {
@@ -2345,6 +2413,8 @@ export type PollGetPollResponse = {
   myVote: Array<number> | null;
   options: Array<PollOption>;
   question: string;
+  /** A country id; on 2 of the 4 polls read on 2026-11-24. */
+  restrictedCountry?: string;
   startedAt: string;
   totalVoters: number;
   updatedAt: string;

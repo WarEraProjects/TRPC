@@ -15,12 +15,14 @@ export type CompanyGetProductionBonusInput = {
 
 /**
  * @deprecated Legacy: v0.27 removed deposits and the strategic-resource production bonus for
- * companies. The server still answers, but only with these two fields, and both were 0 for all 24
- * companies of 15 owners checked on 2026-11-04.
+ * companies. The server still answers, but only with these fields, and all were 0 for the 24
+ * companies of 15 owners checked on 2026-11-04 and the 20 checked on 2026-11-24.
  */
 export type CompanyProductionBonusResponse = {
 	/** @deprecated Deposits were removed in v0.27; 0 in every live check. */
 	depositBonus: number;
+	/** @deprecated Sent since 2026-11-24 at the latest; 0 in every live check. */
+	strategicResourcesBonus: number;
 	/** @deprecated No company production bonus is left after v0.27; 0 in every live check. */
 	total: number;
 };

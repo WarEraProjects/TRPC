@@ -10,7 +10,11 @@ import type {
   EmployeeEvent,
   EmployeeEventOutcome,
   EmployeeGetCompanyRosterResponse,
+  EmployeeWork,
+  EmployeeWorkStatsItem,
+  GameConfigBadges,
   GameStatHolderCount,
+  GovernmentMinister,
   InputFor,
   ItemTradingGetItemTradingResponse,
   ItemTradingValue,
@@ -30,6 +34,7 @@ import type {
   PartyGetByIdResponse,
   PinnedArticle,
   PollVote,
+  PrivateMercenaryDamage,
   PublicTradingOrder,
   RankingDetails,
   RankingGetRankingPageResponse,
@@ -127,6 +132,15 @@ export function typeOnly(client: APIClient) {
   void client.ranking.getRankingPage({ rankingType: "userMercenaryEarnings", muId: "m", limit: 50 });
   // @ts-expect-error rankingType is required
   void client.ranking.getRankingPage({ limit: 50 });
+
+  // The two work procedures a keyed probe found on 2026-11-24.
+  // @ts-expect-error employeeId is required
+  void client.work.getLastByEmployee({ limit: 5 });
+  void client.work.getLastByEmployee({ employeeId: "e", limit: 5 });
+  // @ts-expect-error employeeId is required
+  void client.work.getStatsByEmployee({ days: 30 });
+  void client.work.getStatsByEmployee({ employeeId: "e", days: 30 });
+  void client.ranking.getRanking({ rankingType: "userWelcomeGifts" });
 
   // The procedures found on 2026-11-24.
   // @ts-expect-error battleId is required
@@ -250,7 +264,15 @@ type _orderCountry = Expect<Equal<PublicTradingOrder["country"], string | undefi
 type _bookOrder = Expect<Equal<TradingOrderBook["sellOrders"][number], PublicTradingOrder>>;
 type _tradingDay = Expect<Equal<ItemTradingGetItemTradingResponse["values"][number], ItemTradingValue>>;
 type _workWage = Expect<Equal<WorkStatsItem["wage"], number | undefined>>;
+type _employeeShifts = Expect<Equal<Awaited<ReturnType<APIClient["work"]["getLastByEmployee"]>>, EmployeeWork[]>>;
+type _employeeDays = Expect<Equal<Awaited<ReturnType<APIClient["work"]["getStatsByEmployee"]>>, EmployeeWorkStatsItem[]>>;
+type _shiftTool = Expect<Equal<NonNullable<EmployeeWork["tool"]>["skills"], { production: number }>>;
 type _wonBy = Expect<Equal<TournamentMatch["wonBy"], "attacker" | "defender" | undefined>>;
+type _matchBattle = Expect<Equal<TournamentMatch["battle"], string | undefined>>;
+type _welcomeGifts = Expect<Equal<"userWelcomeGifts" extends RankingType ? true : false, true>>;
+type _ministers = Expect<Equal<Awaited<ReturnType<APIClient["government"]["getByCountryId"]>>["ministers"], GovernmentMinister[] | undefined>>;
+type _privateMercenaryMoney = Expect<Equal<PrivateMercenaryDamage["money"], { attacker: number; defender: number }>>;
+type _muLeagueBadge = Expect<Equal<GameConfigBadges["muLeagueWinner"]["uniqueMetadataKey"], string>>;
 type _rosterRow = Expect<Equal<EmployeeGetCompanyRosterResponse["employees"][number], Employee>>;
 type _employeeById = Expect<Equal<Awaited<ReturnType<APIClient["employee"]["getById"]>>, Employee | null>>;
 type _historyRow = Expect<Equal<Awaited<ReturnType<APIClient["employeeEvent"]["getHistory"]>>[number], EmployeeEvent>>;

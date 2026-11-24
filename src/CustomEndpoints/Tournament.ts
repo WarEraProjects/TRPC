@@ -1,13 +1,18 @@
+/**
+ * A match of a round that has not started yet has no `attacker`, `defender` or `battle`, only
+ * `matchIndex`, `predecessors` and the two `possible...TeamIds` lists: 15 of the 447 matches of
+ * the tournament running on 2026-11-24. The three always came together.
+ */
 export type TournamentMatch = {
 	/** Absent on tournaments created before the bracket rework. */
 	matchIndex?: number;
-	attacker: string;
-	defender: string;
+	attacker?: string;
+	defender?: string;
 	/** Only set on qualification-round matches. */
 	isQualificationRound?: boolean;
 	possibleAttackerTeamIds?: string[];
 	possibleDefenderTeamIds?: string[];
-	battle: string;
+	battle?: string;
 	/** Set once the match's battle has ended. */
 	wonBy?: "attacker" | "defender";
 	/** Match indexes of the previous-round matches feeding each side. */
