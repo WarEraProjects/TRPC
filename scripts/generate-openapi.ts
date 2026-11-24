@@ -42,15 +42,17 @@ function resolvePointer(base: Json, ref: string): Json | undefined {
  * Replaces every `$ref` under `node` that does not resolve against the document but does resolve
  * against `schemaRoot`, the schema it was written in. Keys next to the `$ref`, such as a
  * `description`, win over the target's. Returns how many references were inlined.
+ *
+ * `seen` holds the references being expanded around `node`, so a target that contains itself
+ * fails instead of recursing forever.
  */
 function inlineSchemaRefs(node: Json, schemaRoot: Json, document: Json, where: string, seen: string[] = []): number {
-  if (Array.isArray(node)) {
-    return node.reduce<number>((count, child) => count + inlineSchemaRefs(child, schemaRoot, document, where, seen), 0);
-  }
-  if (!isObject(node)) return 0;
+  // Array elements are checked like object values: a `$ref` can sit directly in an `anyOf` list.
+  if (!isObject(node) && !Array.isArray(node)) return 0;
+  const children = node as Record<string, Json>;
 
   let count = 0;
-  for (const [key, child] of Object.entries(node)) {
+  for (const [key, child] of Object.entries(children)) {
     if (!isObject(child) || typeof child.$ref !== "string" || resolvePointer(document, child.$ref) !== undefined) {
       count += inlineSchemaRefs(child, schemaRoot, document, where, seen);
       continue;
@@ -59,10 +61,12 @@ function inlineSchemaRefs(node: Json, schemaRoot: Json, document: Json, where: s
     if (seen.includes($ref)) throw new Error(`${where}: circular $ref ${[...seen, $ref].join(" -> ")}`);
     const target = resolvePointer(schemaRoot, $ref);
     if (!isObject(target)) throw new Error(`${where}: cannot resolve $ref ${$ref}`);
-    // The target can itself be a `$ref`, so the copy goes through the same pass before it lands.
-    const holder: JsonObject = { inlined: { ...structuredClone(target), ...siblings } };
+    // The target can itself be a `$ref`, so its copy goes through the same pass. Only the copy is
+    // inside this reference; the keys next to the `$ref` are not.
+    const holder: JsonObject = { inlined: structuredClone(target) };
     count += 1 + inlineSchemaRefs(holder, schemaRoot, document, where, [...seen, $ref]);
-    node[key] = holder.inlined;
+    count += inlineSchemaRefs(siblings, schemaRoot, document, where, seen);
+    children[key] = { ...(holder.inlined as JsonObject), ...siblings };
   }
   return count;
 }
