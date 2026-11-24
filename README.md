@@ -102,11 +102,6 @@ const client = createAPIClient({ apiKey, timeoutMs: 15000 });
 - `contribution.getCountryUnrestContributions` and `getRegionContributions` use
   one-based `page` pagination. The server ignores `limit` and uses 10 rows per page
   (the final page may contain fewer). These endpoints do not use cursor auto-pagination.
-- `sanction.getPaginated.type` accepts uppercase `SanctionType` values such as
-  `BAN`, `MUTE_USER`, and `WARN_USER`; lowercase `ban` is invalid. Its response
-  `data` is a discriminated union: narrow by `data.type` to access action fields
-  such as `durationInHours`, `unMuteAt`, `removeDamages`, `oldUsername`,
-  `newUsername`, and `message`.
 - `tradingOrder.getTopOrdersPerItemCode` returns one `{ buyOrders, sellOrders }`
   book per requested code; a code without orders, or an unknown one, gets two
   empty lists. `limit` counts orders per side; without it the server returns one.

@@ -24,7 +24,6 @@ export type * from "./Mu";
 export type * from "./MuMember";
 export type * from "./Party";
 export type * from "./Region";
-export type * from "./Sanction";
 export type * from "./Search";
 export type * from "./Shop";
 export type * from "./Tournament";
@@ -61,7 +60,6 @@ import type { MuCustomEndpoints } from "./Mu";
 import type { MuMemberCustomEndpoints } from "./MuMember";
 import type { PartyCustomEndpoints } from "./Party";
 import type { RegionCustomEndpoints } from "./Region";
-import type { SanctionCustomEndpoints } from "./Sanction";
 import type { SearchCustomEndpoints } from "./Search";
 import type { ShopCustomEndpoints } from "./Shop";
 import type { TournamentCustomEndpoints } from "./Tournament";
@@ -99,7 +97,6 @@ export type WarEraCustomEndpoints =
 	& MuMemberCustomEndpoints
 	& PartyCustomEndpoints
 	& RegionCustomEndpoints
-	& SanctionCustomEndpoints
 	& SearchCustomEndpoints
 	& ShopCustomEndpoints
 	& TournamentCustomEndpoints

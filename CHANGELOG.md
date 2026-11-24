@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+### Breaking changes
+- Removed `sanction.getPaginated`, which the API no longer serves, together with its types
+  `Sanction`, `SanctionData`, `SanctionDestroyedItem`, `SanctionType`,
+  `SanctionGetPaginatedInput`, `SanctionGetPaginatedResponse` and `SanctionCustomEndpoints`.
+  The game now reads `sanction.getUserSanctions`, which refuses API keys, so there is no
+  replacement.
+- `RankingGetRankingResponse` follows the live response: `_id`, `__v` and `isGlobal` are gone,
+  and `count`, `updatedAt` and an optional `zeroRank` are new. `RankingItem` has a `type`.
+  `ranking.getRanking` returns the top 100 entries; `ranking.getRankingPage` has the rest.
+
+### Added
+- `ranking.getRankingPage` pages through a whole ranking by cursor, also with `autoPaginate`,
+  and can keep the players of one country or MU. `ranking.getRankingAround` returns one entry
+  with its neighbours. New types: `RankingDetails`, `RankingGetRankingPageResponse` and
+  `RankingGetRankingAroundResponse`.
+- The OpenAPI types follow the live spec: `battle.getBattles` takes `allianceId`, and
+  `rankingType` accepts `userMercenaryEarnings` and `muMercenaryEarnings`.
+
+### Fixed
+- `npm run openapi` works again. The live spec has `$ref`s relative to a request body's own
+  schema, which openapi-typescript cannot resolve; `scripts/generate-openapi.ts` inlines them
+  before generating.
+
 ## 0.5.0
 
 This release follows the game's v0.27 patch, which removed the old work system. Code
