@@ -35,7 +35,7 @@ export type SubGiftDropView = {
 	winnerUserIds: string[];
 	/** Set once the drop is drawn. */
 	refundedGems?: number;
-	/** Whether the caller joined; `false` without a player session. */
+	/** Whether the caller joined. `false` in every view read without credentials on 2026-11-24. */
 	hasJoined: boolean;
 };
 
