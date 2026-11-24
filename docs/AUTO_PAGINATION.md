@@ -127,7 +127,7 @@ What each list was sorted by on 2026-11-10, or on 2026-11-24 for the procedures 
 | `article.getArticlesPaginated` with `type: "daily"`, `"weekly"` or `"top"` | `stats.score`, a number | never stops |
 | `alliance.getManyPaginated`, `battle.getBattles`, `election.getElections`, `event.getEventsPaginated`, `mercenaryContractAuction.getActiveAuctions`, `mercenaryContractAuction.getPaginatedAuctions`, `mu.getManyPaginated`, `party.getManyPaginated`, `poll.getPollVoters`, `subGiftDrop.getEntrants`, `transaction.getPaginatedTransactions`, `user.getUsersByCountry` | `createdAt` | stops |
 | `stateArmyExpense.getLedger` | `at` | stops |
-| `muSponsorship.getActiveByCountryPaginated` | `acceptedAt`, **oldest first** | stops after the first page when the cutoff falls inside the list; do not use it here |
+| `muSponsorship.getActiveByCountryPaginated` | `acceptedAt`, **oldest first** | does not fit: depending on the cutoff it ends the crawl after the first page or never stops |
 | `company.getCompanies` | `movedUpAt`, then `createdAt`. A company that never moved comes after the ones that did, with a `null` first key, and the client reads its `createdAt`. A cutoff newer than the oldest `movedUpAt` stops among the moved companies, before any that never moved. | stops |
 | `giveaway.getManyPaginated` | `endAt`, sent as a string | stops |
 | `tournament.getManyPaginated` | `startAt` | stops |

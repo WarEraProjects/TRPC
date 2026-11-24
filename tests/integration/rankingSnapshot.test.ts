@@ -19,14 +19,19 @@ integrationTest("rankingSnapshot.getHistory and getPreviousRanks", async () => {
   const ids = items.map((item) => item.country!).filter(Boolean);
   assert(ids.length > 0, "expected countries");
 
-  const history = await client.rankingSnapshot.getHistory({ entityId: ids[0], rankingType: "countryDamages", range: "7d" });
+  const read = () => Promise.all([
+    client.rankingSnapshot.getHistory({ entityId: ids[0], rankingType: "countryDamages", range: "7d" }),
+    client.rankingSnapshot.getPreviousRanks({ rankingType: "countryDamages", entityIds: [...ids, "000000000000000000000000"] }),
+  ]);
+  let [history, previous] = await read();
+  // A new daily snapshot can land between the two answers; one more read settles it.
+  if (previous[ids[0]] !== history.at(-1)?.rank) [history, previous] = await read();
+
   assert(Array.isArray(history) && history.length > 0, "expected daily snapshots");
   for (const [index, day] of history.entries()) {
     assert(Number.isInteger(day.rank) && typeof day.value === "number" && Number.isInteger(day.count), "expected rank, value and count");
     if (index > 0) assert(history[index - 1].day < day.day, "expected the oldest day first");
   }
-
-  const previous = await client.rankingSnapshot.getPreviousRanks({ rankingType: "countryDamages", entityIds: [...ids, "000000000000000000000000"] });
   assert(Object.values(previous).every(Number.isInteger), "expected ranks keyed by id");
   assert(!("000000000000000000000000" in previous), "expected an id without a rank to be left out");
   assert(previous[ids[0]] === history.at(-1)!.rank, "expected the rank of the latest snapshot");

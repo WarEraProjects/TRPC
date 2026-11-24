@@ -7,7 +7,7 @@ export type MuLeagueGetMuLeagueInput = {
 export type MuLeagueDivisionCounts = {
 	/** Year and ISO week, such as `"2026-48"`. */
 	yearWeek: string;
-	/** MUs per division: 16 counts on 2026-11-24, the largest first. */
+	/** MUs per division: 16 counts on 2026-11-24. */
 	mus: number[];
 };
 
