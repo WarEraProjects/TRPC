@@ -15,13 +15,22 @@ integrationTest("subGiftDrop.getView and getEntrants", async () => {
   const dropId = await findDropId();
   if (!dropId) {
     // No drop in the recent articles: only the unknown-id answer can be checked.
-    let error: any;
+    const unknownDropId = "000000000000000000000000";
+    let viewError: any;
     try {
-      await client.subGiftDrop.getView({ dropId: "000000000000000000000000" });
+      await client.subGiftDrop.getView({ dropId: unknownDropId });
     } catch (caught) {
-      error = caught;
+      viewError = caught;
     }
-    assert(error?.data?.code === "NOT_FOUND", "expected NOT_FOUND for an unknown drop");
+    assert(viewError?.data?.code === "NOT_FOUND", "expected getView to return NOT_FOUND for an unknown drop");
+
+    let entrantsError: any;
+    try {
+      await client.subGiftDrop.getEntrants({ dropId: unknownDropId, limit: 5 });
+    } catch (caught) {
+      entrantsError = caught;
+    }
+    assert(entrantsError?.data?.code === "NOT_FOUND", "expected getEntrants to return NOT_FOUND for an unknown drop");
     return;
   }
 
