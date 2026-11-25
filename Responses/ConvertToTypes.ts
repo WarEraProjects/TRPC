@@ -608,13 +608,14 @@ async function buildEntries(files: string[], ctx: GenerationContext): Promise<Ou
 		}
 
 		const typeName = buildTypeName(fileEntry.group, fileEntry.name);
-		// A sample set is typed as one response, merged over all of its samples. "nested" registers
-		// it as the same interface the item of the list was, so the interface numbering stays as is.
-		const isSampleSet = sampleSetOperations.has(fileEntry.operationKey) && Array.isArray(payload);
+		// A sample set is typed as one response, merged over all of its samples, those of the backups
+		// included when the file itself is sparse. "nested" registers it as the same interface the
+		// item of the list was, so the interface numbering stays as is.
+		const isSampleSet = sampleSetOperations.has(fileEntry.operationKey);
 		const typeBody =
 			operationTypeOverrides[fileEntry.operationKey] ??
 			(isSampleSet
-				? inferMany(payload, 1, ctx, "nested")
+				? inferMany(samplePayloads.flatMap((sample) => (Array.isArray(sample) ? sample : [sample])), 1, ctx, "nested")
 				: inferMany(samplePayloads, 0, ctx, "root"));
 		entries.push({ operationKey: fileEntry.operationKey, typeName, typeBody });
 	}

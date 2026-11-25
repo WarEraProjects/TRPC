@@ -285,9 +285,10 @@ The API benchmark can make many requests and is intended for deliberate manual
 runs. It is separate from both unit and integration testing. Response collection
 and type generation remain separate maintenance commands: `npm run allEndpoints`
 saves live responses under `Responses/outputs`, and `npm run convertToTypes` infers
-types from them into `Responses/outputs/Responses.d.ts`. `src/api/Responses.d.ts`
-is corrected by hand against live responses, so both commands leave it as it is;
-compare it with the generated draft, or pass `-- --write-src` to replace it.
+types from them into `Responses/outputs/Responses.d.ts`; `npm run allEndpoints:fresh`
+does both. `src/api/Responses.d.ts` is corrected by hand against live responses, so
+none of them changes it. Compare it with the generated draft, or pass `-- --write-src`
+to `convertToTypes` or `allEndpoints:fresh` to replace it.
 
 Integration tests are grouped by API area in `tests/integration/*.test.ts`.
 Each endpoint has an individual Node test-runner result. Shared client and ID

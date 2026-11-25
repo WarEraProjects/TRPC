@@ -8,18 +8,25 @@ import { runFallbackWorkflow } from "../../Responses/all-endpoints/workflows/fal
 import { generateResponseTypes } from "../../Responses/ConvertToTypes";
 
 /** A scratch copy of the crawler's folders: outputs, backups and a stand-in for src/api/Responses.d.ts. */
-async function scratchFolders(outputs: Record<string, unknown>) {
+async function scratchFolders(outputs: Record<string, unknown>, backup: Record<string, unknown> = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "warera-response-tools-"));
   const outputsRoot = path.join(root, "outputs");
-  for (const [operationKey, payload] of Object.entries(outputs)) {
-    const [group, name] = operationKey.split(".");
-    await fs.mkdir(path.join(outputsRoot, group), { recursive: true });
-    await fs.writeFile(path.join(outputsRoot, group, `${name}.json`), JSON.stringify(payload), "utf8");
+  const outputBackupsRoot = path.join(root, "outputs-backups");
+  const folders: [string, Record<string, unknown>][] = [
+    [outputsRoot, outputs],
+    [path.join(outputBackupsRoot, "outputs-2026-11-24T00-00-00-000Z"), backup],
+  ];
+  for (const [folder, samples] of folders) {
+    for (const [operationKey, payload] of Object.entries(samples)) {
+      const [group, name] = operationKey.split(".");
+      await fs.mkdir(path.join(folder, group), { recursive: true });
+      await fs.writeFile(path.join(folder, group, `${name}.json`), JSON.stringify(payload), "utf8");
+    }
   }
   const srcFile = path.join(root, "src-Responses.d.ts");
   await fs.writeFile(srcFile, "// hand-corrected\n", "utf8");
   return {
-    paths: { outputsRoot, outputBackupsRoot: path.join(root, "outputs-backups"), srcFile },
+    paths: { outputsRoot, outputBackupsRoot, srcFile },
     draftFile: path.join(outputsRoot, "Responses.d.ts"),
     srcFile,
     remove: () => fs.rm(root, { recursive: true, force: true }),
@@ -70,21 +77,44 @@ test("convertToTypes reads region.getById as one sample per region, not as a lis
   }
 });
 
+test("convertToTypes falls back to the backups of an empty region.getById sample file", async () => {
+  const scratch = await scratchFolders(
+    { "region.getById": [] },
+    { "region.getById": [{ _id: "region-1", name: "One" }] }
+  );
+  try {
+    await generateResponseTypes({ paths: scratch.paths, ignoreTypeNaming: true });
+
+    const draft = await fs.readFile(scratch.draftFile, "utf8");
+    assert.match(draft, /export type RegionGetByIdResponse = A1;/);
+    assert.match(draft, /export interface A1 \{\n {2}_id: string;\n {2}name: string;\n\}/);
+  } finally {
+    await scratch.remove();
+  }
+});
+
 test("the crawler's fallback treats an empty WARERA_*_ID variable as not set", async () => {
-  // A copy of .env-example leaves WARERA_ROUND_ID set to an empty string.
-  const names = ["WARERA_ROUND_ID", "WARERA_BATTLE_LOOT_BATTLE_ID", "WARERA_BATTLE_LOOT_USER_ID"] as const;
-  const before = names.map((name) => process.env[name]);
-  for (const name of names) process.env[name] = "";
+  // A copy of .env-example leaves WARERA_ROUND_ID and WARERA_COMPANY_ID set to an empty string.
+  const names = [
+    "WARERA_ROUND_ID",
+    "WARERA_COMPANY_ID",
+    "WARERA_BATTLE_LOOT_BATTLE_ID",
+    "WARERA_BATTLE_LOOT_USER_ID",
+  ] as const;
 
   const inputs = new Map<string, Record<string, unknown> | undefined>();
   const runner = new EndpointRunner(os.tmpdir(), os.tmpdir(), 10);
+  runner.responses["company.getCompanies"] = { items: ["company-1"] };
   runner.loadOrFetch = async () => null;
   runner.loadOrFetchByOperation = async (operationKey, input) => {
     inputs.set(operationKey, input);
     return null;
   };
 
+  const before = names.map((name) => process.env[name]);
   try {
+    for (const name of names) process.env[name] = "";
+
     await runFallbackWorkflow(runner, {
       countryId: "country-1",
       userId: "user-1",
@@ -96,6 +126,7 @@ test("the crawler's fallback treats an empty WARERA_*_ID variable as not set", a
     });
 
     assert.deepEqual(inputs.get("round.getById"), { roundId: "round-1" });
+    assert.deepEqual(inputs.get("company.getById"), { companyId: "company-1" });
     assert.deepEqual(inputs.get("battleLootSummary.getByBattleAndUser"), { battleId: "battle-1", userId: "user-1" });
   } finally {
     names.forEach((name, index) => {
