@@ -252,16 +252,19 @@ Missing test IDs are discovered through `search.searchAnything`: the default
 username is `Dog`, or set `WARERA_TEST_USERNAME` to another exact, case-sensitive
 username. The setup fetches search results' user profiles and requires exactly
 one matching username. It uses that user's MU and selects the first company from
-`company.getCompanies`. `WARERA_COMPANY_ID`, `WARERA_MU_ID`, and `WARERA_USER_ID`
-override discovery; existing samples in `Responses/outputs` also take precedence.
+`company.getCompanies`. When the user is in no MU, as `Dog` was on 2026-11-25, it
+uses the MU first in the `muDamages` ranking. `WARERA_COMPANY_ID`, `WARERA_MU_ID`,
+and `WARERA_USER_ID` override discovery; existing samples in `Responses/outputs`
+also take precedence. A variable left empty, as in a copy of `.env-example`, counts
+as not set.
 When a user ID is supplied, related IDs are discovered from that user's profile.
 Only IDs required by a selected test are resolved. Discovery depends on the
 account's current MU membership and companies. `WARERA_EMPLOYEE_ID` selects the
 employee used by employee tests (default: the API key owner's first employee).
 `WARERA_COUNTRY_ID` overrides the default country ID, `6813b6d446e731854c7ac7a0`.
 
-To pin the live entities found for `Dog` on 2026-10-05, export these variables
-in your shell or put the assignments in `.env` (without `export`):
+To pin the test entities, export these variables in your shell or put the
+assignments in `.env` (without `export`):
 
 ```bash
 export WARERA_USER_ID=690d6b03becd7485dbb33b05
@@ -269,8 +272,9 @@ export WARERA_MU_ID=694ce4f14bff8f86caa9e8e2
 export WARERA_COMPANY_ID=690d6b03becd7485dbb33b2c
 ```
 
-The company belongs to `Dog`. MU membership and company ownership can change;
-remove these overrides to rediscover current entities.
+The user is `Dog` and the company belonged to `Dog` on 2026-11-25. The MU is the one
+`Dog` was in on 2026-10-05; the MU checks only need an MU that exists. MU membership
+and company ownership can change; remove these overrides to rediscover current entities.
 
 The `work.getStatsByUserId` and `work.getStatsByCompany` checks need a WarEra
 Premium API key; normal keys receive HTTP 403 `Premium required`, and these checks
@@ -279,7 +283,11 @@ is not marked `premium`, still fails the run.
 
 The API benchmark can make many requests and is intended for deliberate manual
 runs. It is separate from both unit and integration testing. Response collection
-and type generation remain separate maintenance commands.
+and type generation remain separate maintenance commands: `npm run allEndpoints`
+saves live responses under `Responses/outputs`, and `npm run convertToTypes` infers
+types from them into `Responses/outputs/Responses.d.ts`. `src/api/Responses.d.ts`
+is corrected by hand against live responses, so both commands leave it as it is;
+compare it with the generated draft, or pass `-- --write-src` to replace it.
 
 Integration tests are grouped by API area in `tests/integration/*.test.ts`.
 Each endpoint has an individual Node test-runner result. Shared client and ID
@@ -309,6 +317,7 @@ only compile types: they emit no files, make no API requests, and need no creden
 | `npm run typecheck:tools` | `tsconfig.tools.json` | Response collection/generation, `scripts/` and `tsup.config.ts`. |
 
 The test and tool configurations inherit the library's strict compiler settings.
-Node-based tools use ES2022 to support `Object.hasOwn`; the library remains ES2020.
+Node-based tools use ES2022 to support `Object.hasOwn`, and the tests use the ES2022
+library because a unit test imports those tools; the library remains ES2020.
 Raw response outputs and backups are excluded from the tool check. The package
 build continues to use `tsconfig.json` and bundles only the library entry point.

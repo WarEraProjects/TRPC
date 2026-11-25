@@ -39,9 +39,24 @@
   `ranking.getRankingAround`.
 
 ### Fixed
+- The package ships `docs/`, so the README's links to the auto-pagination guide also work in
+  the installed package.
 - `npm run openapi` works again. The live spec has `$ref`s relative to a request body's own
   schema, which openapi-typescript cannot resolve; `scripts/generate-openapi.ts` inlines them
   before generating.
+
+### Internal
+- The integration tests no longer need `WARERA_MU_ID`. When the test user is in no MU, as `Dog`
+  was on 2026-11-25, they use the MU first in the `muDamages` ranking; six tests failed before.
+- An ID variable left empty, as in a copy of `.env-example`, counts as not set in the
+  integration tests and in the response crawler. An empty `WARERA_ROUND_ID` used to replace
+  the round the crawler had found.
+- `npm run convertToTypes` and `npm run allEndpoints:fresh` write their types to
+  `Responses/outputs/Responses.d.ts` and leave `src/api/Responses.d.ts`, which is corrected by
+  hand, as it is. Every run used to overwrite it; `-- --write-src` still does.
+- `convertToTypes` types `region.getById` as one region. The crawler saves the response of
+  every region in one file, which came out as a list.
+- The publish workflow fails when the release tag does not name the version in `package.json`.
 
 ## 0.5.0
 
