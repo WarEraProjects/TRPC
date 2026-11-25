@@ -2,6 +2,13 @@ import type { OperationKey } from "./types";
 
 export const SAMPLE_SIZE = 10;
 
+/**
+ * Operations whose output file holds one response per entity instead of a single response.
+ * The region workflow saves the response of every region, so that fields only some regions
+ * have come out optional. ConvertToTypes merges such a file into the type of one response.
+ */
+export const sampleSetOperations: ReadonlySet<string> = new Set<OperationKey>(["region.getById"]);
+
 export const operationOrder: OperationKey[] = [
   "gameConfig.getDates",
   "gameConfig.getGameConfig",

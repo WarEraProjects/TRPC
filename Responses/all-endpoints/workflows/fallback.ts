@@ -22,13 +22,15 @@ export async function runFallbackWorkflow(
   const finalCompanyId = ids.companyId ?? process.env.WARERA_COMPANY_ID;
   const finalMuId = ids.muId ?? process.env.WARERA_MU_ID;
   const finalBattleId = ids.battleId ?? process.env.WARERA_BATTLE_ID;
+  // `||`, not `??`: a copy of .env-example leaves WARERA_ROUND_ID set to an empty string, which
+  // `??` took over the round the battle workflow had found.
   const finalBattleLootBattleId =
-    process.env.WARERA_BATTLE_LOOT_BATTLE_ID ?? finalBattleId;
+    process.env.WARERA_BATTLE_LOOT_BATTLE_ID || finalBattleId;
   const finalBattleLootUserId =
-    process.env.WARERA_BATTLE_LOOT_USER_ID ?? ids.userId;
+    process.env.WARERA_BATTLE_LOOT_USER_ID || ids.userId;
   const finalRoundId =
-    (process.env.WARERA_ROUND_ID as string | undefined) ??
-    ids.roundId ??
+    process.env.WARERA_ROUND_ID ||
+    ids.roundId ||
     runner.resolveId(
       runner.getResponse("battle.getLiveBattleData"),
       ["roundId", "_id", "id"],

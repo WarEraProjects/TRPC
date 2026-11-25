@@ -4,7 +4,11 @@
     "noEmit": true,
     "types": ["node"],
     "declaration": false,
-    "declarationMap": false
+    "declarationMap": false,
+    "lib": [
+      "ES2022",
+      "DOM"
+    ]
   },
   "include": [
     "tests/**/*.ts"
