@@ -833,7 +833,7 @@ export interface operations {
                     /** @description Filter companies by user ID */
                     userId?: string;
                     /**
-                     * @description Number of companies per page (1-100)
+                     * @description Number of companies per page (1-100). From 1 to 100.
                      * @default 10
                      */
                     perPage?: number;

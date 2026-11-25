@@ -8,6 +8,8 @@ test("request body schema descriptions state their bounds", () => {
     orders: { exclusiveMinimum: 0, maximum: 100, description: "The number of orders." },
     cursor: { maxLength: 200, minLength: 1, pattern: "^[a-z]+$" },
     perPage: { minimum: 1, maximum: 100, description: "Number of companies per page (1-100)" },
+    encoded: { maxLength: 64, description: "Base64-encoded cursor" },
+    score: { minimum: 1, exclusiveMaximum: 10 },
     options: { properties: { count: { minimum: 1 } } },
     list: { maxItems: 5, items: { exclusiveMaximum: 100 } },
     union: {
@@ -33,7 +35,10 @@ test("request body schema descriptions state their bounds", () => {
 
   assert.equal(properties.limit.description, "The limit of events to get. From 1 to 100.");
   assert.equal(properties.orders.description, "The number of orders. More than 0, at most 100.");
-  assert.equal(properties.perPage.description, "Number of companies per page (1-100)");
+  // A number in a description is not taken for a bound that is already stated.
+  assert.equal(properties.perPage.description, "Number of companies per page (1-100). From 1 to 100.");
+  assert.equal(properties.encoded.description, "Base64-encoded cursor. At most 64 characters.");
+  assert.deepEqual(properties.score, { minimum: 1, exclusiveMaximum: 10, description: "At least 1, less than 10." });
   assert.deepEqual(properties.cursor, {
     maxLength: 200, minLength: 1, pattern: "^[a-z]+$", description: "At most 200 characters.",
   });

@@ -110,13 +110,11 @@ function describeSchemaBounds(schema: Json | undefined): void {
   const upperExclusive = typeof exclusiveMaximum === "number" && (typeof maximum !== "number" || exclusiveMaximum <= maximum);
   const lower = lowerExclusive ? exclusiveMinimum : minimum;
   const upper = upperExclusive ? exclusiveMaximum : maximum;
-  const bounds = [lower, upper, maxLength].filter((value) => typeof value === "number");
-  if (bounds.length === 0) return;
+  if (![lower, upper, maxLength].some((value) => typeof value === "number")) return;
 
+  // No check for a description that already names its bounds: a number in it can mean something
+  // else ("Base64", "default 1"), and stating a bound twice is better than leaving it out.
   const description = typeof schema.description === "string" ? schema.description.trimEnd() : "";
-  // A description that already names every bound, such as "(1-100)", stays as it is.
-  const mentioned = description.match(/\d+(?:\.\d+)?/g)?.map(Number) ?? [];
-  if (bounds.every((bound) => mentioned.includes(bound as number))) return;
 
   const lowerLimit = typeof lower === "number" ? `${lowerExclusive ? "more than" : "at least"} ${lower}` : "";
   const upperLimit = typeof upper === "number" ? `${upperExclusive ? "less than" : "at most"} ${upper}` : "";
