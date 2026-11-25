@@ -23,6 +23,18 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
+      # npm publishes the version in package.json, so the release tag has to name that version.
+      # A manual run has no tag and skips the check.
+      - name: Check that the release tag matches package.json
+        if: github.event_name == 'release'
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "${RELEASE_TAG#v}" != "$version" ]; then
+            echo "::error::Release tag $RELEASE_TAG does not match the package.json version $version."
+            exit 1
+          fi
       - run: npm ci
       - run: npm run typecheck
       - run: npm test

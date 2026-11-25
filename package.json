@@ -25,6 +25,7 @@
 	"files": [
 		"dist",
 		"CHANGELOG.md",
+		"docs",
 		"src/api/warera-openapi.d.ts",
 		"src/api/Responses.d.ts"
 	],
