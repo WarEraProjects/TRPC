@@ -11,6 +11,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import openapiTS, { astToString, COMMENT_HEADER, type OpenAPI3 } from "openapi-typescript";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -92,12 +93,68 @@ function inlineAllSchemaRefs(spec: JsonObject): number {
   return count;
 }
 
+/** Appends the bounds of `schema` and of the schemas nested in it to their descriptions. */
+function describeSchemaBounds(schema: Json | undefined): void {
+  if (!isObject(schema)) return;
+  if (isObject(schema.properties)) {
+    for (const property of Object.values(schema.properties)) describeSchemaBounds(property);
+  }
+  describeSchemaBounds(schema.items);
+  for (const variants of [schema.anyOf, schema.oneOf, schema.allOf]) {
+    if (!Array.isArray(variants)) continue;
+    for (const variant of variants) describeSchemaBounds(variant);
+  }
+
+  const { minimum, maximum, exclusiveMinimum, exclusiveMaximum, maxLength } = schema;
+  const lowerExclusive = typeof exclusiveMinimum === "number" && (typeof minimum !== "number" || exclusiveMinimum >= minimum);
+  const upperExclusive = typeof exclusiveMaximum === "number" && (typeof maximum !== "number" || exclusiveMaximum <= maximum);
+  const lower = lowerExclusive ? exclusiveMinimum : minimum;
+  const upper = upperExclusive ? exclusiveMaximum : maximum;
+  const bounds = [lower, upper, maxLength].filter((value) => typeof value === "number");
+  if (bounds.length === 0) return;
+
+  const description = typeof schema.description === "string" ? schema.description.trimEnd() : "";
+  // A description that already names every bound, such as "(1-100)", stays as it is.
+  const mentioned = description.match(/\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+  if (bounds.every((bound) => mentioned.includes(bound as number))) return;
+
+  const lowerLimit = typeof lower === "number" ? `${lowerExclusive ? "more than" : "at least"} ${lower}` : "";
+  const upperLimit = typeof upper === "number" ? `${upperExclusive ? "less than" : "at most"} ${upper}` : "";
+  const range = lowerLimit && upperLimit && !lowerExclusive && !upperExclusive
+    ? `from ${lower} to ${upper}`
+    : [lowerLimit, upperLimit].filter(Boolean).join(", ");
+  const length = typeof maxLength === "number" ? `at most ${maxLength} characters` : "";
+  const suffix = [range, length].filter(Boolean)
+    .map((sentence) => `${sentence[0].toUpperCase()}${sentence.slice(1)}.`).join(" ");
+  schema.description = description ? `${description}${description.endsWith(".") ? " " : ". "}${suffix}` : suffix;
+}
+
+/**
+ * openapi-typescript keeps a schema's `description` as JSDoc but drops `minimum`, `maximum`,
+ * `exclusiveMinimum`, `exclusiveMaximum` and `maxLength`, so a caller learned a bound such as
+ * `limit` 1 to 100 from a BAD_REQUEST. This writes the bounds of every request body field into
+ * its description, for example "The limit of events to get. From 1 to 100."
+ */
+export function describeRequestBounds(spec: JsonObject): void {
+  if (!isObject(spec.paths)) return;
+  for (const pathItem of Object.values(spec.paths)) {
+    if (!isObject(pathItem)) continue;
+    for (const operation of Object.values(pathItem)) {
+      if (!isObject(operation) || !isObject(operation.requestBody) || !isObject(operation.requestBody.content)) continue;
+      for (const media of Object.values(operation.requestBody.content)) {
+        if (isObject(media)) describeSchemaBounds(media.schema);
+      }
+    }
+  }
+}
+
 async function main() {
   const response = await fetch(specUrl);
   if (!response.ok) throw new Error(`GET ${specUrl}: HTTP ${response.status}`);
   const spec = (await response.json()) as JsonObject;
 
   const inlined = inlineAllSchemaRefs(spec);
+  describeRequestBounds(spec);
   const ast = await openapiTS(spec as unknown as OpenAPI3);
   fs.writeFileSync(outputFile, `${COMMENT_HEADER}${astToString(ast)}`, "utf8");
 
@@ -105,7 +162,12 @@ async function main() {
   console.log(`${path.relative(root, outputFile)}: ${operations} operations, ${inlined} schema-relative $ref(s) inlined`);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+const invokedFilePath = process.argv[1] ? path.resolve(process.argv[1]) : "";
+const isDirectExecution = invokedFilePath === fileURLToPath(import.meta.url);
+
+if (isDirectExecution) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
