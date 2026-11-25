@@ -45,10 +45,9 @@
 - Auto-pagination:
   - A crawl ends when the server returns a cursor it was already sent. Without `maxPages`, a
     repeated cursor used to be requested forever.
-  - `autoPaginate`, `maxPages` and `cursorEnd` are type errors on a procedure without a
-    cursor, also when the input is held in a variable. Such a call used to compile as a
-    Promise and return an iterator that yielded a page without items; with `autoPaginate: true`
-    it now throws a `TypeError` that names the procedure.
+  - `autoPaginate: true` is a type error on a procedure without a cursor, also when the input
+    is held in a variable. Such a call used to compile as a Promise and return an iterator
+    that yielded a page without items; it now throws a `TypeError` that names the procedure.
   - A fractional `maxPages` is rounded down; `1.5` used to fetch two pages.
   - `cursorEnd` no longer reads a `"{number}|{id}"` cursor as a year, and an id that merely
     contains the text `undefined` no longer ends a crawl.

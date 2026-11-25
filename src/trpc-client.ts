@@ -192,7 +192,7 @@ async function* autoPaginate<K extends ProcedureKey>(
   let currentCursor: string | undefined = input.cursor as string | undefined;
   let pageCount = 0;
   // A fractional cap is rounded down, so the crawl never fetches more pages than asked for.
-  const maxPages = options.maxPages === undefined ? Infinity : Math.floor(options.maxPages);
+  const maxPages = options.maxPages == null ? Infinity : Math.floor(options.maxPages);
   // Every cursor already sent. A server that hands one back would be asked for the same page forever.
   const sentCursors = new Set<string>();
   if (currentCursor) sentCursors.add(currentCursor);

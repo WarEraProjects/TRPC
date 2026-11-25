@@ -81,7 +81,7 @@ When set to `true`, the client returns an `AsyncIterableIterator` that yields pa
 
 The return type follows the literal: write `autoPaginate: true` (or leave it out) in the call. A `boolean` variable matches neither form, so branch on it and make two calls.
 
-On a procedure without a `cursor` input the three options are type errors, and `autoPaginate: true` throws a `TypeError` when the response has no `items` array.
+On a procedure without a `cursor` input, `autoPaginate: true` is a type error, and at runtime it throws a `TypeError` when the response has no `items` array.
 
 ```typescript
 import type { PaginationOptions } from "@wareraprojects/api";

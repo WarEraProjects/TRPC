@@ -241,6 +241,23 @@ test("autoPaginate on a procedure that is not paginated is a type error and thro
     for await (const _page of pages) { /* consume */ }
   }, (error: Error) => error instanceof TypeError && /contribution\.getRegionContributions/.test(error.message) && /items/.test(error.message));
   assert.deepEqual(requests, [{ regionId: "r", page: 1 }]);
+
+  // The harmless options still pass through a variable and are stripped, as on any regular call.
+  const regular = { regionId: "r", page: 2, autoPaginate: false as const, maxPages: 3 };
+  const value: { results: unknown[] } = await client.contribution.getRegionContributions(regular);
+  assert.deepEqual(value.results, [1, 2]);
+  assert.deepEqual(requests[1], { regionId: "r", page: 2 });
+});
+
+test("a null maxPages from JavaScript means no cap, like leaving it out", async () => {
+  const { client, requests } = mockClient([
+    { items: [{ _id: "first" }], nextCursor: "more" },
+    { items: [{ _id: "second" }] },
+  ]);
+  for await (const _page of client.article.getArticlesPaginated({
+    type: "last", autoPaginate: true, maxPages: null as unknown as number,
+  })) { /* consume */ }
+  assert.equal(requests.length, 2);
 });
 
 type Expect<T extends true> = T;

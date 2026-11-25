@@ -147,10 +147,11 @@ type IsPaginatedInput<RawInput> = IsNoInput<RawInput> extends true
   ? false
   : RawInput extends { cursor?: any } ? true : false;
 
-// On a procedure without a cursor the pagination options are ruled out by name. An excess-property
+// On a procedure without a cursor `autoPaginate: true` is ruled out by name. An excess-property
 // check alone only catches an object literal: an input held in a variable went through, and the
-// client then returned an iterator where the types promised a Promise.
-type NoPaginationOptions = { [P in keyof PaginationOptions]?: never };
+// client then returned an iterator where the types promised a Promise. The other options are
+// harmless there: the client strips them from the input of every regular call.
+type NoPaginationOptions = { autoPaginate?: false };
 
 type InputForDefinition<RawInput> = IsPaginatedInput<RawInput> extends true
   ? RawInput & Partial<PaginationOptions>
