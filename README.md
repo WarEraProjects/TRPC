@@ -167,6 +167,8 @@ const client = createAPIClient({ apiKey, timeoutMs: 15000 });
 - `country.getStrategicResourceBonuses` returns the alliance's bonuses for a member of an
   alliance. A country outside every alliance gets its own, or `null` when it holds no strategic
   resource.
+- `ranking.getRankingPage` takes a `limit` from 1 to 50 (20 without it); 51 or more fails with
+  `BAD_REQUEST`. `ranking.getRanking` returns only the top 100 entries.
 - Sixteen more were added on 2026-11-24 by the same comparison. They answer with and without
   an API key:
   - `battleRanking.getPrivateMercenaryDamage`
