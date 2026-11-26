@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { sampleSetOperations } from "./all-endpoints/config";
 import { buildInterfaceName, buildTypeName, interfaceNameMap } from "./CleanupTypes";
 
 type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
@@ -22,24 +23,35 @@ type GenerationOptions = {
 	ignoreTypeNaming: boolean;
 };
 
+/** Where the samples are read and the types are written. */
+export type ResponseTypePaths = {
+	outputsRoot: string;
+	outputBackupsRoot: string;
+	/** The types the package ships. */
+	srcFile: string;
+};
+
 type GenerationContext = {
 	nextInterfaceIndex: number;
 	interfacesBySignature: Map<string, InterfaceEntry>;
 	interfaceOrder: InterfaceEntry[];
 	options: GenerationOptions;
+	paths: ResponseTypePaths;
 };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const outputsRoot = path.join(__dirname, "outputs");
-const outputBackupsRoot = path.join(__dirname, "outputs-backups");
-const repoRoot = path.resolve(outputsRoot, "..", "..");
-const outputFile = path.join(outputsRoot, "Responses.d.ts");
-const srcOutputFile = path.join(repoRoot, "src", "api", "Responses.d.ts");
-const ignoredFiles = new Set([
-	path.join(outputsRoot, "Responses.d.ts")
-]);
+const defaultPaths: ResponseTypePaths = {
+	outputsRoot: path.join(__dirname, "outputs"),
+	outputBackupsRoot: path.join(__dirname, "outputs-backups"),
+	srcFile: path.resolve(__dirname, "..", "src", "api", "Responses.d.ts")
+};
+
+/** The generated types, written next to the samples they were inferred from. */
+function draftFileOf(paths: ResponseTypePaths): string {
+	return path.join(paths.outputsRoot, "Responses.d.ts");
+}
 
 type OutputEntry = {
 	operationKey: string;
@@ -146,12 +158,13 @@ function indent(level: number): string {
 	return "  ".repeat(level);
 }
 
-function createGenerationContext(options: GenerationOptions): GenerationContext {
+function createGenerationContext(options: GenerationOptions, paths: ResponseTypePaths): GenerationContext {
 	return {
 		nextInterfaceIndex: 1,
 		interfacesBySignature: new Map<string, InterfaceEntry>(),
 		interfaceOrder: [],
-		options
+		options,
+		paths
 	};
 }
 
@@ -437,17 +450,17 @@ function inferObjectType(
 	return finalizeObjectType(properties, level, mode, ctx);
 }
 
-async function listJsonFiles(dir: string): Promise<string[]> {
+async function listJsonFiles(dir: string, ignoredFile: string): Promise<string[]> {
 	const entries = await fs.readdir(dir, { withFileTypes: true });
 	const files: string[] = [];
 
 	for (const entry of entries) {
 		const fullPath = path.join(dir, entry.name);
-		if (ignoredFiles.has(fullPath)) {
+		if (fullPath === ignoredFile) {
 			continue;
 		}
 		if (entry.isDirectory()) {
-			files.push(...(await listJsonFiles(fullPath)));
+			files.push(...(await listJsonFiles(fullPath, ignoredFile)));
 		} else if (entry.isFile() && entry.name.endsWith(".json")) {
 			files.push(fullPath);
 		}
@@ -495,7 +508,11 @@ function isSparseValue(value: JsonValue): boolean {
 	return false;
 }
 
-async function getBackupPayloadsForFile(filePath: string, limit = 5): Promise<JsonValue[]> {
+async function getBackupPayloadsForFile(
+	filePath: string,
+	{ outputsRoot, outputBackupsRoot }: ResponseTypePaths,
+	limit = 5
+): Promise<JsonValue[]> {
 	const relativePath = path.relative(outputsRoot, filePath);
 	if (!relativePath || relativePath.startsWith("..")) {
 		return [];
@@ -547,7 +564,7 @@ const retiredOperations = new Set([
 	"workOffer.getWorkOffersPaginated",
 ]);
 
-function toFileEntry(filePath: string): FileEntry | undefined {
+function toFileEntry(filePath: string, outputsRoot: string): FileEntry | undefined {
 	const relative = path.relative(outputsRoot, filePath).replace(/\\/g, "/");
 	const parts = relative.split("/");
 	if (parts.length < 2) {
@@ -570,7 +587,7 @@ function toFileEntry(filePath: string): FileEntry | undefined {
 async function buildEntries(files: string[], ctx: GenerationContext): Promise<OutputEntry[]> {
 	const entries: OutputEntry[] = [];
 	const fileEntries = files
-		.map(toFileEntry)
+		.map((filePath) => toFileEntry(filePath, ctx.paths.outputsRoot))
 		.filter((entry): entry is FileEntry => entry !== undefined && !retiredOperations.has(entry.operationKey))
 		.sort((a, b) => a.operationKey.localeCompare(b.operationKey));
 
@@ -586,14 +603,20 @@ async function buildEntries(files: string[], ctx: GenerationContext): Promise<Ou
 			if (seededPayload) {
 				samplePayloads.push(seededPayload);
 			}
-			const backupPayloads = await getBackupPayloadsForFile(fileEntry.filePath);
+			const backupPayloads = await getBackupPayloadsForFile(fileEntry.filePath, ctx.paths);
 			samplePayloads.push(...backupPayloads);
 		}
 
 		const typeName = buildTypeName(fileEntry.group, fileEntry.name);
+		// A sample set is typed as one response, merged over all of its samples, those of the backups
+		// included when the file itself is sparse. "nested" registers it as the same interface the
+		// item of the list was, so the interface numbering stays as is.
+		const isSampleSet = sampleSetOperations.has(fileEntry.operationKey);
 		const typeBody =
 			operationTypeOverrides[fileEntry.operationKey] ??
-			inferMany(samplePayloads, 0, ctx, "root");
+			(isSampleSet
+				? inferMany(samplePayloads.flatMap((sample) => (Array.isArray(sample) ? sample : [sample])), 1, ctx, "nested")
+				: inferMany(samplePayloads, 0, ctx, "root"));
 		entries.push({ operationKey: fileEntry.operationKey, typeName, typeBody });
 	}
 
@@ -644,18 +667,32 @@ async function writeResponses(
 	await fs.writeFile(targetFile, lines.join("\n"), "utf8");
 }
 
-export async function generateResponseTypes(options: Partial<GenerationOptions> = {}): Promise<number> {
-	const ctx = createGenerationContext({
-		ignoreTypeNaming: options.ignoreTypeNaming ?? false
-	});
-	const jsonFiles = await listJsonFiles(outputsRoot);
+export type GenerateResponseTypesOptions = Partial<GenerationOptions> & {
+	/**
+	 * Also replace src/api/Responses.d.ts. That file is corrected by hand against live responses
+	 * (optional fields, unions, named types such as `RankingType`), and a generated copy loses
+	 * those corrections, so the default is to write only the draft next to the samples.
+	 */
+	writeSrc?: boolean;
+	/** Other folders than the repository's own; the unit tests use a scratch copy. */
+	paths?: ResponseTypePaths;
+};
+
+export async function generateResponseTypes(options: GenerateResponseTypesOptions = {}): Promise<number> {
+	const paths = options.paths ?? defaultPaths;
+	const ctx = createGenerationContext({ ignoreTypeNaming: options.ignoreTypeNaming ?? false }, paths);
+	const draftFile = draftFileOf(paths);
+	const jsonFiles = await listJsonFiles(paths.outputsRoot, draftFile);
 	const entries = await buildEntries(jsonFiles, ctx);
-	await Promise.all([
-		writeResponses(entries, ctx, outputFile),
-		writeResponses(entries, ctx, srcOutputFile)
-	]);
+	await writeResponses(entries, ctx, draftFile);
+	if (options.writeSrc) {
+		await writeResponses(entries, ctx, paths.srcFile);
+	}
 	return entries.length;
 }
+
+export const responseTypesDraftFile = draftFileOf(defaultPaths);
+export const responseTypesSrcFile = defaultPaths.srcFile;
 
 function hasCliFlag(flag: string): boolean {
 	return process.argv.slice(2).includes(flag);
@@ -664,12 +701,18 @@ function hasCliFlag(flag: string): boolean {
 async function main(): Promise<void> {
 	const ignoreTypeNaming =
 		hasCliFlag("--ignore-type-naming") || hasCliFlag("--no-type-naming");
-	const entriesCount = await generateResponseTypes({ ignoreTypeNaming });
+	const writeSrc = hasCliFlag("--write-src");
+	const entriesCount = await generateResponseTypes({ ignoreTypeNaming, writeSrc });
 	console.log(
-		`Generated ${entriesCount} response types in ${outputFile} and ${srcOutputFile}${
-			ignoreTypeNaming ? " (type naming ignored)" : ""
-		}`
+		`Generated ${entriesCount} response types in ${responseTypesDraftFile}${
+			writeSrc ? ` and ${responseTypesSrcFile}` : ""
+		}${ignoreTypeNaming ? " (type naming ignored)" : ""}`
 	);
+	if (!writeSrc) {
+		console.log(
+			`${responseTypesSrcFile} is corrected by hand and was left as it is. Compare it with the draft; --write-src replaces it.`
+		);
+	}
 }
 
 const invokedFilePath = process.argv[1] ? path.resolve(process.argv[1]) : "";

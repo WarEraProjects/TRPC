@@ -18,28 +18,32 @@ export async function runFallbackWorkflow(
   runner: EndpointRunner,
   ids: CollectedIds
 ): Promise<void> {
-  const finalRegionId = ids.regionId ?? process.env.WARERA_REGION_ID;
-  const finalCompanyId = ids.companyId ?? process.env.WARERA_COMPANY_ID;
-  const finalMuId = ids.muId ?? process.env.WARERA_MU_ID;
-  const finalBattleId = ids.battleId ?? process.env.WARERA_BATTLE_ID;
+  // A copy of .env-example leaves the ID variables set to an empty string, which counts as not
+  // set. Read with `??`, an empty WARERA_ROUND_ID took over the round the battle workflow had
+  // found, and an empty WARERA_COMPANY_ID kept the company from being looked up in the cache.
+  const env = (name: string): string | undefined => process.env[name] || undefined;
+  const finalRegionId = ids.regionId ?? env("WARERA_REGION_ID");
+  const finalCompanyId = ids.companyId ?? env("WARERA_COMPANY_ID");
+  const finalMuId = ids.muId ?? env("WARERA_MU_ID");
+  const finalBattleId = ids.battleId ?? env("WARERA_BATTLE_ID");
   const finalBattleLootBattleId =
-    process.env.WARERA_BATTLE_LOOT_BATTLE_ID ?? finalBattleId;
+    env("WARERA_BATTLE_LOOT_BATTLE_ID") ?? finalBattleId;
   const finalBattleLootUserId =
-    process.env.WARERA_BATTLE_LOOT_USER_ID ?? ids.userId;
+    env("WARERA_BATTLE_LOOT_USER_ID") ?? ids.userId;
   const finalRoundId =
-    (process.env.WARERA_ROUND_ID as string | undefined) ??
+    env("WARERA_ROUND_ID") ??
     ids.roundId ??
     runner.resolveId(
       runner.getResponse("battle.getLiveBattleData"),
       ["roundId", "_id", "id"],
       "WARERA_ROUND_ID"
     );
-  const finalArticleId = ids.articleId ?? process.env.WARERA_ARTICLE_ID;
+  const finalArticleId = ids.articleId ?? env("WARERA_ARTICLE_ID");
   const finalItemCode = runner.finalItemCodeFromEnvOrCache(
     ids.itemCode,
     process.env.WARERA_ITEM_CODE
   );
-  const finalItemOfferId = process.env.WARERA_ITEM_OFFER_ID;
+  const finalItemOfferId = env("WARERA_ITEM_OFFER_ID");
   const finalCompanyIdResolved = finalCompanyId ?? runner.resolveCompanyIdFromCache();
 
   const getInputForOperation = (

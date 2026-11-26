@@ -4,7 +4,8 @@ import { createAPIClient } from "../../../src/index";
 import { test } from "node:test";
 
 const root = process.cwd();
-const countryId = process.env.WARERA_COUNTRY_ID ?? "6813b6d446e731854c7ac7a0";
+// `||`, not `??`: a copy of .env-example leaves these variables set to an empty string.
+const countryId = process.env.WARERA_COUNTRY_ID || "6813b6d446e731854c7ac7a0";
 
 type JsonRecord = Record<string, any>;
 
@@ -26,9 +27,9 @@ function idFromOutput(relativePath: string): string | undefined {
 }
 
 const ids = {
-  companyId: process.env.WARERA_COMPANY_ID ?? idFromOutput("Responses/outputs/company/getById.json"),
-  muId: process.env.WARERA_MU_ID ?? idFromOutput("Responses/outputs/mu/getById.json"),
-  userId: process.env.WARERA_USER_ID ?? idFromOutput("Responses/outputs/user/getUserLite.json"),
+  companyId: process.env.WARERA_COMPANY_ID || idFromOutput("Responses/outputs/company/getById.json"),
+  muId: process.env.WARERA_MU_ID || idFromOutput("Responses/outputs/mu/getById.json"),
+  userId: process.env.WARERA_USER_ID || idFromOutput("Responses/outputs/user/getUserLite.json"),
 };
 
 // Resolve only the IDs needed by the selected test.
@@ -53,13 +54,21 @@ let discoveredUser: Promise<Awaited<ReturnType<typeof client.user.getUserById>>>
 function getTestUser() {
   return discoveredUser ??= (async () => {
     if (ids.userId) return client.user.getUserById({ userId: ids.userId });
-    const username = process.env.WARERA_TEST_USERNAME ?? "Dog";
+    const username = process.env.WARERA_TEST_USERNAME || "Dog";
     const search = await client.search.searchAnything({ searchText: username });
     const users = await Promise.all(search.userIds.map(userId => client.user.getUserById({ userId })));
     const matches = users.filter(user => user.username === username);
     assert(matches.length === 1, `Expected one exact username match for ${JSON.stringify(username)}, found ${matches.length}. Set WARERA_TEST_USERNAME or explicit WARERA_*_ID overrides.`);
     return matches[0];
   })();
+}
+
+/** For a test user without an MU: the MU first in the all-time damage ranking. */
+async function getRankedMuId(): Promise<string> {
+  const ranking = await client.ranking.getRanking({ rankingType: "muDamages" });
+  const muId = ranking.items[0]?.mu;
+  assert(muId, "The test user has no MU and the muDamages ranking is empty. Set WARERA_MU_ID.");
+  return muId;
 }
 
 let discoveredCompany: Promise<void> | undefined;
@@ -69,8 +78,7 @@ async function resolveTestId(key: keyof typeof ids) {
   if (key === "userId") {
     ids.userId = user._id;
   } else if (key === "muId") {
-    assert(user.mu, `User ${user.username} has no MU. Set WARERA_MU_ID.`);
-    ids.muId = user.mu;
+    ids.muId = user.mu ?? await getRankedMuId();
   } else {
     await (discoveredCompany ??= (async () => {
       const companies = await client.company.getCompanies({ userId: ids.userId ?? user._id, perPage: 1 });

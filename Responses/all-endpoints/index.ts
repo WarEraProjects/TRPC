@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { generateResponseTypes } from "../ConvertToTypes";
+import { generateResponseTypes, responseTypesDraftFile, responseTypesSrcFile } from "../ConvertToTypes";
 import { SAMPLE_SIZE } from "./config";
 import { EndpointRunner } from "./runner";
 import type { CollectedIds } from "./types";
@@ -66,7 +66,13 @@ export async function runAllEndpoints(): Promise<void> {
   
 
   if (shouldRefreshOutputs) {
-    await generateResponseTypes();
-    console.log("Refreshed response types from newly fetched outputs.");
+    // src/api/Responses.d.ts is corrected by hand, so it is replaced only on request.
+    const writeSrc = cliArgs.has("--write-src");
+    await generateResponseTypes({ writeSrc });
+    console.log(
+      writeSrc
+        ? `Refreshed ${responseTypesDraftFile} and ${responseTypesSrcFile} from newly fetched outputs.`
+        : `Refreshed ${responseTypesDraftFile} from newly fetched outputs. ${responseTypesSrcFile} was left as it is; --write-src replaces it.`
+    );
   }
 }
