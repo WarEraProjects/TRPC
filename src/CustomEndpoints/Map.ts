@@ -54,6 +54,8 @@ export type MapRegionProperties = {
 	biome: string;
 	climate: string;
 	resistance?: number;
+	/** `true` on 81 of 742 regions on 2026-11-24, absent on the rest. */
+	resistanceDecaying?: boolean;
 	activeBattleId?: string;
 };
 
@@ -101,6 +103,8 @@ export type MapRegionLabelProperties = {
 	labelIcons: string[];
 	strategicResource?: string;
 	resistance?: number;
+	/** `true` on 81 of 742 labels on 2026-11-24, absent on the rest. */
+	resistanceDecaying?: boolean;
 	activeBunkerLevel?: number;
 	activeBaseLevel?: number;
 	activeBattleId?: string;

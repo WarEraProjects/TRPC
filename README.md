@@ -192,6 +192,18 @@ const client = createAPIClient({ apiKey, timeoutMs: 15000 });
   does not fit it.
 - A `subGiftDrop` id appears in the content of the article that announces the drop, as
   `data-giveaway-id`. An unknown id fails with `NOT_FOUND` ("Giveaway not found.").
+- `work.getLastByEmployee` and `work.getStatsByEmployee` were added on 2026-11-24, after a
+  second probe with an API key: without one they answer `UNAUTHORIZED` like a session-only
+  procedure. Both answer for any owner's employee and return `[]` for an unknown id.
+  `getLastByEmployee` takes a `limit` from 1 to 50 (20 without it) and `getStatsByEmployee`
+  `days` from 1 to 60 (30 without it). `getStatsByEmployee` returns a row for every day from
+  `days` days ago through today, with zeros on a day without work, and `[]` when the employee
+  did no work in that span. They were checked with one key; whether they need Premium like
+  the other two `work` procedures is unverified.
+- `government.getByCountryId` lists the ministers in `ministers` (180 of 181 governments on
+  2026-11-24). The three `minOf...` fields were on 4 governments that day, next to the list.
+- A `tournament.getById` match of a round that has not started has no `attacker`, `defender`
+  or `battle`.
 
 ## Auto-Pagination
 

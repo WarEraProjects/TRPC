@@ -109,6 +109,10 @@ export type EmployeeHappinessBreakdown = {
 export type EmployeeProductionBonusContribution = {
 	source: string;
 	percent: number;
+	/** On a contribution whose `source` is `"event"`: the event's code, such as `"headRub"`. */
+	eventCode?: string;
+	/** On a contribution whose `source` is `"event"`: when it ends. */
+	until?: string;
 };
 
 export type EmployeeProductionBonus = {
@@ -119,8 +123,10 @@ export type EmployeeProductionBonus = {
 
 export type EmployeeEventModifier = {
 	code: string;
+	/** `"happiness"`, `"production"` or `"away"` on 2026-11-24. */
 	kind: string;
-	delta: number;
+	/** Absent on an `"away"` modifier. */
+	delta?: number;
 	until: string;
 };
 

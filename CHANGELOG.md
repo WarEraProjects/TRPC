@@ -12,6 +12,16 @@
   and `count`, `updatedAt` and an optional `zeroRank` are new. `RankingItem` has a `type`.
   On both, `type` is now a `RankingType` (the requested ranking) instead of `string`.
   `ranking.getRanking` returns the top 100 entries; `ranking.getRankingPage` has the rest.
+- `GovernmentGetByCountryIdResponse` follows the live response of 2026-11-24: the ministers
+  are a `ministers` list of the new `GovernmentMinister`. `minOfDefense`, `minOfEconomy` and
+  `minOfForeignAffairs` are now optional (4 of 181 governments had them, next to the list),
+  and `president` and `vicePresident` are optional. `customTitles` is new.
+- `TournamentMatch.attacker`, `defender` and `battle` are optional: a match of a round that
+  has not started has none of them.
+- Removed three game config fields the server no longer sends: `newspaper.publishCost`
+  (replaced by `publishPaperCost`, `publishCostMultiplier` and `publishCostWindowHours`),
+  `region.freeTravelHomeCooldownHours` and `mapTravel.travelHomeEnabled`.
+- `EmployeeEventModifier.delta` is optional: an `"away"` modifier has none.
 
 ### Added
 - `ranking.getRankingPage` pages through a whole ranking by cursor, also with `autoPaginate`,
@@ -20,7 +30,25 @@
   `RankingType`, which names every ranking, `RankingDetails`, `RankingGetRankingPageResponse`
   and `RankingGetRankingAroundResponse`.
 - The OpenAPI types follow the live spec: `battle.getBattles` takes `allianceId`, and
-  `rankingType` accepts `userMercenaryEarnings` and `muMercenaryEarnings`.
+  `rankingType` accepts `userMercenaryEarnings`, `muMercenaryEarnings` and `userWelcomeGifts`.
+- `work.getLastByEmployee` (an employee's latest shifts) and `work.getStatsByEmployee` (its
+  work per day, one row for each day through today). Both need an API key and answer for any owner's employee. New types:
+  `EmployeeWork` and `EmployeeWorkStatsItem`.
+- Response fields the server sends that the types lacked, found by comparing live responses
+  of 127 procedures with their types on 2026-11-24:
+  - `rankings`: `userMercenaryEarnings` and `userWelcomeGifts` on users, `muMercenaryEarnings`
+    on MUs
+  - `UserInfos`: `presidentOf`, `ministerOf`, `ministerTitle` and `minOfForeignAffairsOf`
+  - MUs: `leagueDivision`, `sponsorCountry`, `type` and `typeLockedUntil`
+  - `battleRanking.getPrivateMercenaryDamage`: `ground` and `money`
+  - game config: `battle.govMemberBountyMinPpPer1k`, `mu.nationalityChangeConcreteCost`,
+    `mercenaryContract.govMemberBidMaxPpPer1k`, `region.lostResistanceOtherRegionsBarMultiplier`
+    and `wonResistanceBarMultiplier`, and the badges `welcomer` and `muLeagueWinner` with its
+    five tiers
+  - articles: `publishPaperCost`; polls: `restrictedCountry`; transactions: `marketAvgPrice`
+  - `company.getProductionBonus`: `strategicResourcesBonus`; `WorkStatsItem`: `workerProd`
+  - an employee's production bonus contributions: `eventCode` and `until`
+  - `map.getMapData`: `resistanceDecaying` on regions and region labels
 - Sixteen public procedures, found on 2026-11-24 by comparing the game client's queries with
   this package. They are typed from live responses and have integration tests, and all of
   them answer with and without an API key:

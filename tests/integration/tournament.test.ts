@@ -22,7 +22,11 @@ integrationTest("tournament.getById", async () => {
   for (const round of Object.values(value.rounds)) {
     assert(Array.isArray(round.matches), "expected matches array on every round");
     for (const match of round.matches) {
-      assert(typeof match.battle === "string", "expected string battle on every match");
+      // A match of a round that has not started has neither sides nor a battle yet.
+      const set = [match.attacker, match.defender, match.battle].filter((value) => typeof value === "string").length;
+      assert(set === 3 || (set === 0 && match.attacker === undefined && match.defender === undefined && match.battle === undefined),
+        "expected attacker, defender and battle together, or none of them");
+      if (set === 0) assert(Array.isArray(match.possibleAttackerTeamIds) && Array.isArray(match.possibleDefenderTeamIds), "expected the possible teams of a match without sides");
       assert(match.wonBy === undefined || match.wonBy === "attacker" || match.wonBy === "defender", "expected wonBy side");
     }
   }
