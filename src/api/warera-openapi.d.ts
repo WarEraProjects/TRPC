@@ -833,7 +833,7 @@ export interface operations {
                     /** @description Filter companies by user ID */
                     userId?: string;
                     /**
-                     * @description Number of companies per page (1-100)
+                     * @description Number of companies per page (1-100). From 1 to 100.
                      * @default 10
                      */
                     perPage?: number;
@@ -907,7 +907,7 @@ export interface operations {
             content: {
                 "application/json": {
                     /**
-                     * @description The limit of events to get
+                     * @description The limit of events to get. From 1 to 100.
                      * @default 10
                      */
                     limit?: number;
@@ -1061,7 +1061,7 @@ export interface operations {
                     /** @description Whether to get active battles */
                     isActive?: boolean;
                     /**
-                     * @description The limit of battles to get
+                     * @description The limit of battles to get. From 1 to 100.
                      * @default 10
                      */
                     limit?: number;
@@ -1177,7 +1177,7 @@ export interface operations {
                      */
                     side: "attacker" | "defender" | "merged";
                     /**
-                     * @description Number of ranking entries per page
+                     * @description Number of ranking entries per page. From 1 to 100.
                      * @default 20
                      */
                     limit?: number;
@@ -1229,7 +1229,7 @@ export interface operations {
                     /** @description The item code to get orders for */
                     itemCode: string;
                     /**
-                     * @description The limit of orders to get
+                     * @description The limit of orders to get. More than 0, at most 100.
                      * @default 10
                      */
                     limit?: number;
@@ -1310,8 +1310,12 @@ export interface operations {
                      * @enum {string}
                      */
                     rankingType: "weeklyCountryDamages" | "weeklyCountryDamagesPerCitizen" | "countryRegionDiff" | "countryDevelopment" | "countryActivePopulation" | "countryDamages" | "countryWealth" | "countryBounty" | "weeklyUserDamages" | "userDamages" | "userWealth" | "userLevel" | "userReferrals" | "userSubscribers" | "userTerrain" | "userPremiumMonths" | "userPremiumGifts" | "userCasesOpened" | "userGemsPurchased" | "userBounty" | "userMercenaryEarnings" | "userSkinsOwned" | "userMilestoneTiers" | "userMissionsClaimed" | "userWelcomeGifts" | "muWeeklyDamages" | "muDamages" | "muTerrain" | "muWealth" | "muBounty" | "muMercenaryEarnings" | "muReputation" | "allianceInitialDevelopment" | "allianceDevelopment" | "allianceWeeklyDamages" | "allianceDamages" | "alliancePopulation" | "allianceWeeklyDamagesPerCitizen";
+                    /** @description At most 200 characters. */
                     cursor?: string;
-                    /** @default 20 */
+                    /**
+                     * @description From 1 to 50.
+                     * @default 20
+                     */
                     limit?: number;
                     countryId?: string;
                     muId?: string;
@@ -1458,7 +1462,10 @@ export interface operations {
             content: {
                 "application/json": {
                     countryId: string;
-                    /** @default 10 */
+                    /**
+                     * @description From 1 to 100.
+                     * @default 10
+                     */
                     limit?: number;
                     cursor?: string;
                 };
@@ -1560,7 +1567,7 @@ export interface operations {
                      */
                     type: "daily" | "weekly" | "top" | "my" | "subscriptions" | "last" | "saved";
                     /**
-                     * @description The limit of articles to get
+                     * @description The limit of articles to get. From 1 to 100.
                      * @default 10
                      */
                     limit?: number;
@@ -1621,9 +1628,12 @@ export interface operations {
                 "application/json": {
                     /** @description The ID of the poll */
                     pollId: string;
-                    /** @description The answer to list voters for */
+                    /** @description The answer to list voters for. From 0 to 9. */
                     optionId: number;
-                    /** @default 20 */
+                    /**
+                     * @description From 1 to 100.
+                     * @default 20
+                     */
                     limit?: number;
                     cursor?: string;
                 };
@@ -1671,7 +1681,10 @@ export interface operations {
         requestBody?: {
             content: {
                 "application/json": {
-                    /** @default 20 */
+                    /**
+                     * @description From 1 to 100.
+                     * @default 20
+                     */
                     limit?: number;
                     cursor?: string;
                     memberId?: string;
@@ -1700,7 +1713,7 @@ export interface operations {
             content: {
                 "application/json": {
                     /**
-                     * @description The limit of transactions to get
+                     * @description The limit of transactions to get. More than 0, at most 100.
                      * @default 10
                      */
                     limit?: number;
@@ -1849,6 +1862,7 @@ export interface operations {
                     battleId?: string;
                     status?: ("active" | "won" | "expiredNoBids" | "expiredBattle" | "expiredRound" | "cancelled") | "terminated";
                     cursor?: string;
+                    /** @description From 1 to 50. */
                     limit?: number;
                 };
             };

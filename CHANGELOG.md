@@ -31,6 +31,11 @@
   and `RankingGetRankingAroundResponse`.
 - The OpenAPI types follow the live spec: `battle.getBattles` takes `allianceId`, and
   `rankingType` accepts `userMercenaryEarnings`, `muMercenaryEarnings` and `userWelcomeGifts`.
+- The doc comments of the documented inputs state the numeric bounds and the maximum length
+  the spec declares, for example `limit` "From 1 to 100." on the paginated lists.
+  openapi-typescript drops them, so `npm run openapi` now writes `minimum`, `maximum`, their
+  exclusive forms and `maxLength` into each description. All fourteen bounded fields carry
+  their bound.
 - `work.getLastByEmployee` (an employee's latest shifts) and `work.getStatsByEmployee` (its
   work per day, one row for each day through today). Both need an API key and answer for any owner's employee. New types:
   `EmployeeWork` and `EmployeeWorkStatsItem`.
