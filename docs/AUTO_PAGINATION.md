@@ -66,18 +66,22 @@ for await (const page of client.article.getArticlesPaginated({
     console.log(article.title);
   });
   
-  // page.cursor is the cursor for the next page, or "" on the last page
+  // page.cursor is the cursor for the next page, or "" when the list has ended
   console.log(`Cursor: ${page.cursor}`);
 }
 ```
 
 ### Options
 
-`autoPaginate`, `maxPages`, and `cursorEnd` are client-side options: the client removes them before it sends a plain-object input (`{ ... }`) to the server. Inputs of other kinds, such as class instances or objects with a `toJSON()` method, go to tRPC unchanged.
+`autoPaginate`, `maxPages`, and `cursorEnd` are client-side options: the client removes them before it sends a plain-object input (`{ ... }`) to the server. On a regular call, inputs of other kinds, such as class instances or objects with a `toJSON()` method, go to tRPC unchanged. With `autoPaginate: true` the input is always copied as a plain object, because the client adds the cursor to it.
 
 #### `autoPaginate: boolean`
 
 When set to `true`, the client returns an `AsyncIterableIterator` that yields pages until all data is retrieved.
+
+The return type follows the literal: write `autoPaginate: true` (or leave it out) in the call. A `boolean` variable matches neither form, so branch on it and make two calls.
+
+On a procedure without a `cursor` input, `autoPaginate: true` is a type error, and at runtime it throws a `TypeError` when the response has no `items` array.
 
 ```typescript
 import type { PaginationOptions } from "@wareraprojects/api";
@@ -89,7 +93,7 @@ const options = {
 
 #### `maxPages?: number`
 
-Limit the maximum number of pages to retrieve. Useful to prevent runaway pagination or for testing.
+Limit the maximum number of pages to retrieve. Useful to prevent runaway pagination or for testing. A fraction is rounded down.
 
 ```typescript
 import type { PaginationOptions } from "@wareraprojects/api";
@@ -119,7 +123,7 @@ const options = {
 
 **Note**: The client compares the date a cursor starts with. A cursor is either `"{date}|{id}"` or `"v2."` followed by base64url JSON of the sort keys (every cursor the server returned on 2026-11-09 and 2026-11-10 was `v2`). In a `v2` cursor the client reads the first sort key that has a value: a `date` key, or a `str` key that holds an ISO timestamp. A list sorted by a number never stops by date.
 
-What each list was sorted by on 2026-11-10, or on 2026-11-24 for the procedures added that day, newest or highest first unless the row says otherwise:
+What each list was sorted by on 2026-11-10, or on 2026-11-24 for the procedures added that day, newest or highest first unless the row says otherwise. `direction: "backward"` changed neither the order nor the cursors of `battle.getBattles`, `election.getElections`, `party.getManyPaginated` and `donation.getManyPaginated` on 2026-11-24:
 
 | Procedure | The cursor starts with | `cursorEnd` |
 |---|---|---|
@@ -131,7 +135,7 @@ What each list was sorted by on 2026-11-10, or on 2026-11-24 for the procedures 
 | `company.getCompanies` | `movedUpAt`, then `createdAt`. A company that never moved comes after the ones that did, with a `null` first key, and the client reads its `createdAt`. A cutoff newer than the oldest `movedUpAt` stops among the moved companies, before any that never moved. | stops |
 | `giveaway.getManyPaginated` | `endAt`, sent as a string | stops |
 | `tournament.getManyPaginated` | `startAt` | stops |
-| `battleRanking.getRanking`, `ranking.getRankingPage` | `rank`, a number | never stops |
+| `battleRanking.getRanking`, `ranking.getRankingPage` | `rank`, a number, **best rank first** (1, 2, 3, ...) | never stops |
 | `donation.getManyPaginated` | `amount`, a number | never stops |
 | `managerOffer.getManyPaginated` | `maxHourlyWage`, a number | never stops |
 
@@ -150,9 +154,13 @@ import type { PageResult } from "@wareraprojects/api";
 
 type ArticlePage = {
   items: PageResult<"article.getArticlesPaginated">["items"]; // Items for this page
-  cursor: string; // Cursor for the next page, or "" on the last page
+  cursor: string; // Cursor for the next page, or "" when the list has ended
 };
 ```
+
+`cursor` is the server's `nextCursor`. When `maxPages` or `cursorEnd` ends the crawl, the last page still carries it, and passing it as `cursor` resumes from there.
+
+`PageResult` takes the packaged custom procedures too, such as `PageResult<"giveaway.getManyPaginated">`.
 
 ### Without Auto-Pagination (Regular Call)
 
@@ -280,7 +288,7 @@ for await (const page of iterator) {
 
 ## Rate Limiting
 
-Each page request counts toward the rate limit and is queued and delayed as needed. The client
+The rate limit counts HTTP requests. The pages of one crawl are requested one after another, so each is a request of its own unless it shares a batch with other calls made in the same tick; requests are queued and delayed as needed. The client
 follows the limit the server reports, see [Rate limit](../README.md#rate-limit) in the README.
 
 ## Termination Conditions
@@ -289,10 +297,11 @@ Auto-pagination stops when any of the following conditions is met:
 
 1. **No next cursor**: The API returns an empty, null, or missing `nextCursor`
 2. **Empty page**: The returned `items` array is empty
-3. **Invalid cursor**: The `nextCursor` contains the text `undefined`
-4. **Max pages reached**: The `maxPages` limit is hit
-5. **Cursor date exceeded**: When using `cursorEnd`, the next cursor's date is older than the specified date
-6. **Aborted**: The `signal` passed as the second argument aborts; the page that is loading rejects and the loop ends with that error
+3. **Invalid cursor**: A `"{date}|{id}"` cursor has `undefined` as one of its parts
+4. **Repeated cursor**: The API returns a cursor the crawl already sent, which would request the same page again
+5. **Max pages reached**: The `maxPages` limit is hit
+6. **Cursor date exceeded**: When using `cursorEnd`, the next cursor's date is older than the specified date
+7. **Aborted**: The `signal` passed as the second argument aborts; the page that is loading rejects and the loop ends with that error
 
 ```typescript
 // Give the whole crawl at most one minute.

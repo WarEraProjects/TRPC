@@ -79,8 +79,15 @@ export type PageResultFromOutput<TOutput> = {
   cursor: string;
 };
 
-export type PageResult<K extends ProcedureKey> = {
-  items: ExtractItems<ResponseFor<K>>[];
+type OutputForKey<K> = K extends ProcedureKey
+  ? ResponseFor<K>
+  : K extends keyof PackagedCustomEndpointDefinitions
+  ? PackagedCustomEndpointDefinitions[K]["output"]
+  : never;
+
+/** One auto-paginated page of a documented procedure or of a packaged custom one. */
+export type PageResult<K extends ProcedureKey | keyof PackagedCustomEndpointDefinitions> = {
+  items: ExtractItems<OutputForKey<K>>[];
   cursor: string;
 };
 
@@ -140,9 +147,15 @@ type IsPaginatedInput<RawInput> = IsNoInput<RawInput> extends true
   ? false
   : RawInput extends { cursor?: any } ? true : false;
 
+// On a procedure without a cursor `autoPaginate: true` is ruled out by name. An excess-property
+// check alone only catches an object literal: an input held in a variable went through, and the
+// client then returned an iterator where the types promised a Promise. The other options are
+// harmless there: the client strips them from the input of every regular call.
+type NoPaginationOptions = { autoPaginate?: false };
+
 type InputForDefinition<RawInput> = IsPaginatedInput<RawInput> extends true
   ? RawInput & Partial<PaginationOptions>
-  : RawInput;
+  : RawInput & NoPaginationOptions;
 
 type HasRequiredInputForDefinition<RawInput> = IsNever<RawInput> extends true
   ? false
